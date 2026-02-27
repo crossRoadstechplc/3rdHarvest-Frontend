@@ -11,11 +11,11 @@ export const Mission = () => {
         <h2 className="section-title">Mission & Vision</h2>
 
         <div className="grid md:grid-cols-2 gap-12 mt-16">
-          
+
           {/* Mission */}
           <div className="bloom-card border-l-4 border-bloomGold relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-40 h-40 bg-bloomGold/5 rounded-full blur-2xl group-hover:bg-bloomGold/10 transition-colors duration-500" />
-            
+
             <div className="flex-col md:flex lg:flex items-start gap-4 relative z-10">
               <div className="w-16 h-16 bg-gradient-to-br from-bloomGold to-bloomGold/70 rounded-2xl 
                 flex items-center justify-center flex-shrink-0 
@@ -26,7 +26,7 @@ export const Mission = () => {
               <div>
                 <h3 className="text-2xl font-bold mb-4 text-bloomGreen">Our Mission</h3>
                 <p className="text-foreground leading-relaxed text-lg">
-                  To equip young women and youth in coffee-growing regions with the clean energy, modern mechanized processing equipment, and practical skills needed to increase their income, reduce daily labor burdens in collecting firewood, and become leaders in a more equitable, sustainable coffee value chain.
+                  To equip coffee-producing communities with the decentralized infrastructure, renewable energy, and strategic capacity needed to capture a dignifying share of the value chain while driving structural reform.
                 </p>
               </div>
             </div>
@@ -46,7 +46,7 @@ export const Mission = () => {
               <div>
                 <h3 className="text-2xl font-bold mb-4 text-bloomGreen">Our Vision</h3>
                 <p className="text-foreground leading-relaxed text-lg">
-                 A future where young women and youth in the coffee sector are recognized as skilled entrepreneurs, leading modern, energy-efficient processing enterprises, earning fair and stable incomes, and shaping resilient communities that produce exceptional, sustainable coffee.</p>
+                  A future where origin-authored structural reform and decentralized infrastructure are standard across the coffee sector, empowering communities to produce exceptional, sustainable coffee within a fair value chain.</p>
               </div>
             </div>
           </div>

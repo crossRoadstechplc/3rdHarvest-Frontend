@@ -15,17 +15,15 @@ export const Footer = () => {
 
           {/* BRAND BLOCK */}
           <div className="w-full lg:w-1/3">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-bloomGold/20 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
-                <Coffee className="w-7 h-7 text-white" />
+            <div className="flex items-center gap-4 mb-8">
+              <div className="font-serif font-bold text-3xl tracking-tight uppercase text-white">
+                THE <span className="text-bloomGold">THIRD</span> HARVEST
               </div>
-              <img src="/logo-white.png" alt="Bloom Logo" className="h-[40px] opacity-90" />
             </div>
 
             <p className="text-white/80 leading-relaxed text-sm md:text-base max-w-sm">
-              Empowering young women in Ethiopia’s coffee highlands through clean-energy 
-              technology, practical training, and sustainable market connections that build 
-              long-term prosperity.
+              Unlocking multiple yields from one crop through decentralized infrastructure,
+              renewable energy, and regenerative models for long-term prosperity.
             </p>
           </div>
 
@@ -40,10 +38,14 @@ export const Footer = () => {
             <h3 className="text-xl font-bold mb-6 !text-white">Quick Links</h3>
             <ul className="space-y-4">
               {[
-                { label: "About Project", id: "about" },
-                { label: "BLOOM Unit", id: "bloom-unit" },
-                { label: "Our Impact", id: "impact" },
-                { label: "PCW Label", id: "pcw" },
+                { label: "Context", id: "context" },
+                { label: "Model", id: "model" },
+                { label: "Enterprise", id: "enterprise" },
+                { label: "Impact", id: "impact" },
+                { label: "Implementation", id: "implementation" },
+                { label: "Partners", id: "partners" },
+                { label: "PCW", id: "pcw" },
+                { label: "Contact", id: "contact" },
               ].map((link) => (
                 <li key={link.id}>
                   <button
@@ -52,9 +54,9 @@ export const Footer = () => {
                         .getElementById(link.id)
                         ?.scrollIntoView({ behavior: "smooth" })
                     }
-                    className="text-white/80 text-sm hover:text-bloomGold transition-colors hover:translate-x-1 inline-block duration-300"
+                    className="text-white/80 text-sm hover:text-bloomGold cursor-pointer transition-colors hover:translate-x-1 inline-block duration-300"
                   >
-                    → {link.label}
+                    {link.label}
                   </button>
                 </li>
               ))}
@@ -66,7 +68,7 @@ export const Footer = () => {
         {/* BOTTOM BAR */}
         <div className="border-t border-white/20 pt-8 mt-16 flex flex-col md:flex-row justify-center items-center gap-4">
           <p className="text-white/60 text-sm text-center">
-            © 2025 Project BLOOM. All rights reserved.
+            © 2026 The Third Harvest. All rights reserved.
           </p>
         </div>
       </div>

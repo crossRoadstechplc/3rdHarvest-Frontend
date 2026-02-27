@@ -1,109 +1,132 @@
-import { Award, TrendingUp, Shield, MapPin } from "lucide-react";
+import { Award, Fingerprint, Globe, ShieldCheck, BookmarkCheck } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const PCW = () => {
   return (
-    <section id="pcw" className="bg-bloom-gradient relative overflow-hidden">
+    <section id="pcw" className="bg-bloom-gradient relative overflow-hidden py-24">
       {/* Decorative Background */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-bloomGold/5 rounded-full blur-3xl" />
+      <div className="absolute top-20 left-10 w-72 h-72 bg-bloomGold/5 rounded-full blur-3xl text-white" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <h2 className="section-title">Proud Coffee Women Market Linkage</h2>
-        <p className="section-subtitle">
-          PCW is rural women-led coffee label connecting BLOOM Teams directly with specialty buyers who value quality, ethics, and full traceability.
-        </p>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        <div className="mt-16 grid md:grid-cols-2 gap-16 items-center">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2 }}
+          className="text-center max-w-4xl mx-auto mb-20"
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-bloomGold/10 border border-bloomGold/20 text-bloomGold text-xs font-bold uppercase tracking-[0.2em] mb-8"
+          >
+            <BookmarkCheck className="w-4 h-4" />
+            Trademarked Identity
+          </motion.div>
+          <h2 className="section-title">Proud Coffee Women™</h2>
+          <p className="section-subtitle">
+            PCW is more than a label; it is a market-facing identity that empowers women operators with a distinct specialty brand and origin-authored narrative.
+          </p>
+        </motion.div>
 
-          {/* ===== PCW LOGO FEATURE CARD — NOW A CENTERPIECE ===== */}
-          <div className="bloom-card bg-gradient-to-br from-bloomGreen to-bloomDarkCoffee text-bloomBeige relative overflow-hidden p-12 flex flex-col items-center justify-center">
-            {/* Glow Effects */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-              <div className="absolute -top-10 -left-10 w-72 h-72 bg-bloomGold/30 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 right-0 w-96 h-96 bg-bloomBrown/30 rounded-full blur-[130px]" />
-            </div>
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
 
-            {/* PCW Logo — NOW LARGE AND CENTERED */}
-            <div className="relative z-10 mb-10">
-              <div className="w-[260px] h-[260px] rounded-3xl bg-bloomBeige/10 shadow-[0_0_40px_rgba(212,168,88,0.35)] backdrop-blur-xl flex items-center justify-center overflow-hidden group transition-all hover:scale-105 duration-500">
+          {/* ===== PCW LOGO FEATURE ===== */}
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5 }}
+            className="relative group"
+          >
+            <div className="bloom-card bg-bloomGreen p-12 flex flex-col items-center justify-center transition-all duration-700 hover:shadow-[0_30px_60px_rgba(28,59,43,0.3)] rounded-[3rem]">
+              {/* PCW Logo Container */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="relative z-10 mb-10 w-full max-w-sm aspect-square bg-white rounded-[2rem] shadow-2xl flex items-center justify-center overflow-hidden"
+              >
                 <img
                   src="/pcw.jpg"
-                  alt="Proud Coffee Women (PCW) label"
-                  className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-110 transition-transform duration-500"
+                  alt="Proud Coffee Women (PCW) logo"
+                  className="w-full h-full object-contain p-10 group-hover:scale-110 transition-transform duration-1000"
                 />
-              </div>
-            </div>
+              </motion.div>
 
-            {/* Description */}
-            <p className="text-bloomLightGreen leading-relaxed text-lg text-center max-w-xl mb-6">
-              The Proud Coffee Women (PCW) label elevates BLOOM Team coffee to
-              the global specialty market, ensuring buyers can identify,
-              support, and celebrate women-led, sustainably produced Ethiopian coffee.
-            </p>
-
-            <p className="text-bloomLightGreen leading-relaxed text-lg text-center max-w-xl">
-              PCW guarantees premium quality, ethical sourcing, and fair returns,
-              empowering women farmers to capture a greater share of the coffee value chain.
-            </p>
-          </div>
-
-          {/* ===== BENEFITS GRID ===== */}
-          <div className="space-y-6">
-            {/* Fair Pricing */}
-            <div className="bloom-card group relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-bloomGold/5 rounded-full blur-2xl group-hover:bg-bloomGold/10 transition-colors duration-500" />
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-br from-bloomGold to-bloomGold/70 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                  <TrendingUp className="w-8 h-8 text-bloomDarkCoffee" />
-                </div>
-                <h4 className="text-xl font-bold mb-3 text-bloomGreen">Fair Pricing</h4>
-                <p className="text-muted-foreground">
-                  Transparent, direct-trade relationships ensure women a fair value for a dignified life, higher than the industry average.
+              <div className="text-center">
+                <h3 className="text-3xl font-bold text-bloomBeige mb-6 tracking-tight">Market Identity</h3>
+                <p className="text-bloomLightGreen text-lg leading-relaxed opacity-90 max-w-md">
+                  PCW provides women producers with a direct bridge to the global specialty market, ensuring their contributions are recognized, traceable, and valued.
                 </p>
               </div>
             </div>
 
-            {/* Certification */}
-            <div className="bloom-card group relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-bloomGreen/5 rounded-full blur-2xl group-hover:bg-bloomGreen/10 transition-colors duration-500" />
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-br from-bloomGreen to-bloomGreen/70 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Shield className="w-8 h-8 text-bloomBeige" />
-                </div>
-                <h4 className="text-xl font-bold mb-3 text-bloomGreen">Quality Certification</h4>
-                <p className="text-muted-foreground">
-                  PCW coffee is verified as sustainably produced, specialty-grade, and processed using Bloom Unit clean-energy technology.
-                </p>
-              </div>
-            </div>
+            {/* Floating Badge */}
+            <motion.div
+              initial={{ opacity: 0, rotate: 0, scale: 0.5 }}
+              whileInView={{ opacity: 1, rotate: 12, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 1.2, duration: 0.8, type: "spring" }}
+              className="absolute -top-10 -right-10 bg-bloomGold text-bloomGreen font-bold px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border-4 border-white z-20"
+            >
+              <Award className="w-6 h-6" />
+              <span className="text-lg">Specialty Grade</span>
+            </motion.div>
+          </motion.div>
 
-            {/* Traceability */}
-            <div className="bloom-card group relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-bloomBrown/5 rounded-full blur-2xl group-hover:bg-bloomBrown/10 transition-colors duration-500" />
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-br from-bloomBrown to-bloomBrown/70 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <MapPin className="w-8 h-8 text-bloomBeige" />
-                </div>
-                <h4 className="text-xl font-bold mb-3 text-bloomGreen">Full Traceability</h4>
-                <p className="text-muted-foreground">
-                  Buyers can trace every lot back to the exact Bloom Team, reinforcing transparency and rewarding women-led excellence.
-                </p>
-              </div>
-            </div>
+          {/* ===== KEY PILLARS ===== */}
+          <div className="space-y-10">
+
+            {/* Pillar Item Mapping */}
+            {[
+              { icon: Globe, title: "Origin-Authored Narrative", text: "We return the narrative to the producer. PCW allows women to define their own value and represent their heritage directly to the buyer." },
+              { icon: Fingerprint, title: "Digital Traceability", text: "Every PCW lot is backed by unit-integrated data tracking. Buyers can trace the exact date, unit, and operator cluster that produced their coffee." },
+              { icon: ShieldCheck, title: "Structural Validation", text: "The trademark identifies coffee that has been processed using The Third Harvest's sustainable technical standards, ensuring consistency and excellence." }
+            ].map((pillar, idx) => {
+              const Icon = pillar.icon;
+              return (
+                <motion.div
+                  key={pillar.title}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 + (idx * 0.3), duration: 1.0 }}
+                  className="flex gap-8 group"
+                >
+                  <div className="w-16 h-16 shrink-0 bg-white rounded-2xl shadow-sm flex items-center justify-center border border-bloomGreen/5 group-hover:bg-bloomGreen transition-colors duration-500">
+                    <Icon className="w-8 h-8 text-bloomGreen group-hover:text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-2xl font-bold mb-3 text-bloomGreen tracking-tight">{pillar.title}</h4>
+                    <p className="text-muted-foreground text-lg leading-relaxed">
+                      {pillar.text}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+
           </div>
         </div>
 
-        {/* ===== CALL TO ACTION ===== */}
-        <div className="mt-20 bloom-card text-center bg-gradient-to-br from-bloomGold/10 to-bloomGreen/5 border-2 border-bloomGold/30 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-10 left-10 w-64 h-64 bg-bloomGold rounded-full blur-3xl" />
-          </div>
-          <div className="relative z-10">
-            <h3 className="text-3xl font-bold mb-4 text-bloomGreen">Market Impact</h3>
-            <p className="text-foreground text-lg max-w-3xl mx-auto leading-relaxed">
-              PCW creates a bridge between empowered rural women producers and global buyers, proving that exceptional quality, ethical sourcing, and real social impact can thrive together.
-            </p>
-          </div>
-        </div>
+        {/* Global Market Bridge */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8, duration: 1.5 }}
+          className="mt-28 p-14 rounded-[2.5rem] bg-white border border-bloomGreen/10 shadow-xl text-center relative overflow-hidden group"
+        >
+          <div className="absolute top-0 left-0 w-3 h-full bg-bloomGold" />
+          <div className="absolute top-0 left-0 w-full h-full bg-bloomGold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <p className="text-3xl font-serif font-bold text-bloomGreen max-w-4xl mx-auto leading-relaxed italic relative z-10">
+            "Empowering women to capture a greater share of the coffee value chain through a distinct, data-backed specialty brand."
+          </p>
+        </motion.div>
+
       </div>
     </section>
   );

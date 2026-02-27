@@ -1,53 +1,124 @@
-import { Sprout, Users, Zap } from "lucide-react";
+import { BarChart3, Globe2, Network, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const About = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1.0 } },
+  };
+
   return (
-    <section id="about" className="bg-bloom-gradient relative overflow-hidden">
+    <section id="context" className="bg-bloom-gradient relative overflow-hidden py-32">
       {/* Soft decorative orbs */}
-      <div className="absolute top-20 right-10 w-72 h-72 bg-bloomGold/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-10 w-96 h-96 bg-bloomGreen/5 rounded-full blur-3xl" />
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        
+      <div className="absolute top-20 right-10 w-72 h-72 bg-bloomGold/5 rounded-full blur-3xl text-white" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-bloomGreen/5 rounded-full blur-3xl text-white" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Title */}
-        <h2 className="section-title">About Project BLOOM</h2>
-        <p className="section-subtitle">
-          Project BLOOM is a transformative rural development initiative that empowers young women in Ethiopia’s coffee-growing highlands through clean energy, value addition processing, and sustainable livelihood opportunities.</p>
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2 }}
+        >
+          <h2 className="section-title">The Context</h2>
+          <p className="section-subtitle max-w-3xl">
+            The Third Harvest addresses the structural inequities in the global coffee value chain, beginning at the origin. We provide the infrastructure necessary for economic resilience and environmental regeneration.
+          </p>
+        </motion.div>
 
-        {/* Three Pillars */}
-        <div className="grid md:grid-cols-3 gap-8 mt-16">
-          
-          {/* Smallholder Challenges */}
-          <div className="bloom-card text-center group">
-            <div className="w-20 h-20 bg-gradient-to-br from-bloomGreen to-bloomGreen/70 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-              <Sprout className="w-10 h-10 text-bloomBeige" />
+        {/* Data-Backed Insights Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16"
+        >
+          {/* Infrastructure Gap */}
+          <motion.div variants={itemVariants} className="bloom-card group hover:bg-white/40">
+            <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+              <Network className="w-7 h-7 text-bloomGreen group-hover:text-white" />
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-bloomGreen">Smallholder Challenges</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Millions of smallholder farmers rely on a legacy trapped approach of selling sundried coffee that limit their value addition capacity. Limited access to electricity, modern processing equipment is the barrier that keeps households trapped in low-value production cycles.</p>
-          </div>
+            <h3 className="text-xl font-bold mb-3 text-bloomGreen">Infrastructure Access</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+              Coffee-producing communities often lack access to critical value-add infrastructure, limiting their participation in higher-margin processing.
+            </p>
+          </motion.div>
 
-          {/* Women Empowerment */}
-          <div className="bloom-card text-center group">
-            <div className="w-20 h-20 bg-gradient-to-br from-bloomGold to-bloomGold/70 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-              <Users className="w-10 h-10 text-bloomDarkCoffee" />
+          {/* Export Value */}
+          <motion.div variants={itemVariants} className="bloom-card group hover:bg-white/40">
+            <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+              <BarChart3 className="w-7 h-7 text-bloomGreen group-hover:text-white" />
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-bloomGreen">Empowering Women</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Although women contribute most of the labor in coffee farming, they earn the least. BLOOM places young women at the center of the value chain organizing them into Bloom Teams, providing skills training, and expanding their access to finance and premium markets. </p>
-          </div>
+            <h3 className="text-xl font-bold mb-3 text-bloomGreen">Value Capture</h3>
+            <br />
+            <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+              In Ethiopia, smallholders capture a disproportionately low share of export value due to their primary role as raw material suppliers.
+            </p>
+          </motion.div>
 
-          {/* Clean Energy & Technology */}
-          <div className="bloom-card text-center group">
-            <div className="w-20 h-20 bg-gradient-to-br from-bloomBrown to-bloomBrown/70 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-              <Zap className="w-10 h-10 text-bloomBeige" />
+          {/* Centralization */}
+          <motion.div variants={itemVariants} className="bloom-card group hover:bg-white/40">
+            <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+              <Globe2 className="w-7 h-7 text-bloomGreen group-hover:text-white" />
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-bloomGreen">Clean Energy Solution</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              At the heart of the initiative is the Bloom Unit, a solar-powered, mechanized coffee pulper paired with a biogas system symbolizing the best of productive use of energy. It allows the upgrade of unwashed coffee to washed coffee, reduces women’s workload, cuts firewood dependence, and turns coffee waste into clean cooking energy.</p>
-          </div>
+            <h3 className="text-xl font-bold mb-3 text-bloomGreen">Processing Structure</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+              Traditional structures concentrate washing and processing in centralized facilities, distancing producers from the value addition process.
+            </p>
+          </motion.div>
 
-        </div>
+          {/* Structural Reform */}
+          <motion.div variants={itemVariants} className="bloom-card group hover:bg-white/40">
+            <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+              <ShieldCheck className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-bloomGreen">Structural Reform</h3>
+            <br />
+            <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+              The Third Harvest addresses this imbalance through decentralized technologies that empower communities at the source.
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* Strategic Summary */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          className="mt-20 p-8 md:p-12 rounded-[2.5rem] bg-bloomGreen text-bloomBeige shadow-2xl relative overflow-hidden group border border-white/10"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-white/10 transition-colors" />
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-2/3">
+              <h3 className="text-3xl font-serif font-bold mb-4 text-white!">A Strategic Imperative</h3>
+              <p className="text-xl opacity-90 leading-relaxed text-white">
+                We believe that structural reform is the only path to long-term sustainability. By decentralizing capability, we transition from dependency to a model of origin-authored prosperity.
+              </p>
+            </div>
+            <div className="md:w-1/3 flex justify-center">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-5 border-2 border-bloomGold text-bloomGold font-bold rounded-2xl uppercase tracking-[0.2em] text-sm hover:bg-bloomGold hover:text-bloomGreen transition-all cursor-default shadow-lg"
+              >
+                Strategic Reform
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

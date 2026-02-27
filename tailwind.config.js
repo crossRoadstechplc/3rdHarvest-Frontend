@@ -13,7 +13,9 @@ export default {
         bloomLight: "#FFFFFF",
       },
       fontFamily: {
-        playfair: ['Playfair Display', 'serif'],
+        sans: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+        serif: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+        playfair: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
       },
     },
   },
