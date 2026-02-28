@@ -1,6 +1,14 @@
 import { BarChart3, Globe2, Network, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      section: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    }
+  }
+}
+
 export const About = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -33,63 +41,195 @@ export const About = () => {
         >
           <h2 className="section-title">The Context</h2>
           <p className="section-subtitle max-w-3xl">
-            The Third Harvest addresses the structural inequities in the global coffee value chain, beginning at the origin. We provide the infrastructure necessary for economic resilience and environmental regeneration.
+            Ethiopia produces globally celebrated coffee, yet first-mile communities still capture limited export value. THE THIRD HARVEST addresses this with infrastructure, not symbolic aid.
           </p>
         </motion.div>
 
-        {/* Data-Backed Insights Grid */}
+        {/* Context Image */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+          className="flex justify-center mt-16"
         >
-          {/* Infrastructure Gap */}
-          <motion.div variants={itemVariants} className="bloom-card group hover:bg-white/40">
-            <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
-              <Network className="w-7 h-7 text-bloomGreen group-hover:text-white" />
-            </div>
-            <h3 className="text-xl font-bold mb-3 text-bloomGreen">Infrastructure Access</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed font-medium">
-              Coffee-producing communities often lack access to critical value-add infrastructure, limiting their participation in higher-margin processing.
-            </p>
-          </motion.div>
+          <div className="rounded-[2rem] overflow-hidden border border-bloomGreen/10 shadow-2xl bg-white w-1/2 max-w-2xl">
+            <img
+              src="/context.png"
+              alt="Current coffee market bottleneck and first-mile value constraints"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </motion.div>
 
-          {/* Export Value */}
-          <motion.div variants={itemVariants} className="bloom-card group hover:bg-white/40">
-            <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
-              <BarChart3 className="w-7 h-7 text-bloomGreen group-hover:text-white" />
-            </div>
-            <h3 className="text-xl font-bold mb-3 text-bloomGreen">Value Capture</h3>
-            <br />
-            <p className="text-muted-foreground text-sm leading-relaxed font-medium">
-              In Ethiopia, smallholders capture a disproportionately low share of export value due to their primary role as raw material suppliers.
-            </p>
-          </motion.div>
+        {/* Challenge Cards */}
+        <div className="mt-20 max-w-6xl mx-auto">
+          {/* Desktop Grid Layout */}
+          <div className="hidden md:grid md:grid-cols-2 gap-8">
+            {/* Infrastructure Access Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.4 }}
+              className="bloom-card group hover:bg-white/40 transform hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+                <Network className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-bloomGreen">Infrastructure Access</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+                Smallholders lack access to finance, washing equipment ownership, rural electricity, and advance payment systems that weaken bargaining power.
+              </p>
+            </motion.div>
 
-          {/* Centralization */}
-          <motion.div variants={itemVariants} className="bloom-card group hover:bg-white/40">
-            <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
-              <Globe2 className="w-7 h-7 text-bloomGreen group-hover:text-white" />
-            </div>
-            <h3 className="text-xl font-bold mb-3 text-bloomGreen">Processing Structure</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed font-medium">
-              Traditional structures concentrate washing and processing in centralized facilities, distancing producers from the value addition process.
-            </p>
-          </motion.div>
+            {/* Value Capture Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.5 }}
+              className="bloom-card group hover:bg-white/40 transform hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+                <BarChart3 className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-bloomGreen">Value Capture</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+                Only ~30% of Ethiopian coffee is washed, while washed coffee typically generates ~30% higher value, creating persistent first-mile value gaps.
+              </p>
+            </motion.div>
 
-          {/* Structural Reform */}
-          <motion.div variants={itemVariants} className="bloom-card group hover:bg-white/40">
-            <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
-              <ShieldCheck className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+            {/* Processing Structure Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.6 }}
+              className="bloom-card group hover:bg-white/40 transform hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+                <Globe2 className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-bloomGreen">Processing Structure</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+                Historic concentration of washing infrastructure in commercial aggregators distances producers from value-addition and pricing power.
+              </p>
+            </motion.div>
+
+            {/* Structural Reform Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.7 }}
+              className="bloom-card group hover:bg-white/40 transform hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+                <ShieldCheck className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-bloomGreen">Structural Reform</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+                TriveraPro decentralizes capability at first mile: solar-powered pulping, waste grinding, biogas conversion, and compost regeneration.
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Mobile Flex Layout */}
+          <div className="md:hidden flex flex-col gap-8">
+            {/* Infrastructure Access Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.4 }}
+              className="bloom-card group hover:bg-white/40 transform hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+                <Network className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-bloomGreen">Infrastructure Access</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+                Smallholders lack access to finance, washing equipment ownership, rural electricity, and advance payment systems that weaken bargaining power.
+              </p>
+            </motion.div>
+
+            {/* Value Capture Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.5 }}
+              className="bloom-card group hover:bg-white/40 transform hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+                <BarChart3 className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-bloomGreen">Value Capture</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+                Only ~30% of Ethiopian coffee is washed, while washed coffee typically generates ~30% higher value, creating persistent first-mile value gaps.
+              </p>
+            </motion.div>
+
+            {/* Processing Structure Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.6 }}
+              className="bloom-card group hover:bg-white/40 transform hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+                <Globe2 className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-bloomGreen">Processing Structure</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+                Historic concentration of washing infrastructure in commercial aggregators distances producers from value-addition and pricing power.
+              </p>
+            </motion.div>
+
+            {/* Structural Reform Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0, delay: 0.7 }}
+              className="bloom-card group hover:bg-white/40 transform hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-14 h-14 bg-bloomGreen/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-bloomGreen transition-colors duration-300">
+                <ShieldCheck className="w-7 h-7 text-bloomGreen group-hover:text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-bloomGreen">Structural Reform</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed font-medium">
+                TriveraPro decentralizes capability at first mile: solar-powered pulping, waste grinding, biogas conversion, and compost regeneration.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+
+
+        {/* SPX Introduction */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.2 }}
+          className="mt-12 p-8 rounded-3xl bg-white border border-bloomGreen/10 shadow-xl"
+        >
+          <div className="flex items-start gap-6">
+            <div className="w-16 h-16 bg-bloomGreen rounded-2xl flex items-center justify-center flex-shrink-0">
+              <span className="text-white font-bold text-2xl">SPX</span>
             </div>
-            <h3 className="text-xl font-bold mb-3 text-bloomGreen">Structural Reform</h3>
-            <br />
-            <p className="text-muted-foreground text-sm leading-relaxed font-medium">
-              The Third Harvest addresses this imbalance through decentralized technologies that empower communities at the source.
-            </p>
-          </motion.div>
+            <div>
+              <h3 className="text-2xl font-bold text-bloomGreen mb-3">Africa-Based Systems Architects</h3>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                SPX operates at the intersection of Coffee, Infrastructure, Energy, and Regenerative systems. We are not an NGO. We are system builders.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                We design, integrate, and deploy infrastructure solutions that rebalances value capture at the first mile. Our response is not symbolic—it is structural.
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Strategic Summary */}
@@ -103,10 +243,23 @@ export const About = () => {
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-white/10 transition-colors" />
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-2/3">
-              <h3 className="text-3xl font-serif font-bold mb-4 text-white!">A Strategic Imperative</h3>
-              <p className="text-xl opacity-90 leading-relaxed text-white">
-                We believe that structural reform is the only path to long-term sustainability. By decentralizing capability, we transition from dependency to a model of origin-authored prosperity.
+              <h3 className="text-3xl font-serif font-bold mb-4 text-white">A Strategic Imperative</h3>
+              <p className="text-xl opacity-90 leading-relaxed text-white">We are system builders. The model is engineered to rebalance first-mile value capture through replicable infrastructure and local ownership.
               </p>
+              <div className="mt-6 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-bloomGold rounded-full" />
+                  <span className="text-white/90 text-sm">Patent pending under TriveraPro brand (Ethiopian IP office)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-bloomGold rounded-full" />
+                  <span className="text-white/90 text-sm">Partnership with MCRO, a women-focused Ethiopian NGO</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-bloomGold rounded-full" />
+                  <span className="text-white/90 text-sm">Locally designed, locally implemented infrastructure</span>
+                </div>
+              </div>
             </div>
             <div className="md:w-1/3 flex justify-center">
               <motion.div

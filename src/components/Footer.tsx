@@ -1,4 +1,4 @@
-import { Coffee, Mail, MapPin, Heart } from "lucide-react";
+import { Coffee, Mail, MapPin, Heart, Linkedin, Github, Instagram } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -21,10 +21,45 @@ export const Footer = () => {
               </div>
             </div>
 
-            <p className="text-white/80 leading-relaxed text-sm md:text-base max-w-sm">
+            <p className="text-white/80 leading-relaxed text-sm md:text-base max-w-sm mb-8">
               Unlocking multiple yields from one crop through decentralized infrastructure,
               renewable energy, and regenerative models for long-term prosperity.
             </p>
+
+            {/* Social Media Icons */}
+            <div className="flex gap-4">
+              {[
+                { type: "text", content: "X", href: "#", label: "X" },
+                { icon: Linkedin, href: "#", label: "LinkedIn" },
+                { icon: Github, href: "#", label: "GitHub" },
+                { icon: Instagram, href: "#", label: "Instagram" }
+              ].map((social) => {
+                if (social.type === "text") {
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      aria-label={social.label}
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-bloomGold hover:text-black transition-all duration-300 group font-bold"
+                    >
+                      {social.content}
+                    </a>
+                  );
+                } else {
+                  const Icon = social.icon;
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      aria-label={social.label}
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-bloomGold hover:text-black transition-all duration-300 group"
+                    >
+                      <Icon className="w-5 h-5" />
+                    </a>
+                  );
+                }
+              })}
+            </div>
           </div>
 
           {/* CONTACT BLOCK — YOU LEFT THIS COMMENTED, WE LEAVE IT COMMENTED */}
@@ -34,9 +69,9 @@ export const Footer = () => {
           </div> */}
 
           {/* QUICK LINKS */}
-          <div className="w-full lg:w-1/3">
+          <div className="w-full lg:w-2/3">
             <h3 className="text-xl font-bold mb-6 !text-white">Quick Links</h3>
-            <ul className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 { label: "Context", id: "context" },
                 { label: "Model", id: "model" },
@@ -47,20 +82,19 @@ export const Footer = () => {
                 { label: "PCW", id: "pcw" },
                 { label: "Contact", id: "contact" },
               ].map((link) => (
-                <li key={link.id}>
-                  <button
-                    onClick={() =>
-                      document
-                        .getElementById(link.id)
-                        ?.scrollIntoView({ behavior: "smooth" })
-                    }
-                    className="text-white/80 text-sm hover:text-bloomGold cursor-pointer transition-colors hover:translate-x-1 inline-block duration-300"
-                  >
-                    {link.label}
-                  </button>
-                </li>
+                <button
+                  key={link.id}
+                  onClick={() =>
+                    document
+                      .getElementById(link.id)
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="text-white/80 text-sm hover:text-bloomGold cursor-pointer transition-colors hover:translate-x-1 inline-block duration-300 text-left"
+                >
+                  {link.label}
+                </button>
               ))}
-            </ul>
+            </div>
           </div>
 
         </div>

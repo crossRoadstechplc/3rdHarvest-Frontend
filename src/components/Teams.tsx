@@ -111,7 +111,7 @@ export const Teams = () => {
           >
             <div className="rounded-[2.5rem] overflow-hidden shadow-2xl relative group">
               <img
-                src="/teams.webp"
+                src="/teams.png"
                 alt="Women-led enterprise training"
                 className="w-full h-[650px] object-cover transition-transform duration-1000 group-hover:scale-105"
               />

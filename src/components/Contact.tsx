@@ -70,7 +70,7 @@ export const Contact = () => {
 
                         <div className="space-y-8">
                             {[
-                                { icon: Mail, label: "Email", value: "partnerships@thethirdharvest.com" },
+                                { icon: Mail, label: "Email", value: "info@spxafrica.com" },
                                 { icon: MapPin, label: "Location", value: "Sidama Highlands, Ethiopia" },
                                 { icon: Globe, label: "Network", value: "Regional Decentralized Nodes" }
                             ].map((item, idx) => {

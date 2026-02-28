@@ -39,10 +39,10 @@ export const BloomUnit = () => {
           {/* Technical Pillars Overview */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
             {[
-              { icon: Factory, title: "Decentralized Washing", text: "Localized processing capability." },
-              { icon: Sun, title: "Renewable Integration", text: "Solar-powered autonomy." },
-              { icon: Cylinder, title: "Biomass Conversion", text: "Circular waste-to-energy." },
-              { icon: RefreshCcw, title: "Soil Regeneration", text: "Nutrient-rich slurry return." }
+              { icon: Factory, title: "Decentralized Washing", text: "TriveraPro integrates solar-powered pulping and inverter-driven processing equipment that enables local operators to offer washed coffee services, capturing the ~30% value premium typically reserved for commercial aggregators." },
+              { icon: Sun, title: "Renewable Integration", text: "Solar and inverter components are integrated within the broader TriveraPro system architecture, providing reliable electricity for coffee processing and household use in off-grid rural communities." },
+              { icon: Cylinder, title: "Biomass Conversion", text: "Waste grinding technology feeds biogas conversion tanks that transform coffee pulp into clean cooking gas, reducing wood fuel consumption and respiratory health risks while providing year-round energy access." },
+              { icon: RefreshCcw, title: "Soil Regeneration", text: "The closed-loop system produces high-nutrient compost outputs returned to soil, completing the regenerative cycle and improving long-term agricultural productivity for coffee-growing communities." }
             ].map((pillar, idx) => (
               <motion.div
                 key={pillar.title}
@@ -116,10 +116,10 @@ export const BloomUnit = () => {
                   </p>
                   <ul className="space-y-4">
                     {[
-                      "Solar clean energy dedicated to coffee processing.",
-                      "Reduces operating costs and eliminates fuel volatility.",
-                      "Enables evening lighting for Bloom teams.",
-                      "Cuts carbon emissions significantly."
+                      "Solar clean energy dedicated to coffee processing and household electricity access.",
+                      "Reduces operating costs and eliminates fuel price volatility for rural operators.",
+                      "Enables evening lighting for Bloom teams and extends productive processing hours.",
+                      "Significantly cuts carbon emissions while supporting energy independence."
                     ].map((bullet) => (
                       <li key={bullet} className="flex gap-4 text-base md:text-lg text-muted-foreground">
                         <div className="mt-1.5 w-2 h-2 rounded-full bg-bloomGold shrink-0" />
@@ -151,10 +151,10 @@ export const BloomUnit = () => {
                   </p>
                   <ul className="space-y-4">
                     {[
-                      "Reduces women’s workload by more than 70%.",
-                      "Processes significantly more volume in less time.",
-                      "Improves pulping consistency and reduces defects.",
-                      "Enables women to offer pulping as a paid service."
+                      "Reduces women's physical workload by more than 70% through mechanized processing.",
+                      "Processes significantly more volume in less time, enabling higher throughput.",
+                      "Improves pulping consistency and reduces quality defects for premium markets.",
+                      "Enables women operators to offer pulping as a paid service to neighboring farmers."
                     ].map((bullet) => (
                       <li key={bullet} className="flex gap-4 text-base md:text-lg text-muted-foreground">
                         <div className="mt-1.5 w-2 h-2 rounded-full bg-bloomBrown shrink-0" />
@@ -245,10 +245,10 @@ export const BloomUnit = () => {
 
                   <ul className="space-y-4">
                     {[
-                      "Converts pulp waste into clean, combustible biogas.",
-                      "Replaces firewood, saving forests and women's health.",
-                      "Produces bio-slurry for essential soil regeneration.",
-                      "Pioneering model for circular energy in rural coffee nodes."
+                      "Converts coffee pulp waste into clean, combustible biogas for household cooking.",
+                      "Replaces firewood collection, saving forests and reducing women's health risks from smoke inhalation.",
+                      "Produces nutrient-rich bio-slurry for essential soil regeneration and increased yields.",
+                      "Pioneering circular energy model for rural coffee communities with year-round benefits."
                     ].map((bullet) => (
                       <li key={bullet} className="flex gap-4 text-base md:text-lg text-muted-foreground">
                         <div className="mt-1.5 w-2 h-2 rounded-full bg-bloomGreen shrink-0" />
