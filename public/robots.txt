@@ -1,5 +1,6 @@
 User-agent: *
-Disallow: /
+Allow: /
 
-# Block all search engines from indexing this site
-# Remove this file when site is ready for public launch
+# Sitemap location
+Sitemap: https://3rdharvest.com/sitemap.xml
+Sitemap: https://3rdharvest.org/sitemap.xml
