@@ -1,0 +1,12 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f8f9f5"/>
+  
+  <!-- Logo Text -->
+  <text x="600" y="350" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="120" font-weight="700" text-anchor="middle" fill="#1c3b2b" letter-spacing="-2">
+    THE <tspan fill="#d4a858">3RD</tspan> HARVEST
+  </text>
+  
+  <!-- Optional: Subtle decorative line -->
+  <line x1="400" y1="400" x2="800" y2="400" stroke="#d4a858" stroke-width="2" opacity="0.3"/>
+</svg>
