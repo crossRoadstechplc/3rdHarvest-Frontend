@@ -59,7 +59,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
         email: normalizedEmail,
         source: "3RD HARVEST",
         message: formData.message,
-        to_email: import.meta.env.VITE_RECIPIENT_EMAIL || "dawit@spxafrica.com",
+        to_email: import.meta.env.VITE_RECIPIENT_EMAIL || "contact@3rdharvest.org",
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
@@ -120,7 +120,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
 
                 <div className="space-y-8">
                   {[
-                    { icon: Mail, label: "Email", value: "info@3rdharvest.com" },
+                    { icon: Mail, label: "Email", value: "info@3rdharvest.org" },
                     { icon: MapPin, label: "Location", value: "Ethiopia" },
                     { icon: Globe, label: "Network", value: "Regional Decentralized Nodes" },
                   ].map((item, idx) => {
