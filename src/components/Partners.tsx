@@ -118,7 +118,7 @@ export const Partners = () => {
 
           <p className="text-xl text-muted-foreground leading-relaxed">
 
-            The Third Harvest is enabled by a strategic coalition of technology innovators, implementation specialists, and sustainability leaders.
+            3RD HARVEST is enabled by a strategic coalition of technology innovators, implementation specialists, and sustainability leaders.
 
           </p>
 
