@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mail, MapPin, Globe, ArrowRight, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -12,31 +12,48 @@ export const Contact = () => {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Initialize EmailJS
+    useEffect(() => {
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+        if (publicKey) {
+            emailjs.init(publicKey);
+        }
+    }, []);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
 
         try {
+            const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
+            const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
+            const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
+
+            if (!serviceId || !templateId || !publicKey) {
+                throw new Error("EmailJS configuration is missing. Please check your environment variables.");
+            }
+
             const templateParams = {
                 name: formData.name,
                 email: formData.email,
-                source: "The Third Harvest",
+                source: "The 3RD Harvest",
                 message: formData.message,
                 to_email: import.meta.env.VITE_RECIPIENT_EMAIL || 'dawit@spxafrica.com',
             };
 
             await emailjs.send(
-                import.meta.env.VITE_EMAILJS_SERVICE_ID || '',
-                import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '',
+                serviceId,
+                templateId,
                 templateParams,
-                import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
+                publicKey
             );
 
             toast.success("Message delivered successfully!");
             setFormData({ name: "", email: "", message: "" });
         } catch (error) {
-            toast.error("Cloud delivery failed. Please check your EmailJS keys.");
             console.error("EmailJS error:", error);
+            const errorMessage = error instanceof Error ? error.message : "Cloud delivery failed. Please check your EmailJS keys.";
+            toast.error(errorMessage);
         } finally {
             setIsSubmitting(false);
         }
@@ -52,9 +69,9 @@ export const Contact = () => {
             {/* Decorative side accent */}
             <div className="absolute top-0 right-0 w-1/4 h-full bg-bloomGreen/[0.02] -skew-x-12 transform translate-x-1/2" />
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="max-w-[1600px] mx-auto px-8 lg:px-12 relative z-10">
 
-                <div className="grid lg:grid-cols-2 gap-20 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
 
                     {/* Left Column: Strategic Engagement */}
                     <motion.div
@@ -63,15 +80,15 @@ export const Contact = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 1.2 }}
                     >
-                        <h2 className="section-title !text-left">Strategic Engagement</h2>
+                        <h2 className="section-title text-left">Strategic Engagement</h2>
                         <p className="text-xl text-muted-foreground leading-relaxed mb-10">
-                            The Third Harvest is open to strategic partnerships with global coffee buyers, sustainability leaders, and technology innovators who share our vision for structural reform.
+                            The 3RD Harvest is open to strategic partnerships with global coffee buyers, sustainability leaders, and technology innovators who share our vision for structural reform.
                         </p>
 
                         <div className="space-y-8">
                             {[
-                                { icon: Mail, label: "Email", value: "info@spxafrica.com" },
-                                { icon: MapPin, label: "Location", value: "Sidama Highlands, Ethiopia" },
+                                { icon: Mail, label: "Email", value: "info@3rdharvest.com" },
+                                { icon: MapPin, label: "Location", value: "Ethiopia" },
                                 { icon: Globe, label: "Network", value: "Regional Decentralized Nodes" }
                             ].map((item, idx) => {
                                 const Icon = item.icon;
@@ -84,7 +101,7 @@ export const Contact = () => {
                                         transition={{ delay: 0.5 + (idx * 0.2), duration: 0.8 }}
                                         className="flex items-center gap-6 group cursor-default"
                                     >
-                                        <div className="w-16 h-16 rounded-2xl bg-bloomGreen/5 flex items-center justify-center group-hover:bg-bloomGreen transition-all duration-500">
+                                        <div className="w-16 h-16 rounded-[10px] bg-bloomGreen/5 flex items-center justify-center group-hover:bg-bloomGreen transition-all duration-500">
                                             <Icon className="w-7 h-7 text-bloomGreen group-hover:text-white" />
                                         </div>
                                         <div>
@@ -103,7 +120,7 @@ export const Contact = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1.5, delay: 0.3 }}
-                        className="bloom-card border-none bg-bloomGreen text-bloomBeige p-10 md:p-14 shadow-2xl relative overflow-hidden group rounded-[3rem]"
+                        className="bloom-card border-none bg-bloomGreen text-bloomBeige p-10 md:p-14 shadow-2xl relative overflow-hidden group"
                     >
                         <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -mr-40 -mt-40 blur-3xl" />
 
@@ -120,7 +137,7 @@ export const Contact = () => {
                                         value={formData.name}
                                         onChange={handleChange}
                                         placeholder="John Doe"
-                                        className="w-full bg-white/10 border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-bloomGold/50 transition-colors placeholder:text-white/30"
+                                        className="w-full bg-white/10 border border-white/10 rounded-[10px] px-5 py-4 focus:outline-none focus:border-bloomGold/50 transition-colors placeholder:text-white/30"
                                     />
                                 </div>
 
@@ -133,7 +150,7 @@ export const Contact = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         placeholder="john@example.com"
-                                        className="w-full bg-white/10 border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-bloomGold/50 transition-colors placeholder:text-white/30"
+                                        className="w-full bg-white/10 border border-white/10 rounded-[10px] px-5 py-4 focus:outline-none focus:border-bloomGold/50 transition-colors placeholder:text-white/30"
                                     />
                                 </div>
 
@@ -146,14 +163,14 @@ export const Contact = () => {
                                         onChange={handleChange}
                                         rows={4}
                                         placeholder="How can we collaborate?"
-                                        className="w-full bg-white/10 border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-bloomGold/50 transition-colors placeholder:text-white/30 resize-none"
+                                        className="w-full bg-white/10 border border-white/10 rounded-[10px] px-5 py-4 focus:outline-none focus:border-bloomGold/50 transition-colors placeholder:text-white/30 resize-none"
                                     />
                                 </div>
 
                                 <button
                                     disabled={isSubmitting}
                                     type="submit"
-                                    className="w-full bg-bloomGold text-white font-bold py-5 rounded-xl hover:bg-white hover:text-bloomGreen transition-all shadow-xl flex items-center justify-center gap-3 text-sm uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed group/btn overflow-hidden relative"
+                                    className="w-full bg-bloomGold cursor-pointer text-white font-bold py-5 rounded-[10px] hover:bg-white hover:text-bloomGreen transition-all shadow-xl flex items-center justify-center gap-3 text-sm uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed group/btn overflow-hidden relative"
                                 >
                                     {isSubmitting ? (
                                         <Loader2 className="w-5 h-5 animate-spin" />

@@ -157,7 +157,7 @@ section[id]:not(#hero) {
    Card styling
 --------------------------------------------------- */
 .bloom-card {
-  @apply bg-card rounded-3xl p-8 border transition-all duration-500;
+  @apply bg-card rounded-[10px] p-8 border transition-all duration-500;
   border-color: hsl(var(--border) / 0.6);
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(10px);
@@ -173,13 +173,13 @@ section[id]:not(#hero) {
    Typography helpers
 --------------------------------------------------- */
 .section-title {
-  @apply text-4xl md:text-6xl font-bold text-center mb-6 leading-tight;
+  @apply text-4xl md:text-6xl font-bold text-left md:text-center mb-6 leading-tight;
   color: hsl(var(--bloom-green));
   letter-spacing: -0.02em;
 }
 
 .section-subtitle {
-  @apply text-lg md:text-xl text-center text-muted-foreground max-w-4xl mx-auto mb-16 leading-relaxed;
+  @apply text-lg md:text-xl text-left md:text-center text-muted-foreground max-w-4xl mx-auto mb-16 leading-relaxed;
 }
 
 /* ---------------------------------------------------

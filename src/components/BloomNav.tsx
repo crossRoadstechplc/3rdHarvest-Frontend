@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Coffee,
   Heart,
@@ -14,7 +15,7 @@ import {
 const navItems = [
   { id: "hero", label: "Home", icon: Coffee },
   { id: "context", label: "Context", icon: BookOpen },
-  { id: "model", label: "Model", icon: Award },
+  { id: "model", label: "TriveraPro", icon: Award },
   { id: "enterprise", label: "Enterprise", icon: Users },
   { id: "impact", label: "Impact", icon: TrendingUp },
   { id: "implementation", label: "Implementation", icon: Coffee },
@@ -24,14 +25,17 @@ const navItems = [
 ];
 
 export const BloomNav = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [active, setActive] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
+  const isHomePage = location.pathname === "/";
 
   // Detect screen size
   useEffect(() => {
-    const updateScreen = () => setIsDesktop(window.innerWidth > 1155);
+    const updateScreen = () => setIsDesktop(window.innerWidth > 1375);
     updateScreen();
     window.addEventListener("resize", updateScreen);
     return () => window.removeEventListener("resize", updateScreen);
@@ -61,9 +65,15 @@ export const BloomNav = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    if (isHomePage) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        setIsOpen(false);
+      }
+    } else {
+      // Navigate to homepage with hash
+      navigate(`/#${id}`);
       setIsOpen(false);
     }
   };
@@ -88,20 +98,26 @@ export const BloomNav = () => {
           ? "bg-white/95 backdrop-blur-md border-b border-bloomGold/10 py-4 shadow-md"
           : "bg-transparent py-8"
           }`}>
-          <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
+          <div className="max-w-[1600px] mx-auto flex items-center justify-between px-8 lg:px-12">
             <div
-              className={`font-serif font-bold text-2xl tracking-tighter uppercase cursor-pointer transition-colors duration-500 ${isScrolled ? "text-bloomGreen" : "text-white"
+              className={`font-serif font-bold text-3xl md:text-4xl tracking-tighter uppercase cursor-pointer transition-colors duration-500 ${isScrolled ? "text-bloomGreen" : "text-white"
                 }`}
-              onClick={() => scrollToSection("hero")}
+              onClick={() => {
+                if (isHomePage) {
+                  scrollToSection("hero");
+                } else {
+                  navigate("/");
+                }
+              }}
             >
-              THE <span className="text-bloomGold">THIRD</span> HARVEST
+              THE <span className="text-bloomGold">3RD</span> HARVEST
             </div>
-            <ul className="flex gap-10 text-lg">
+            <ul className="flex gap-8 lg:gap-10 text-lg">
               {navItems.map((item) => (
                 <li key={item.id} className="relative">
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className={`cursor-pointer relative flex flex-col items-center pb-2 transition-all duration-500 font-bold tracking-widest uppercase text-[11px] ${active === item.id
+                    className={`cursor-pointer relative flex flex-col items-center pb-2 transition-all duration-500 font-bold tracking-widest uppercase text-xs ${active === item.id
                       ? (isScrolled ? "text-bloomGreen" : "text-bloomGold")
                       : (isScrolled ? "text-bloomGreen/60 hover:text-bloomGreen" : "text-white/70 hover:text-white")
                       }`}
@@ -130,19 +146,25 @@ export const BloomNav = () => {
           ? "bg-white/95 backdrop-blur-md shadow-md border-b border-bloomGold/10"
           : "bg-black/20 backdrop-blur-sm"
           }`}>
-          <div className="flex items-center justify-between px-6 py-5">
+          <div className="flex items-center justify-between px-8 lg:px-12 py-5">
             <div
-              className={`font-serif font-bold text-lg tracking-tight uppercase transition-colors duration-500 ${isScrolled ? "text-bloomGreen" : "text-white"
+              className={`font-serif font-bold text-xl md:text-2xl tracking-tight uppercase transition-colors duration-500 ${isScrolled ? "text-bloomGreen" : "text-white"
                 }`}
-              onClick={() => scrollToSection("hero")}
+              onClick={() => {
+                if (isHomePage) {
+                  scrollToSection("hero");
+                } else {
+                  navigate("/");
+                }
+              }}
             >
-              THE <span className="text-bloomGold">THIRD</span> HARVEST
+              THE <span className="text-bloomGold">3RD</span> HARVEST
             </div>
 
             {/* Burger */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-3 rounded-xl bg-bloomGold text-white shadow-xl active:scale-95 transition-transform"
+              className="p-3 rounded-[10px] bg-bloomGold text-white shadow-xl active:scale-95 transition-transform"
               aria-label="Toggle navigation"
             >
               <Coffee
@@ -164,7 +186,7 @@ export const BloomNav = () => {
                 <li key={item.id}>
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className={`cursor-pointer relative flex items-center w-full transition-all duration-300 font-bold uppercase tracking-widest text-sm py-2 ${active === item.id
+                    className={`cursor-pointer relative flex items-center w-full transition-all duration-300 font-bold uppercase tracking-widest text-base py-2 ${active === item.id
                       ? "text-bloomGreen translate-x-3"
                       : "text-bloomGreen/60"
                       }`}

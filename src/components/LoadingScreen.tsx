@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+let hasLoadedInitially = false;
 
 export const LoadingScreen = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(!hasLoadedInitially);
 
   useEffect(() => {
+    if (hasLoadedInitially) return;
+
     // Extended timeout to accommodate the more complex 3-second sequence
     const timer = setTimeout(() => {
       setIsVisible(false);
+      hasLoadedInitially = true;
     }, 4500);
 
     return () => clearTimeout(timer);
@@ -31,7 +35,7 @@ export const LoadingScreen = () => {
               className="font-serif font-black uppercase tracking-tighter flex gap-3 text-3xl md:text-4xl lg:text-6xl"
             >
               <span className="word word-green word-left" data-text="THE">THE</span>
-              <span className="word word-gold word-bottom" data-text="THIRD">THIRD</span>
+              <span className="word word-gold word-bottom" data-text="3RD">3RD</span>
               <span className="word word-green word-right" data-text="HARVEST">HARVEST</span>
             </motion.h1>
 
@@ -82,7 +86,7 @@ export const LoadingScreen = () => {
               animation-delay: 0.8s;
             }
 
-            /* SEQ 2: THIRD (Bottom Up) after Seq 1 completes */
+            /* SEQ 2: 3RD (Bottom Up) after Seq 1 completes */
             .word-bottom::after {
               color: #d4a858;
               clip-path: inset(100% 0 0 0);

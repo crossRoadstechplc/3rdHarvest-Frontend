@@ -7,7 +7,7 @@ export const Mission = () => {
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-bloomGold to-transparent opacity-30" />
       <div className="absolute top-20 right-20 w-72 h-72 bg-bloomGold/5 rounded-full blur-3xl" />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-[1600px] mx-auto px-8 lg:px-12 relative z-10">
         <h2 className="section-title">Mission & Vision</h2>
 
         <div className="grid md:grid-cols-2 gap-12 mt-16">

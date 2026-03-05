@@ -1,6 +1,22 @@
 import { Coffee, Mail, MapPin, Heart, Linkedin, Github, Instagram } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
+  const handleFooterLink = (id: string) => {
+    if (isHomePage) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate(`/#${id}`);
+    }
+  };
+
   return (
     <footer className="bg-black/90 bg-bloomDarkCoffee text-white py-20 px-4 relative overflow-hidden pl:10 lg:pl-40">
       {/* Decorative Elements */}
@@ -8,7 +24,7 @@ export const Footer = () => {
       <div className="absolute text-white bottom-10 left-10 w-96 h-96 bg-bloomGreen/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Container */}
-      <div className="w-full mx-auto relative z-10">
+      <div className="max-w-[1600px] mx-auto px-8 lg:px-12 relative z-10">
 
         {/* TOP GRID — your layout, made responsive */}
         <div className="flex flex-col lg:flex-row justify-between gap-16">
@@ -17,13 +33,15 @@ export const Footer = () => {
           <div className="w-full lg:w-1/3">
             <div className="flex items-center gap-4 mb-8">
               <div className="font-serif font-bold text-3xl tracking-tight uppercase text-white">
-                THE <span className="text-bloomGold">THIRD</span> HARVEST
+                3rd <span className="text-bloomGold">Harvest</span>
               </div>
             </div>
 
-            <p className="text-white/80 leading-relaxed text-sm md:text-base max-w-sm mb-8">
-              Unlocking multiple yields from one crop through decentralized infrastructure,
-              renewable energy, and regenerative models for long-term prosperity.
+            <p className="text-white/80 leading-relaxed text-sm md:text-base max-w-sm mb-4">
+              Coffee. Energy. Soil.
+            </p>
+            <p className="text-white/60 text-xs md:text-sm italic leading-relaxed max-w-sm mb-8">
+              "Coffee can produce more than coffee." 3rd Harvest unlocks value, energy, and regeneration from a single crop.
             </p>
 
             {/* Social Media Icons */}
@@ -84,11 +102,7 @@ export const Footer = () => {
               ].map((link) => (
                 <button
                   key={link.id}
-                  onClick={() =>
-                    document
-                      .getElementById(link.id)
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
+                  onClick={() => handleFooterLink(link.id)}
                   className="text-white/80 text-sm hover:text-bloomGold cursor-pointer transition-colors hover:translate-x-1 inline-block duration-300 text-left"
                 >
                   {link.label}
@@ -102,7 +116,7 @@ export const Footer = () => {
         {/* BOTTOM BAR */}
         <div className="border-t border-white/20 pt-8 mt-16 flex flex-col md:flex-row justify-center items-center gap-4">
           <p className="text-white/60 text-sm text-center">
-            © 2026 The Third Harvest. All rights reserved.
+            © 2026 The 3RD Harvest. All rights reserved.
           </p>
         </div>
       </div>

@@ -7,7 +7,7 @@ export const Story = () => {
       <div className="absolute top-20 left-10 w-72 h-72 bg-bloomGold/5 rounded-full blur-3xl" />
       <div className="absolute bottom-40 right-20 w-96 h-96 bg-bloomGreen/5 rounded-full blur-3xl" />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-[1600px] mx-auto px-8 lg:px-12 relative z-10">
         <h2 className="section-title">Meet Almaz Kebede</h2>
         <p className="section-subtitle max-w-3xl">
           A 34-year-old mother of four from Limmu Woreda whose life was transformed 
