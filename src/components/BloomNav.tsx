@@ -9,7 +9,6 @@ import {
   Users,
   BarChart3,
   Handshake,
-  Mail,
 } from "lucide-react";
 
 const navItems = [
@@ -19,7 +18,6 @@ const navItems = [
   { id: "pcw", label: "PCW", icon: Users, path: "/pcw" },
   { id: "impact-esg", label: "Impact & ESG", icon: BarChart3, path: "/impact-esg" },
   { id: "partner", label: "Partner", icon: Handshake, path: "/partner" },
-  { id: "contact", label: "Contact", icon: Mail },
 ];
 
 export const BloomNav = () => {
@@ -102,29 +100,28 @@ export const BloomNav = () => {
             >
               <span className="text-bloomGold">3RD</span> HARVEST
             </div>
-            <ul className="flex gap-8 lg:gap-10 text-lg">
+            <ul className="flex items-center gap-8 lg:gap-10 text-lg">
               {navItems.map((item) => (
                 <li key={item.id} className="relative">
                   <button
                     onClick={() => handleNavItemClick(item)}
-                    className={`cursor-pointer relative flex flex-col items-center pb-2 transition-all duration-500 font-bold tracking-widest uppercase text-xs ${
-                      item.id === "contact"
-                        ? "inline-flex !flex-row !items-center !justify-center !pb-0 h-9 px-4 cursor-pointer rounded-[10px] bg-bloomGold text-white hover:brightness-105"
-                        : active === item.id
-                          ? isScrolled
-                            ? "text-bloomGreen"
-                            : "text-bloomGold"
-                          : isScrolled
-                            ? "text-bloomGreen/60 hover:text-bloomGreen"
-                            : "text-white/70 hover:text-white"
-                    }`}
+                    className={`cursor-pointer relative flex flex-col items-center transition-all duration-500 font-bold tracking-widest uppercase text-xs ${item.id === "contact"
+                      ? "inline-flex !flex-row !items-center !justify-center h-9 px-4 rounded-[10px] bg-bloomGold text-white hover:brightness-105"
+                      : active === item.id
+                        ? isScrolled
+                          ? "text-bloomGreen"
+                          : "text-bloomGold"
+                        : isScrolled
+                          ? "text-bloomGreen/60 hover:text-bloomGreen"
+                          : "text-white/70 hover:text-white"
+                      }`}
                   >
                     {item.label}
 
                     {active === item.id && item.id !== "contact" && (
                       <motion.span
                         layoutId="navUnderline"
-                        className={`absolute left-0 -bottom-1 w-full h-[3px] rounded-full z-20 shadow-[0_1px_10px_rgba(212,168,88,0.4)] ${isScrolled ? "bg-bloomGreen" : "bg-bloomGold"
+                        className={`absolute left-0 -bottom-2 w-full h-[3px] rounded-full z-20 shadow-[0_1px_10px_rgba(212,168,88,0.4)] ${isScrolled ? "bg-bloomGreen" : "bg-bloomGold"
                           }`}
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
@@ -177,19 +174,17 @@ export const BloomNav = () => {
                 <li key={item.id}>
                   <button
                     onClick={() => handleNavItemClick(item)}
-                    className={`cursor-pointer relative flex items-center w-full transition-all duration-300 font-bold uppercase tracking-widest text-base py-2 ${
-                      item.id === "contact"
-                        ? "px-4 rounded-[10px] bg-bloomGold text-white"
-                        : active === item.id
-                          ? "text-bloomGreen translate-x-3"
-                          : "text-bloomGreen/60"
-                    }`}
+                    className={`cursor-pointer relative flex items-center w-full transition-all duration-300 font-bold uppercase tracking-widest text-base py-2 ${item.id === "contact"
+                      ? "px-4 rounded-[10px] bg-bloomGold text-white"
+                      : active === item.id
+                        ? "text-bloomGreen translate-x-3"
+                        : "text-bloomGreen/60"
+                      }`}
                   >
                     {item.id !== "contact" && (
                       <div
-                        className={`w-1.5 h-1.5 rounded-full mr-4 transition-all duration-500 ${
-                          active === item.id ? "bg-bloomGold scale-150" : "bg-bloomGreen/20"
-                        }`}
+                        className={`w-1.5 h-1.5 rounded-full mr-4 transition-all duration-500 ${active === item.id ? "bg-bloomGold scale-150" : "bg-bloomGreen/20"
+                          }`}
                       />
                     )}
                     {item.label}
