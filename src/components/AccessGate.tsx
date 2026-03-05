@@ -229,10 +229,25 @@ export const AccessGate = ({
 
   // ── Render ────────────────────────────────────────────────────────────────
 
-  // Always render children (they sit behind the overlay while unauthed)
+  // SECURITY: children are only mounted when:
+  //   a) gate is disabled (!enabled) — loading animation is still running, or
+  //   b) user is genuinely authenticated (authed === true).
+  // While blocking, children are absent from the DOM — DevTools CSS removal reveals nothing.
   return (
     <>
-      {children}
+      {(!enabled || authed) && children}
+
+      {/* Solid opaque cover during token-check & gate phases — sits below modal (z-9000) */}
+      {enabled && !authed && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 8999,
+            background: "#f8f9f5",
+          }}
+        />
+      )}
 
       <AnimatePresence>
         {enabled && checked && !authed && (
@@ -302,7 +317,7 @@ export const AccessGate = ({
                       lineHeight: 1.25,
                     }}
                   >
-                    Access required
+                    Email Authentication required
                   </h2>
                   <p
                     style={{
