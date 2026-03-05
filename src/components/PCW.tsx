@@ -43,24 +43,36 @@ export const PCW = () => {
             transition={{ duration: 1.5 }}
             className="relative group"
           >
-            <div className="bloom-card bg-bloomGreen p-12 flex flex-col items-center justify-center transition-all duration-700 hover:shadow-[0_30px_60px_rgba(28,59,43,0.3)]">
+            <div className="bloom-card bg-bloomGreen p-8 md:p-10 flex flex-col items-center justify-center transition-all duration-700 hover:shadow-[0_24px_48px_rgba(28,59,43,0.25)]">
               {/* PCW Logo Container */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="relative z-10 mb-10 w-full max-w-sm aspect-square bg-white rounded-[10px] shadow-2xl flex items-center justify-center overflow-hidden"
+                className="relative z-10 mb-8 w-full max-w-xs bg-white rounded-[10px] shadow-xl flex items-center justify-center overflow-hidden"
               >
                 <img
                   src="/pcw.jpg"
                   alt="Proud Coffee Women (PCW) logo"
-                  className="w-full h-full object-contain p-10 group-hover:scale-110 transition-transform duration-1000"
+                  className="w-full max-h-72 object-cover p-3 group-hover:scale-105 transition-transform duration-700"
                 />
               </motion.div>
 
               <div className="text-center">
-                <h3 className="text-3xl font-bold text-bloomBeige mb-6 tracking-tight">Market Identity</h3>
+                <h3 className="text-3xl font-bold text-bloomBeige mb-6 tracking-tight">A Story of Identity and Leadership</h3>
                 <p className="text-black text-lg leading-relaxed opacity-90 max-w-md">
-                  PCW provides women producers with a direct bridge to the global specialty market, ensuring their contributions are recognized, traceable, and valued.
+                  The PCW logo tells a simple story: women lead the process, communities capture more value, and regenerative systems become visible to buyers.
                 </p>
+                <div className="mt-6 space-y-3 text-left max-w-md mx-auto">
+                  {[
+                    "Women-led operation of circular coffee systems",
+                    "Traceable coffee linked to real community enterprises",
+                    "A recognizable label for regenerative impact",
+                  ].map((point) => (
+                    <div key={point} className="flex items-start gap-3 text-bloomBeige/90">
+                      <div className="mt-2 h-2 w-2 rounded-full bg-bloomGold shrink-0" />
+                      <p className="text-sm leading-relaxed">{point}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -70,10 +82,10 @@ export const PCW = () => {
               whileInView={{ opacity: 1, rotate: 12, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 1.2, duration: 0.8, type: "spring" }}
-              className="absolute -top-10 -right-10 bg-bloomGold text-bloomGreen font-bold px-8 py-4 rounded-[10px] shadow-2xl flex items-center gap-3 border-4 border-white z-20"
+              className="absolute -top-6 -right-6 bg-bloomGold text-bloomGreen font-bold px-5 py-3 rounded-[10px] shadow-xl flex items-center gap-2 border-2 border-white z-20"
             >
-              <Award className="w-6 h-6" />
-              <span className="text-lg">Specialty Grade</span>
+              <Award className="w-5 h-5" />
+              <span className="text-sm md:text-base">Specialty Grade</span>
             </motion.div>
           </motion.div>
 
@@ -84,7 +96,7 @@ export const PCW = () => {
             {[
               { icon: Globe, title: "Origin-Authored Narrative", text: "We return the narrative to the producer. PCW allows women to define their own value and represent their heritage directly to the buyer." },
               { icon: Fingerprint, title: "Digital Traceability", text: "Every PCW lot is backed by unit-integrated data tracking. Buyers can trace the exact date, unit, and operator cluster that produced their coffee." },
-              { icon: ShieldCheck, title: "Structural Validation", text: "The trademark identifies coffee that has been processed using The 3RD Harvest's sustainable technical standards, ensuring consistency and excellence." }
+              { icon: ShieldCheck, title: "Structural Validation", text: "The trademark identifies coffee that has been processed using 3RD HARVEST's sustainable technical standards, ensuring consistency and excellence." }
             ].map((pillar, idx) => {
               const Icon = pillar.icon;
               return (
@@ -94,7 +106,7 @@ export const PCW = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.5 + (idx * 0.3), duration: 1.0 }}
-                  className="flex gap-8 group"
+                  className="flex gap-8 group md:flex-row flex-col sm:flex-row"
                 >
                   <div className="w-16 h-16 shrink-0 bg-white rounded-[10px] shadow-sm flex items-center justify-center border border-bloomGreen/5 group-hover:bg-bloomGreen transition-colors duration-500">
                     <Icon className="w-8 h-8 text-bloomGreen group-hover:text-white" />

@@ -1,123 +1,99 @@
-import { Coffee, Mail, MapPin, Heart, Linkedin, Github, Instagram } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useContactModal } from "@/components/ContactModalProvider";
+import { Facebook, Instagram } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const Footer = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
+  const { openContactModal } = useContactModal();
 
-  const handleFooterLink = (id: string) => {
-    if (isHomePage) {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      navigate(`/#${id}`);
-    }
-  };
+  const quickLinks = [
+    { label: "Home", path: "/" },
+    { label: "About", path: "/about" },
+    { label: "TriveraPro", path: "/triverapro" },
+    { label: "PCW", path: "/pcw" },
+    { label: "Impact & ESG", path: "/impact-esg" },
+    { label: "Partner", path: "/partner" },
+    { label: "Contact", isContact: true },
+  ];
 
   return (
-    <footer className="bg-black/90 bg-bloomDarkCoffee text-white py-20 px-4 relative overflow-hidden pl:10 lg:pl-40">
-      {/* Decorative Elements */}
-      <div className="absolute text-white top-10 right-10 w-64 h-64 bg-bloomGold/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute text-white bottom-10 left-10 w-96 h-96 bg-bloomGreen/10 rounded-full blur-3xl pointer-events-none" />
+    <footer className="relative overflow-hidden bg-black/90 bg-bloomDarkCoffee px-4 py-20 text-white lg:pl-40">
+      <div className="pointer-events-none absolute right-10 top-10 h-64 w-64 rounded-full bg-bloomGold/10 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-10 left-10 h-96 w-96 rounded-full bg-bloomGreen/10 blur-3xl" />
 
-      {/* Container */}
-      <div className="max-w-[1600px] mx-auto px-8 lg:px-12 relative z-10">
-
-        {/* TOP GRID — your layout, made responsive */}
-        <div className="flex flex-col lg:flex-row justify-between gap-16">
-
-          {/* BRAND BLOCK */}
+      <div className="relative z-10 mx-auto w-full">
+        <div className="flex flex-col justify-between gap-16 lg:flex-row">
           <div className="w-full lg:w-1/3">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="font-serif font-bold text-3xl tracking-tight uppercase text-white">
-                3rd <span className="text-bloomGold">Harvest</span>
-              </div>
+            <div className="mb-8 font-serif text-3xl font-bold uppercase tracking-tight text-white">
+              <span className="text-bloomGold">3RD</span> HARVEST
             </div>
 
-            <p className="text-white/80 leading-relaxed text-sm md:text-base max-w-sm mb-4">
-              Coffee. Energy. Soil.
-            </p>
-            <p className="text-white/60 text-xs md:text-sm italic leading-relaxed max-w-sm mb-8">
-              "Coffee can produce more than coffee." 3rd Harvest unlocks value, energy, and regeneration from a single crop.
+            <p className="max-w-sm text-sm leading-relaxed text-white/80 md:text-base">
+              Unlocking multiple yields from one crop through decentralized infrastructure, renewable energy, and regenerative models for long-term prosperity.
             </p>
 
-            {/* Social Media Icons */}
-            <div className="flex gap-4">
-              {[
-                { type: "text", content: "X", href: "#", label: "X" },
-                { icon: Linkedin, href: "#", label: "LinkedIn" },
-                { icon: Github, href: "#", label: "GitHub" },
-                { icon: Instagram, href: "#", label: "Instagram" }
-              ].map((social) => {
-                if (social.type === "text") {
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      aria-label={social.label}
-                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-bloomGold hover:text-black transition-all duration-300 group font-bold"
-                    >
-                      {social.content}
-                    </a>
-                  );
-                } else {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      aria-label={social.label}
-                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-bloomGold hover:text-black transition-all duration-300 group"
-                    >
-                      <Icon className="w-5 h-5" />
-                    </a>
-                  );
-                }
-              })}
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Facebook"
+                className="text-white/80 transition-colors hover:text-bloomGold"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm text-white/80 transition-colors hover:text-bloomGold"
+              >
+                X
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="text-white/80 transition-colors hover:text-bloomGold"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
             </div>
+
+            <button
+              onClick={openContactModal}
+              className="mt-6 inline-flex items-center justify-center cursor-pointer rounded-[10px] bg-bloomGold px-6 py-3 text-sm font-bold tracking-[0.08em] text-white transition-all hover:shadow-[0_14px_28px_rgba(212,166,87,0.35)]"
+            >
+              Contact
+            </button>
           </div>
 
-          {/* CONTACT BLOCK — YOU LEFT THIS COMMENTED, WE LEAVE IT COMMENTED */}
-          {/* <div>
-            <h3 className="text-xl font-bold mb-6 !text-white">Get in Touch</h3>
-            ...
-          </div> */}
-
-          {/* QUICK LINKS */}
-          <div className="w-full lg:w-2/3">
-            <h3 className="text-xl font-bold mb-6 !text-white">Quick Links</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                { label: "Context", id: "context" },
-                { label: "Model", id: "model" },
-                { label: "Enterprise", id: "enterprise" },
-                { label: "Impact", id: "impact" },
-                { label: "Implementation", id: "implementation" },
-                { label: "Partners", id: "partners" },
-                { label: "PCW", id: "pcw" },
-                { label: "Contact", id: "contact" },
-              ].map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => handleFooterLink(link.id)}
-                  className="text-white/80 text-sm hover:text-bloomGold cursor-pointer transition-colors hover:translate-x-1 inline-block duration-300 text-left"
-                >
-                  {link.label}
-                </button>
+          <div className="w-full lg:w-1/3">
+            <h3 className="mb-6 text-xl font-bold text-white!">Quick Links</h3>
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-4">
+              {quickLinks.map((link) => (
+                <li key={link.label}>
+                  <button
+                    onClick={() => {
+                      if (link.isContact) {
+                        openContactModal();
+                        return;
+                      }
+                      if (link.path) navigate(link.path);
+                    }}
+                    className="inline-block cursor-pointer text-left text-sm text-white/80 transition-all duration-300 hover:translate-x-1 hover:text-bloomGold"
+                  >
+                    {link.label}
+                  </button>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-
         </div>
 
-        {/* BOTTOM BAR */}
-        <div className="border-t border-white/20 pt-8 mt-16 flex flex-col md:flex-row justify-center items-center gap-4">
-          <p className="text-white/60 text-sm text-center">
-            © 2026 The 3RD Harvest. All rights reserved.
-          </p>
+        <div className="mt-16 flex flex-col items-center justify-center gap-4 border-t border-white/20 pt-8 md:flex-row">
+          <p className="text-center text-sm text-white/60">© 2026 <span className="text-bloomGold">3RD</span> HARVEST. All rights reserved.</p>
         </div>
       </div>
     </footer>

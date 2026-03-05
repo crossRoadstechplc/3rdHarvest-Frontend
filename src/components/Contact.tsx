@@ -36,7 +36,7 @@ export const Contact = () => {
             const templateParams = {
                 name: formData.name,
                 email: formData.email,
-                source: "The 3RD Harvest",
+                source: "3RD HARVEST",
                 message: formData.message,
                 to_email: import.meta.env.VITE_RECIPIENT_EMAIL || 'dawit@spxafrica.com',
             };
@@ -80,9 +80,9 @@ export const Contact = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 1.2 }}
                     >
-                        <h2 className="section-title text-left">Strategic Engagement</h2>
+                        <h2 className="section-title text-left">Become a Partner</h2>
                         <p className="text-xl text-muted-foreground leading-relaxed mb-10">
-                            The 3RD Harvest is open to strategic partnerships with global coffee buyers, sustainability leaders, and technology innovators who share our vision for structural reform.
+                            3RD HARVEST is open to strategic partnerships with global coffee buyers, sustainability leaders, and technology innovators who share our vision for structural reform.
                         </p>
 
                         <div className="space-y-8">
@@ -176,7 +176,7 @@ export const Contact = () => {
                                         <Loader2 className="w-5 h-5 animate-spin" />
                                     ) : (
                                         <>
-                                            <span className="relative z-10">Deliver Inquiry</span>
+                                            <span className="relative z-10">Send Message</span>
                                             <ArrowRight className="w-5 h-5 relative z-10 group-hover/btn:translate-x-1 transition-transform" />
                                         </>
                                     )}

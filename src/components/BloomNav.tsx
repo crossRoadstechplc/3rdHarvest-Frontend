@@ -1,37 +1,35 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useContactModal } from "@/components/ContactModalProvider";
 import {
   Coffee,
-  Heart,
-  Users,
-  TrendingUp,
+  Info,
   Award,
-  HandHeart,
-  BookOpen,
+  Users,
+  BarChart3,
+  Handshake,
   Mail,
 } from "lucide-react";
 
 const navItems = [
-  { id: "hero", label: "Home", icon: Coffee },
-  { id: "context", label: "Context", icon: BookOpen },
-  { id: "model", label: "TriveraPro", icon: Award },
-  { id: "enterprise", label: "Enterprise", icon: Users },
-  { id: "impact", label: "Impact", icon: TrendingUp },
-  { id: "implementation", label: "Implementation", icon: Coffee },
-  { id: "pcw", label: "PCW", icon: HandHeart },
-  { id: "partners", label: "Partners", icon: Heart },
+  { id: "home", label: "Home", icon: Coffee, path: "/" },
+  { id: "about", label: "About", icon: Info, path: "/about" },
+  { id: "triverapro", label: "TriveraPro", icon: Award, path: "/triverapro" },
+  { id: "pcw", label: "PCW", icon: Users, path: "/pcw" },
+  { id: "impact-esg", label: "Impact & ESG", icon: BarChart3, path: "/impact-esg" },
+  { id: "partner", label: "Partner", icon: Handshake, path: "/partner" },
   { id: "contact", label: "Contact", icon: Mail },
 ];
 
 export const BloomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { openContactModal } = useContactModal();
   const [isOpen, setIsOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [active, setActive] = useState("hero");
+  const [active, setActive] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
-  const isHomePage = location.pathname === "/";
 
   // Detect screen size
   useEffect(() => {
@@ -41,40 +39,38 @@ export const BloomNav = () => {
     return () => window.removeEventListener("resize", updateScreen);
   }, []);
 
-  // Track scroll position for active section indicator
+  // Track pathname for active nav indicator
+  useEffect(() => {
+    const matchedItem = navItems.find((item) => item.path === location.pathname);
+    if (matchedItem) {
+      setActive(matchedItem.id);
+    }
+  }, [location.pathname]);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80);
-
-      const scrollPos = window.scrollY + 200; // Account for nav height and offset
-
-      let current = navItems[0].id;
-      for (const item of navItems) {
-        const section = document.getElementById(item.id);
-        if (section) {
-          if (scrollPos >= section.offsetTop) {
-            current = item.id;
-          }
-        }
-      }
-      setActive(current);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    if (isHomePage) {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-        setIsOpen(false);
-      }
-    } else {
-      // Navigate to homepage with hash
-      navigate(`/#${id}`);
+  const navigateTo = (path: string, id: string) => {
+    setActive(id);
+    setIsOpen(false);
+    navigate(path);
+  };
+
+  const handleNavItemClick = (item: (typeof navItems)[number]) => {
+    if (item.id === "contact") {
+      setActive("contact");
       setIsOpen(false);
+      openContactModal();
+      return;
+    }
+    if (item.path) {
+      navigateTo(item.path, item.id);
     }
   };
 
@@ -102,29 +98,30 @@ export const BloomNav = () => {
             <div
               className={`font-serif font-bold text-3xl md:text-4xl tracking-tighter uppercase cursor-pointer transition-colors duration-500 ${isScrolled ? "text-bloomGreen" : "text-white"
                 }`}
-              onClick={() => {
-                if (isHomePage) {
-                  scrollToSection("hero");
-                } else {
-                  navigate("/");
-                }
-              }}
+              onClick={() => navigateTo("/", "home")}
             >
-              THE <span className="text-bloomGold">3RD</span> HARVEST
+              <span className="text-bloomGold">3RD</span> HARVEST
             </div>
             <ul className="flex gap-8 lg:gap-10 text-lg">
               {navItems.map((item) => (
                 <li key={item.id} className="relative">
                   <button
-                    onClick={() => scrollToSection(item.id)}
-                    className={`cursor-pointer relative flex flex-col items-center pb-2 transition-all duration-500 font-bold tracking-widest uppercase text-xs ${active === item.id
-                      ? (isScrolled ? "text-bloomGreen" : "text-bloomGold")
-                      : (isScrolled ? "text-bloomGreen/60 hover:text-bloomGreen" : "text-white/70 hover:text-white")
-                      }`}
+                    onClick={() => handleNavItemClick(item)}
+                    className={`cursor-pointer relative flex flex-col items-center pb-2 transition-all duration-500 font-bold tracking-widest uppercase text-xs ${
+                      item.id === "contact"
+                        ? "inline-flex !flex-row !items-center !justify-center !pb-0 h-9 px-4 cursor-pointer rounded-[10px] bg-bloomGold text-white hover:brightness-105"
+                        : active === item.id
+                          ? isScrolled
+                            ? "text-bloomGreen"
+                            : "text-bloomGold"
+                          : isScrolled
+                            ? "text-bloomGreen/60 hover:text-bloomGreen"
+                            : "text-white/70 hover:text-white"
+                    }`}
                   >
                     {item.label}
 
-                    {active === item.id && (
+                    {active === item.id && item.id !== "contact" && (
                       <motion.span
                         layoutId="navUnderline"
                         className={`absolute left-0 -bottom-1 w-full h-[3px] rounded-full z-20 shadow-[0_1px_10px_rgba(212,168,88,0.4)] ${isScrolled ? "bg-bloomGreen" : "bg-bloomGold"
@@ -150,15 +147,9 @@ export const BloomNav = () => {
             <div
               className={`font-serif font-bold text-xl md:text-2xl tracking-tight uppercase transition-colors duration-500 ${isScrolled ? "text-bloomGreen" : "text-white"
                 }`}
-              onClick={() => {
-                if (isHomePage) {
-                  scrollToSection("hero");
-                } else {
-                  navigate("/");
-                }
-              }}
+              onClick={() => navigateTo("/", "home")}
             >
-              THE <span className="text-bloomGold">3RD</span> HARVEST
+              <span className="text-bloomGold">3RD</span> HARVEST
             </div>
 
             {/* Burger */}
@@ -185,14 +176,22 @@ export const BloomNav = () => {
               {navItems.map((item) => (
                 <li key={item.id}>
                   <button
-                    onClick={() => scrollToSection(item.id)}
-                    className={`cursor-pointer relative flex items-center w-full transition-all duration-300 font-bold uppercase tracking-widest text-base py-2 ${active === item.id
-                      ? "text-bloomGreen translate-x-3"
-                      : "text-bloomGreen/60"
-                      }`}
+                    onClick={() => handleNavItemClick(item)}
+                    className={`cursor-pointer relative flex items-center w-full transition-all duration-300 font-bold uppercase tracking-widest text-base py-2 ${
+                      item.id === "contact"
+                        ? "px-4 rounded-[10px] bg-bloomGold text-white"
+                        : active === item.id
+                          ? "text-bloomGreen translate-x-3"
+                          : "text-bloomGreen/60"
+                    }`}
                   >
-                    <div className={`w-1.5 h-1.5 rounded-full mr-4 transition-all duration-500 ${active === item.id ? "bg-bloomGold scale-150" : "bg-bloomGreen/20"
-                      }`} />
+                    {item.id !== "contact" && (
+                      <div
+                        className={`w-1.5 h-1.5 rounded-full mr-4 transition-all duration-500 ${
+                          active === item.id ? "bg-bloomGold scale-150" : "bg-bloomGreen/20"
+                        }`}
+                      />
+                    )}
                     {item.label}
                   </button>
                 </li>

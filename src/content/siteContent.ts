@@ -28,7 +28,7 @@ export const siteContent = {
     pcw: {
       title: "Proud Coffee Women",
       subtitle: "Women Leading the Change",
-      description: "The system is operated by teams of Proud Coffee Women (PCW) - women entrepreneurs who manage coffee processing and circular energy systems within their communities. The PCW label identifies coffee produced within the 3rd Harvest system, representing a new generation of regenerative coffee production.",
+      description: "The system is operated by teams of Proud Coffee Women (PCW)-women entrepreneurs who manage coffee processing and circular energy systems within their communities. The PCW label identifies coffee produced within the 3rd Harvest system, representing a new generation of regenerative coffee production.",
       cta: "Meet Proud Coffee Women"
     },
     impact: {
@@ -44,7 +44,7 @@ export const siteContent = {
       ],
       cta: "View Impact",
       framework: {
-        title: "The 3rd Harvest Impact Framework",
+        title: "3RD HARVEST Impact Framework",
         description: "The program measures impact across five core indicators:",
         indicators: [
           {
@@ -69,8 +69,8 @@ export const siteContent = {
           }
         ],
         certificate: {
-          title: "3rd Harvest Impact Certificates",
-          description: "Partners receive verified 3rd Harvest Impact Certificates to support ESG and sustainability reporting. This reporting enables companies and organizations to incorporate measurable outcomes into:",
+          title: "3RD HARVEST Impact Certificates",
+          description: "Partners receive verified 3RD HARVEST Impact Certificates to support ESG and sustainability reporting. This reporting enables companies and organizations to incorporate measurable outcomes into:",
           uses: [
             "ESG disclosures",
             "Sustainability reports",
@@ -106,22 +106,22 @@ export const siteContent = {
     }
   },
   footer: {
-    tagline: "3rd Harvest Coffee. Energy. Soil.",
-    quote: "\"Coffee can produce more than coffee.\" 3rd Harvest unlocks value, energy, and regeneration from a single crop.",
+    tagline: "3RD HARVEST Coffee. Energy. Soil.",
+    quote: "\"Coffee can produce more than coffee.\" 3RD HARVEST unlocks value, energy, and regeneration from a single crop.",
     about: {
-      title: "About 3rd Harvest",
+      title: "About 3RD HARVEST",
       subtitle: "A New Model for Coffee Communities",
-      description: "Coffee is one of the world's most valuable agricultural commodities, yet many coffee-producing communities capture only a small portion of the value created along the supply chain. At the same time, coffee production generates large volumes of organic waste and rural households often depend on firewood for cooking energy. These challenges create environmental pressures while limiting economic opportunities for smallholder communities. 3rd Harvest was created to address these challenges through an integrated approach that combines coffee value addition, renewable energy, and circular agriculture."
+      description: "Coffee is one of the world's most valuable agricultural commodities, yet many coffee-producing communities capture only a small portion of the value created along the supply chain. At the same time, coffee production generates large volumes of organic waste and rural households often depend on firewood for cooking energy. These challenges create environmental pressures while limiting economic opportunities for smallholder communities. 3RD HARVEST was created to address these challenges through an integrated approach that combines coffee value addition, renewable energy, and circular agriculture."
     },
     stewardship: {
       title: "Program Stewardship",
-      description: "The 3rd Harvest initiative was developed by SPX, an Ethiopia-based organization working at the intersection of coffee systems, technology, and sustainability. Community engagement and implementation activities are carried out in collaboration with local partners such as MCRO (Mother and Child Rehabilitation Organization). Together with industry and development partners, the initiative aims to expand circular coffee systems across producing regions."
+      description: "3RD HARVEST initiative was developed by SPX, an Ethiopia-based organization working at the intersection of coffee systems, technology, and sustainability. Community engagement and implementation activities are carried out in collaboration with local partners such as MCRO (Mother and Child Rehabilitation Organization). Together with industry and development partners, the initiative aims to expand circular coffee systems across producing regions."
     }
   },
   triveraPro: {
     title: "The TriveraPro System",
     subtitle: "Technology for Circular Coffee Systems",
-    description: "The TriveraPro Unit is the integrated technology platform powering the 3rd Harvest system. Developed by SPX, TriveraPro combines renewable energy, coffee processing, and circular resource management into a single modular platform designed for coffee-producing communities. The system enables smallholder communities to transform coffee production from a linear process into a circular ecosystem where waste becomes energy and nutrients.",
+    description: "The TriveraPro Unit is the integrated technology platform powering the 3RD HARVEST system. Developed by SPX, TriveraPro combines renewable energy, coffee processing, and circular resource management into a single modular platform designed for coffee-producing communities. The system enables smallholder communities to transform coffee production from a linear process into a circular ecosystem where waste becomes energy and nutrients.",
     concept: {
       title: "The TriveraPro Concept",
       description: "Coffee processing traditionally generates large volumes of organic waste while rural households rely on firewood for cooking energy. TriveraPro addresses both challenges simultaneously by converting coffee pulp into renewable energy and soil nutrients. Through this integrated system, a single coffee harvest generates multiple forms of value."
@@ -144,12 +144,12 @@ export const siteContent = {
         description: "The digestate produced by the biogas system is a nutrient-rich organic fertilizer. This compost is returned to coffee farms, improving soil fertility and supporting regenerative agriculture."
       }
     },
-    closing: "TriveraPro powers the circular coffee systems that make the 3rd Harvest possible."
+    closing: "TriveraPro powers the circular coffee systems that make 3RD HARVEST possible."
   },
   pcwPage: {
     title: "Proud Coffee Women (PCW)",
     subtitle: "Women Leading the Next Generation of Coffee",
-    description: "At the heart of the 3rd Harvest initiative are teams of Proud Coffee Women (PCW) - women entrepreneurs who lead circular coffee systems in their communities. Through the PCW model, women participate directly in coffee processing, renewable energy generation, and regenerative agriculture. The PCW label identifies coffee produced through these women-led systems.",
+    description: "At the heart of the 3RD HARVEST initiative are teams of Proud Coffee Women (PCW) - women entrepreneurs who lead circular coffee systems in their communities. Through the PCW model, women participate directly in coffee processing, renewable energy generation, and regenerative agriculture. The PCW label identifies coffee produced through these women-led systems.",
     role: {
       title: "A New Role for Women in Coffee Communities",
       description: "In many coffee-producing regions, women play essential roles in farming and household management but often have limited access to income-generating opportunities. The PCW model creates new pathways for participation by enabling women to manage coffee processing systems and participate in the value created from coffee production. Each PCW team operates a TriveraPro Unit, transforming coffee processing into a community-based enterprise."
@@ -176,8 +176,8 @@ export const siteContent = {
     },
     label: {
       title: "A Label for Impact",
-      description: "The Proud Coffee Women (PCW) label is used to identify coffee produced within the 3rd Harvest system. Coffee companies and partners participating in the program may receive authorization to use the PCW label when sourcing coffee produced by PCW teams or when supporting the deployment of 3rd Harvest systems. The label represents a commitment to women-led regenerative coffee production."
+      description: "The Proud Coffee Women (PCW) label is used to identify coffee produced within the 3RD HARVEST system. Coffee companies and partners participating in the program may receive authorization to use the PCW label when sourcing coffee produced by PCW teams or when supporting the deployment of 3RD HARVEST systems. The label represents a commitment to women-led regenerative coffee production."
     },
-    closing: "Proud Coffee Women represent the human face of the 3rd Harvest system."
+    closing: "Proud Coffee Women represent the human face of the 3RD HARVEST system."
   }
 };

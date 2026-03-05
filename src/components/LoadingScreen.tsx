@@ -34,8 +34,7 @@ export const LoadingScreen = () => {
               transition={{ duration: 0.8 }}
               className="font-serif font-black uppercase tracking-tighter flex gap-3 text-3xl md:text-4xl lg:text-6xl"
             >
-              <span className="word word-green word-left" data-text="THE">THE</span>
-              <span className="word word-gold word-bottom" data-text="3RD">3RD</span>
+              <span className="word word-gold word-left" data-text="3RD">3RD</span>
               <span className="word word-green word-right" data-text="HARVEST">HARVEST</span>
             </motion.h1>
 
@@ -71,9 +70,9 @@ export const LoadingScreen = () => {
               white-space: nowrap;
             }
 
-            /* SEQ 1: THE (Left to Right) & HARVEST (Right to Left) */
+            /* SEQ 1: 3RD (Left to Right) & HARVEST (Right to Left) */
             .word-left::after {
-              color: #1c3b2b;
+              color: #d4a858;
               clip-path: inset(0 100% 0 0);
               animation: revealLTR 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
               animation-delay: 0.8s;
@@ -86,14 +85,6 @@ export const LoadingScreen = () => {
               animation-delay: 0.8s;
             }
 
-            /* SEQ 2: 3RD (Bottom Up) after Seq 1 completes */
-            .word-bottom::after {
-              color: #d4a858;
-              clip-path: inset(100% 0 0 0);
-              animation: revealBT 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-              animation-delay: 2.3s;
-            }
-
             @keyframes revealLTR {
               0% { clip-path: inset(0 100% 0 0); }
               100% { clip-path: inset(0 0 0 0); }
@@ -101,11 +92,6 @@ export const LoadingScreen = () => {
 
             @keyframes revealRTL {
               0% { clip-path: inset(0 0 0 100%); }
-              100% { clip-path: inset(0 0 0 0); }
-            }
-
-            @keyframes revealBT {
-              0% { clip-path: inset(100% 0 0 0); }
               100% { clip-path: inset(0 0 0 0); }
             }
 
