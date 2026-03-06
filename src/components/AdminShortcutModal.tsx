@@ -13,6 +13,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Eye, EyeOff, FileText } from "lucide-react";
 import { adminLogin, fetchAdminEmails } from "@/lib/adminApi";
 import {
     isAdminTokenValid,
@@ -37,6 +38,7 @@ export const AdminShortcutModal = () => {
 
     // Password step
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [loginLoading, setLoginLoading] = useState(false);
     const [loginError, setLoginError] = useState<string | null>(null);
 
@@ -174,12 +176,13 @@ export const AdminShortcutModal = () => {
         setTimeout(() => setCopied(false), 2000);
     };
 
-    const handleExportTxt = () => {
-        const blob = new Blob([filtered.join("\n")], { type: "text/plain" });
+    const handleExportPdf = () => {
+        const content = filtered.join("\n");
+        const blob = new Blob([content], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "verified-emails.txt";
+        a.download = "verified-emails.pdf";
         a.click();
         URL.revokeObjectURL(url);
     };
@@ -319,17 +322,43 @@ export const AdminShortcutModal = () => {
                                     </p>
 
                                     <label style={labelStyle} htmlFor="admin-password">Password</label>
-                                    <input
-                                        id="admin-password"
-                                        type="password"
-                                        autoFocus
-                                        placeholder="••••••••"
-                                        value={password}
-                                        onChange={(e) => { setPassword(e.target.value); setLoginError(null); }}
-                                        onKeyDown={(e) => { if (e.key === "Enter" && !loginLoading) handleLogin(); }}
-                                        disabled={loginLoading}
-                                        style={inputStyle}
-                                    />
+                                    <div style={{ position: "relative" }}>
+                                        <input
+                                            id="admin-password"
+                                            type={showPassword ? "text" : "password"}
+                                            autoFocus
+                                            placeholder="••••••••"
+                                            value={password}
+                                            onChange={(e) => { setPassword(e.target.value); setLoginError(null); }}
+                                            onKeyDown={(e) => { if (e.key === "Enter" && !loginLoading) handleLogin(); }}
+                                            disabled={loginLoading}
+                                            style={{ ...inputStyle, paddingRight: "2.8rem" }}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            style={{
+                                                position: "absolute",
+                                                right: "0.8rem",
+                                                top: "50%",
+                                                transform: "translateY(-50%)",
+                                                background: "none",
+                                                border: "none",
+                                                cursor: "pointer",
+                                                color: "#888",
+                                                padding: "0.2rem",
+                                                borderRadius: "0.25rem",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                transition: "color 0.15s",
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.color = "#1c3b2b"}
+                                            onMouseLeave={(e) => e.currentTarget.style.color = "#888"}
+                                        >
+                                            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                        </button>
+                                    </div>
 
                                     {loginError && (
                                         <motion.p
@@ -403,12 +432,8 @@ export const AdminShortcutModal = () => {
                                             )}
                                         </ActionBtn>
 
-                                        <ActionBtn onClick={handleExportTxt} title="Export .txt" disabled={filtered.length === 0}>
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                                <polyline points="7 10 12 15 17 10" />
-                                                <line x1="12" y1="15" x2="12" y2="3" />
-                                            </svg>
+                                        <ActionBtn onClick={handleExportPdf} title="Export .pdf" disabled={filtered.length === 0}>
+                                            <FileText size={14} />
                                         </ActionBtn>
 
                                         <ActionBtn onClick={handleExportCsv} title="Export .csv" disabled={filtered.length === 0}>
