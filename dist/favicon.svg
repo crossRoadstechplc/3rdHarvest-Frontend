@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" fill="#1c3b2b"/>
+  <!-- T (left) - White -->
+  <text x="6" y="22" font-family="Arial Black, sans-serif" font-size="10" font-weight="900" text-anchor="middle" fill="white">T</text>
+  <!-- T (middle) - Gold -->
+  <text x="16" y="22" font-family="Arial Black, sans-serif" font-size="10" font-weight="900" text-anchor="middle" fill="#d4a858">T</text>
+  <!-- H (right) - White -->
+  <text x="26" y="22" font-family="Arial Black, sans-serif" font-size="10" font-weight="900" text-anchor="middle" fill="white">H</text>
+</svg>

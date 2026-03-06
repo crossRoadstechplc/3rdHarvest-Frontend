@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://3rdharvest.com/sitemap.xml
+Sitemap: https://3rdharvest.org/sitemap.xml

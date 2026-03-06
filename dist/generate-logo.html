@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3RD HARVEST Logo Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f8f9f5;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            background: #f8f9f5;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #1c3b2b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2a5a45;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>3RD HARVEST Logo Generator</h1>
+        <canvas id="logoCanvas" width="1200" height="630"></canvas>
+        <br>
+        <button onclick="downloadLogo()">Download logo.png</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('logoCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set background
+        ctx.fillStyle = '#f8f9f5';
+        ctx.fillRect(0, 0, 1200, 630);
+        
+        // Draw logo text
+        ctx.font = 'bold 120px "Helvetica Neue", Helvetica, Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.letterSpacing = '-2px';
+        
+        // Draw "3RD" in gold
+        ctx.fillStyle = '#d4a858';
+        ctx.fillText('3RD', 600, 300);
+        
+        // Draw "HARVEST"
+        ctx.fillStyle = '#1c3b2b';
+        ctx.fillText('HARVEST', 600, 390);
+        
+        // Optional: Draw decorative line
+        ctx.strokeStyle = '#d4a858';
+        ctx.lineWidth = 2;
+        ctx.globalAlpha = 0.3;
+        ctx.beginPath();
+        ctx.moveTo(400, 480);
+        ctx.lineTo(800, 480);
+        ctx.stroke();
+        
+        function downloadLogo() {
+            const link = document.createElement('a');
+            link.download = 'logo.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
