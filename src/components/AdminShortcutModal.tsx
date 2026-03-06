@@ -14,6 +14,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff, FileText } from "lucide-react";
+import jsPDF from "jspdf";
 import { adminLogin, fetchAdminEmails } from "@/lib/adminApi";
 import {
     isAdminTokenValid,
@@ -177,14 +178,41 @@ export const AdminShortcutModal = () => {
     };
 
     const handleExportPdf = () => {
-        const content = filtered.join("\n");
-        const blob = new Blob([content], { type: "text/plain" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "verified-emails.pdf";
-        a.click();
-        URL.revokeObjectURL(url);
+        const pdf = new jsPDF();
+        
+        // Set font
+        pdf.setFont("helvetica");
+        
+        // Add title
+        pdf.setFontSize(16);
+        pdf.text("Verified Emails", 20, 20);
+        
+        // Add count
+        pdf.setFontSize(10);
+        pdf.text(`Total: ${filtered.length} emails`, 20, 30);
+        
+        // Add emails
+        pdf.setFontSize(10);
+        pdf.setFont("courier");
+        
+        let yPosition = 45;
+        const lineHeight = 5;
+        const pageHeight = pdf.internal.pageSize.height;
+        const margin = 20;
+        
+        filtered.forEach((email, index) => {
+            // Check if we need a new page
+            if (yPosition > pageHeight - margin) {
+                pdf.addPage();
+                yPosition = 20;
+            }
+            
+            pdf.text(email, margin, yPosition);
+            yPosition += lineHeight;
+        });
+        
+        // Save the PDF
+        pdf.save("verified-emails.pdf");
     };
 
     const handleExportCsv = () => {
