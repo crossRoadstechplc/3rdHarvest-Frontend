@@ -1,88 +1,58 @@
-/* No external font imports needed for Helvetica Neue system font */
 @import "tailwindcss";
 
-/* ---------------------------------------------------
-   PROJECT BLOOM — GLOBAL THEME (FINAL VERSION)
-   Earthy, Coffee-Inspired, Ethiopian Highlands Palette
---------------------------------------------------- */
 :root {
-  /* Core fonts - Uniform Helvetica Neue across the app */
-  --font-serif: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  --font-sans: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  --font-serif: "Playfair Display", "Times New Roman", Georgia, serif;
+  --font-sans: "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
 
-  /* Base background + foreground */
-  --background: 36 33% 97%;
-  /* Bloom Beige */
-  --foreground: 150 35% 15%;
-  /* Deep Bloom Green */
+  --background: 45 26% 95%;
+  --foreground: 0 0% 12%;
 
-  /* Bloom Identity Colors (Corrected and Harmonized) */
-  --bloomGreen: #1c3b2b;
-  /* Deep forest green */
-  --bloomLightGreen: #e8f0ec;
-  /* Very soft mint green */
-  --bloomBeige: #f8f9f5;
-  /* Warm off-white beige */
-  --bloomGold: #d4a858;
-  /* Premium gold accent */
-  --bloomBrown: #6b4f2a;
-  /* Coffee brown */
-  --bloomDarkCoffee: #3b2f24;
-  /* Roasted dark coffee */
+  --bloomGreen: #234b3a;
+  --bloomLightGreen: #e9efe9;
+  --bloomBeige: #f6f4ef;
+  --bloomGold: #c7a449;
+  --bloomDarkCoffee: #1e1e1e;
+  --bloomBrown: #5f5f5f;
 
-  /* HSL equivalents for Tailwind utilities */
-  --bloom-green: 150 35% 15%;
-  --bloom-light-green: 150 30% 92%;
-  --bloom-beige: 36 33% 97%;
-  --bloom-gold: 40 52% 58%;
-  --bloom-brown: 30 47% 28%;
-  --bloom-dark-coffee: 25 23% 18%;
+  --bloom-green: 148 36% 22%;
+  --bloom-light-green: 140 19% 93%;
+  --bloom-beige: 45 26% 95%;
+  --bloom-gold: 43 53% 53%;
 
-  /* UI surfaces */
   --card: 0 0% 100%;
-  --card-foreground: 150 35% 15%;
+  --card-foreground: 0 0% 12%;
   --popover: 0 0% 100%;
-  --popover-foreground: 150 35% 15%;
+  --popover-foreground: 0 0% 12%;
 
-  /* Secondary / Muted */
-  --secondary: 42 30% 88%;
-  --secondary-foreground: 150 35% 15%;
-  --muted: 36 33% 97%;
-  --muted-foreground: 150 8% 46%;
+  --secondary: 45 18% 91%;
+  --secondary-foreground: 0 0% 12%;
+  --muted: 45 22% 94%;
+  --muted-foreground: 0 0% 37%;
 
-  /* Functional tokens */
-  --accent: 40 52% 58%;
-  --accent-foreground: 150 35% 15%;
+  --accent: 43 53% 53%;
+  --accent-foreground: 0 0% 12%;
   --destructive: 0 72% 45%;
-  --destructive-foreground: 36 33% 97%;
-  --border: 150 15% 85%;
-  --input: 150 15% 85%;
-  --ring: 150 35% 15%;
-  --radius: 1rem;
+  --destructive-foreground: 0 0% 100%;
+  --border: 35 14% 84%;
+  --input: 35 14% 84%;
+  --ring: 148 36% 22%;
+  --radius: 0.75rem;
 
-  /* Shadows */
-  --shadow-soft: 0 4px 16px hsl(var(--bloom-green) / 0.10);
-  --shadow-bloom: 0 8px 24px hsl(var(--bloom-green) / 0.15);
+  --shadow-soft: 0 8px 28px rgba(30, 30, 30, 0.06);
+  --shadow-bloom: 0 16px 32px rgba(35, 75, 58, 0.1);
 
-  /* Gradients */
-  --gradient-bloom: linear-gradient(135deg, hsl(150 30% 96%) 0%, hsl(150 30% 92%) 100%);
-  --gradient-hero: linear-gradient(135deg, hsl(150 35% 15%) 0%, hsl(30 47% 28%) 100%);
+  --gradient-bloom: linear-gradient(180deg, #f8f6f1 0%, #f6f4ef 50%, #f1eee8 100%);
 }
 
-/* ---------------------------------------------------
-   TAILwind v4 Tokens
---------------------------------------------------- */
 @theme {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
   --color-popover: hsl(var(--popover));
   --color-muted-foreground: hsl(var(--muted-foreground));
-
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
 
-  /* Bloom Identity Colors */
   --color-bloomGreen: var(--bloomGreen);
   --color-bloomLightGreen: var(--bloomLightGreen);
   --color-bloomGold: var(--bloomGold);
@@ -90,13 +60,9 @@
 
   --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
-
   --radius: var(--radius);
 }
 
-/* ---------------------------------------------------
-   Utility Classes (Tailwind v4 Custom)
---------------------------------------------------- */
 @utility bg-background {
   background-color: var(--color-background);
 }
@@ -125,9 +91,6 @@
   border-color: var(--color-input);
 }
 
-/* ---------------------------------------------------
-   Base Styles
---------------------------------------------------- */
 html {
   scroll-behavior: smooth;
 }
@@ -135,7 +98,22 @@ html {
 body {
   @apply bg-background text-foreground;
   font-family: var(--font-sans);
+  letter-spacing: 0.001em;
   -webkit-font-smoothing: antialiased;
+}
+
+button,
+a[href],
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
 }
 
 h1,
@@ -146,58 +124,147 @@ h5,
 h6 {
   font-family: var(--font-serif);
   font-weight: 700;
-  color: var(--bloomGreen);
+  color: #1e1e1e;
 }
 
 section[id]:not(#hero) {
-  @apply w-full py-20 px-4 scroll-mt-24;
+  @apply w-full px-4 py-24 scroll-mt-24;
 }
 
-/* ---------------------------------------------------
-   Card styling
---------------------------------------------------- */
 .bloom-card {
-  @apply bg-card rounded-[10px] p-8 border transition-all duration-500;
-  border-color: hsl(var(--border) / 0.6);
+  @apply rounded-2xl border bg-card p-8 transition-all duration-500;
+  border-color: hsl(var(--border) / 0.8);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(10px);
 }
 
 .bloom-card:hover {
   box-shadow: var(--shadow-bloom);
-  transform: translateY(-8px);
-  border-color: hsl(var(--bloom-gold) / 0.5);
+  transform: translateY(-4px);
+  border-color: hsl(var(--bloom-gold) / 0.55);
 }
 
-/* ---------------------------------------------------
-   Typography helpers
---------------------------------------------------- */
+.bloom-panel {
+  @apply rounded-2xl border border-black/10 bg-white;
+  box-shadow: 0 12px 28px rgba(30, 30, 30, 0.06);
+}
+
+.bloom-soft-section {
+  background: color-mix(in oklab, var(--bloomLightGreen) 24%, white);
+}
+
+.admin-app {
+  background: #f6f4ef;
+  color: #1e1e1e;
+}
+
+.admin-panel {
+  @apply rounded-2xl border bg-white;
+  border-color: hsl(var(--border) / 0.9);
+  box-shadow: 0 10px 24px rgba(30, 30, 30, 0.06);
+}
+
+.admin-panel-soft {
+  @apply rounded-xl border bg-white;
+  border-color: hsl(var(--border) / 0.8);
+  box-shadow: 0 6px 18px rgba(30, 30, 30, 0.05);
+}
+
+.admin-label {
+  @apply text-xs font-semibold uppercase tracking-[0.12em];
+  color: rgba(30, 30, 30, 0.62);
+}
+
+.admin-input,
+.admin-select,
+.admin-textarea {
+  @apply w-full rounded-[10px] border bg-white px-3 py-2 text-sm text-bloomDarkCoffee;
+  border-color: rgba(30, 30, 30, 0.18);
+}
+
+.admin-input::placeholder,
+.admin-textarea::placeholder {
+  color: rgba(30, 30, 30, 0.45);
+}
+
+.admin-input:focus-visible,
+.admin-select:focus-visible,
+.admin-textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(199, 164, 73, 0.45);
+}
+
+.admin-button-primary {
+  @apply inline-flex items-center justify-center rounded-[10px] px-4 py-2 text-sm font-semibold text-white transition-colors;
+  background: #234b3a;
+}
+
+.admin-button-primary:hover {
+  background: color-mix(in oklab, #234b3a 88%, black);
+}
+
+.admin-button-secondary {
+  @apply inline-flex items-center justify-center rounded-[10px] border px-4 py-2 text-sm font-semibold transition-colors;
+  border-color: rgba(30, 30, 30, 0.2);
+  color: rgba(30, 30, 30, 0.82);
+  background: #fff;
+}
+
+.admin-button-secondary:hover {
+  border-color: rgba(199, 164, 73, 0.65);
+  color: #234b3a;
+}
+
+.admin-button-danger {
+  @apply inline-flex items-center justify-center rounded-[10px] border px-3 py-2 text-sm font-semibold transition-colors;
+  border-color: rgba(185, 28, 28, 0.35);
+  color: rgb(153 27 27);
+  background: #fff;
+}
+
+.admin-button-danger:hover {
+  background: rgb(254 242 242);
+}
+
+.admin-empty {
+  @apply rounded-[10px] border px-4 py-3 text-sm;
+  border-color: rgba(30, 30, 30, 0.14);
+  background: rgba(255, 255, 255, 0.9);
+  color: rgba(30, 30, 30, 0.65);
+}
+
+.admin-loading {
+  @apply rounded-[10px] border px-4 py-3 text-sm;
+  border-color: rgba(199, 164, 73, 0.35);
+  background: rgba(255, 255, 255, 0.9);
+  color: #7b6429;
+}
+
+.admin-error {
+  @apply rounded-[10px] border px-4 py-3 text-sm;
+  border-color: rgba(185, 28, 28, 0.25);
+  background: rgb(254 242 242);
+  color: rgb(127 29 29);
+}
+
 .section-title {
-  @apply text-4xl md:text-6xl font-bold text-left md:text-center mb-6 leading-tight;
-  color: hsl(var(--bloom-green));
+  @apply mb-6 text-left text-4xl leading-tight md:text-center md:text-6xl;
+  color: #1e1e1e;
   letter-spacing: -0.02em;
 }
 
 .section-subtitle {
-  @apply text-lg md:text-xl text-left md:text-center text-muted-foreground max-w-4xl mx-auto mb-16 leading-relaxed;
+  @apply mx-auto mb-10 max-w-4xl text-left text-lg leading-relaxed text-muted-foreground md:text-center md:text-xl;
 }
 
-/* ---------------------------------------------------
-   Gradients
---------------------------------------------------- */
 .bg-bloom-gradient {
   background: var(--gradient-bloom);
 }
 
-/* ---------------------------------------------------
-   Animations
---------------------------------------------------- */
 @keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(30px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -208,7 +275,6 @@ section[id]:not(#hero) {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
