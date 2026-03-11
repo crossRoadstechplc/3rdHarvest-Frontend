@@ -172,6 +172,10 @@ function hasVisibleHtmlText(value: string): boolean {
     .trim().length > 0;
 }
 
+function containsHtmlTag(value: string): boolean {
+  return /<\/?[a-z][\w-]*\b[^>]*>/i.test(value);
+}
+
 function isMeaningfulBlock(block: CmsBlock): boolean {
   switch (block.type) {
     case "heading":
@@ -179,7 +183,7 @@ function isMeaningfulBlock(block: CmsBlock): boolean {
     case "paragraph": {
       const paragraphData = block.data as { text?: string; html?: string };
       const candidate = (paragraphData.text || paragraphData.html || "").trim();
-      return candidate.startsWith("<") ? hasVisibleHtmlText(candidate) : Boolean(candidate);
+      return containsHtmlTag(candidate) ? hasVisibleHtmlText(candidate) : Boolean(candidate);
     }
     case "quote": {
       const quoteData = block.data as { quote?: string; text?: string };
@@ -204,7 +208,7 @@ function serializeBlocksForApi(blocks: CmsBlock[]) {
       if (block.type === "paragraph") {
         const paragraphData = block.data as { text?: string; html?: string };
         const source = (paragraphData.text || paragraphData.html || "").trim();
-        const html = source.startsWith("<") ? source : `<p>${escapeHtml(source)}</p>`;
+        const html = containsHtmlTag(source) ? source : `<p>${escapeHtml(source)}</p>`;
 
         return {
           id: block.id,

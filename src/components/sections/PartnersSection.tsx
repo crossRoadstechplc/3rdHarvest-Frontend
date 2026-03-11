@@ -1,11 +1,12 @@
 ﻿import { motion } from "framer-motion";
-import { useContactModal } from "@/components/ContactModalProvider";
 import { LogoStripShell } from "@/components/public/LogoStripShell";
 import { PublicButton } from "@/components/public/PublicButton";
 import { SectionContainer } from "@/components/public/SectionContainer";
 
 export const PartnersSection = () => {
-  const { openContactModal } = useContactModal();
+  const scrollToContact = () => {
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section id="partners" className="bg-background py-24 md:py-28">
@@ -37,7 +38,7 @@ export const PartnersSection = () => {
           </p>
 
           <div className="mt-8">
-            <PublicButton type="button" onClick={openContactModal}>
+            <PublicButton type="button" onClick={scrollToContact}>
               Become a Partner
             </PublicButton>
           </div>

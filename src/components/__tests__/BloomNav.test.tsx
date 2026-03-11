@@ -34,15 +34,18 @@ describe("BloomNav", () => {
       "PCW",
       "Impact",
       "Deployments",
-      "Insights",
       "About",
       "Contact",
-      "Partners",
-      "Newsletter",
-      "LinkedIn",
+      "Ecosystem",
     ].forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument();
     });
+
+    fireEvent.mouseEnter(screen.getByRole("button", { name: "Ecosystem" }));
+    expect(screen.getByRole("menuitem", { name: "Partners" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Newsletter" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Insights" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "LinkedIn" })).toBeInTheDocument();
 
     expect(screen.getByTestId("active-indicator-home")).toBeInTheDocument();
   });
@@ -75,7 +78,8 @@ describe("BloomNav", () => {
     expect(section.scrollIntoView).toHaveBeenCalled();
     expect(window.location.hash).toBe("#the-idea");
 
-    fireEvent.click(screen.getByRole("button", { name: "Insights" }));
+    fireEvent.mouseEnter(screen.getByRole("button", { name: "Ecosystem" }));
+    fireEvent.click(screen.getByRole("menuitem", { name: "Insights" }));
     expect(navigateMock).toHaveBeenCalledWith("/insights");
   });
 

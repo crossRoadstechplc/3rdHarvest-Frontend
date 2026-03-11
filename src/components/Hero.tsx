@@ -1,11 +1,9 @@
 ﻿import { motion } from "framer-motion";
 import { useState } from "react";
-import { useContactModal } from "@/components/ContactModalProvider";
 import { PublicButton } from "@/components/public/PublicButton";
 import { SectionContainer } from "@/components/public/SectionContainer";
 
 export const Hero = () => {
-  const { openContactModal } = useContactModal();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const heroImages = [
@@ -18,6 +16,9 @@ export const Hero = () => {
 
   const scrollToIdea = () => {
     document.getElementById("the-idea")?.scrollIntoView({ behavior: "smooth" });
+  };
+  const scrollToContact = () => {
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -50,7 +51,7 @@ export const Hero = () => {
               <PublicButton type="button" onClick={scrollToIdea}>
                 Learn About the Initiative
               </PublicButton>
-              <PublicButton type="button" variant="secondary" onClick={openContactModal}>
+              <PublicButton type="button" variant="secondary" onClick={scrollToContact}>
                 Partner With 3rd Harvest
               </PublicButton>
             </div>

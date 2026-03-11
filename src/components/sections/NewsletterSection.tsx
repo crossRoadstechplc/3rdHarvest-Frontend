@@ -47,14 +47,18 @@ export const NewsletterSection = () => {
   };
 
   return (
-    <section id="newsletter" className="bloom-soft-section py-24 md:py-28">
+    <section id="newsletter" className="relative py-24 md:py-28">
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-1/2 h-[68%] -translate-y-1/2 bg-bloomGreen/10 border-y border-bloomGreen/20"
+      />
       <SectionContainer size="wide">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="bloom-panel mx-auto max-w-3xl px-5 py-7 text-center sm:px-6 md:px-10 md:py-8"
+          className="relative z-10 bloom-panel mx-auto max-w-3xl px-5 py-7 text-center sm:px-6 md:px-10 md:py-8"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">NEWSLETTER</p>
           <h2 className="mt-3 text-3xl leading-tight text-bloomDarkCoffee md:text-4xl">

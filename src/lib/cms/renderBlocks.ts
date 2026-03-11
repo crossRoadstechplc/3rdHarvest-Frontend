@@ -16,6 +16,10 @@ function stripHtml(value: string): string {
     .trim();
 }
 
+function containsHtmlTag(value: string): boolean {
+  return /<\/?[a-z][\w-]*\b[^>]*>/i.test(value);
+}
+
 export function fallbackBlocksFromLegacyHtml(contentHtml?: string): CmsBlock[] {
   const text = stripHtml(contentHtml ?? "");
   if (!text) {
@@ -34,7 +38,7 @@ export function renderBlocksToPreviewHtml(blocks: CmsBlock[]): string {
           return `<h${level}>${escapeHtml(block.data.text || "")}</h${level}>`;
         }
         case "paragraph":
-          if ((block.data.text || "").trim().startsWith("<")) {
+          if (containsHtmlTag((block.data.text || "").trim())) {
             return block.data.text || "";
           }
           return `<p>${escapeHtml(block.data.text || "")}</p>`;

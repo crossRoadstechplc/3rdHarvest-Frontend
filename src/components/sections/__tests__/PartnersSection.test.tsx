@@ -22,11 +22,6 @@ vi.mock("framer-motion", () => ({
   },
 }));
 
-const openContactModalMock = vi.fn();
-vi.mock("@/components/ContactModalProvider", () => ({
-  useContactModal: () => ({ openContactModal: openContactModalMock }),
-}));
-
 describe("PartnersSection", () => {
   afterEach(() => {
     cleanup();

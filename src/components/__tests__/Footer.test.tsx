@@ -9,7 +9,7 @@ describe("Footer", () => {
     cleanup();
   });
 
-  it("renders brand statement, quick links, and legal links", () => {
+  it("renders brand statement, quick links, and footer policy links", () => {
     render(
       <MemoryRouter>
         <Footer />
@@ -37,7 +37,14 @@ describe("Footer", () => {
       expect(screen.getByText(label)).toBeInTheDocument();
     });
 
-    ["Privacy Policy", "Terms of Use", "Cookie Policy"].forEach((label) => {
+    [
+      "Terms and Conditions",
+      "Privacy Notices",
+      "Cookie Settings",
+      "Sitemap",
+      "Accessibility",
+      "Your Privacy Choices",
+    ].forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument();
     });
 

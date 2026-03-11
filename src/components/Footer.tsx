@@ -40,16 +40,19 @@ export const Footer = () => {
     { label: "Contact", path: "/#contact" },
   ];
 
-  const legalLinks = [
-    { label: "Privacy Policy", path: "#" },
-    { label: "Terms of Use", path: "#" },
-    { label: "Cookie Policy", path: "#" },
+  const policyLinks = [
+    { label: "Terms and Conditions", path: "/terms-and-conditions" },
+    { label: "Privacy Notices", path: "/privacy-notices" },
+    { label: "Cookie Settings", path: "/cookie-settings" },
+    { label: "Sitemap", path: "/sitemap" },
+    { label: "Accessibility", path: "/accessibility" },
+    { label: "Your Privacy Choices", path: "/your-privacy-choices" },
   ];
 
   return (
     <footer className="border-t border-black/10 bg-white py-14 md:py-16">
       <div className="mx-auto w-full max-w-[1720px] px-6 md:px-10">
-        <div className="grid gap-8 md:gap-10 lg:grid-cols-[1.15fr_1fr_0.7fr]">
+        <div className="grid gap-8 md:gap-10 lg:grid-cols-[1.15fr_1fr]">
           <div>
             <p className="font-serif text-3xl font-bold uppercase tracking-tight text-bloomDarkCoffee">
               <span className="text-bloomGold">3RD</span> HARVEST
@@ -75,22 +78,27 @@ export const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-bloomGold">Legal</p>
-            <ul className="mt-4 space-y-3">
-              {legalLinks.map((link) => (
-                <li key={link.label}>
-                  <a href={link.path} className="text-sm leading-relaxed text-bloomDarkCoffee/75 hover:text-bloomGreen">
+        </div>
+
+        <div className="mt-8 border-t border-black/10 pt-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <p className="text-sm text-bloomDarkCoffee/60">© 2026 3rd Harvest Initiative. All Rights Reserved.</p>
+
+            <ul className="flex flex-wrap items-center gap-y-2 text-sm text-bloomDarkCoffee/70 md:justify-end">
+              {policyLinks.map((link, index) => (
+                <li key={link.label} className={index < policyLinks.length - 1 ? "mr-3 pr-3 border-r border-black/20" : ""}>
+                  <a
+                    href={link.path}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-left hover:text-bloomGreen"
+                  >
                     {link.label}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
-        </div>
-
-        <div className="mt-8 border-t border-black/10 pt-6">
-          <p className="text-sm text-bloomDarkCoffee/60">© 2026 3rd Harvest Initiative. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

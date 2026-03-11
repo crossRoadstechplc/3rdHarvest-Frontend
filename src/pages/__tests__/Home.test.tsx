@@ -21,12 +21,6 @@ vi.mock("@/components/LoadingScreen", () => ({
   LoadingScreen: () => null,
 }));
 
-vi.mock("@/components/ContactModalProvider", () => ({
-  useContactModal: () => ({
-    openContactModal: vi.fn(),
-  }),
-}));
-
 describe("Home page redesign smoke", () => {
   beforeEach(() => {
     vi.clearAllMocks();

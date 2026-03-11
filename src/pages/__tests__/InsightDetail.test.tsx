@@ -147,4 +147,36 @@ describe("InsightDetail page", () => {
       )
     ).toBeInTheDocument();
   });
+
+  it("cleans legacy escaped formatting tags from content_html", async () => {
+    vi.mocked(getPostBySlug).mockResolvedValue({
+      title: "Legacy Escaped",
+      content_html:
+        "Intro text&lt;strong&gt;bold&lt;/strong&gt; and &lt;em&gt;focus&lt;/em&gt;&lt;p&gt;&lt;/p&gt;<p>Next paragraph</p>",
+    });
+
+    renderDetail();
+
+    expect(await screen.findByText("Legacy Escaped")).toBeInTheDocument();
+    const body = screen.getByTestId("insight-body");
+    expect(screen.getByText("bold")).toBeInTheDocument();
+    expect(screen.getByText("focus")).toBeInTheDocument();
+    expect(body.querySelector("strong")?.textContent).toBe("bold");
+    expect(body.querySelector("em")?.textContent).toBe("focus");
+    expect(screen.queryByText(/<p><\/p>/i)).not.toBeInTheDocument();
+  });
+
+  it("renders legacy escaped b/i tags as formatted text", async () => {
+    vi.mocked(getPostBySlug).mockResolvedValue({
+      title: "Legacy BI",
+      content_html: "Text &lt;b&gt;bold-b&lt;/b&gt; and &lt;i&gt;italic-i&lt;/i&gt;",
+    });
+
+    renderDetail();
+
+    expect(await screen.findByText("Legacy BI")).toBeInTheDocument();
+    const body = screen.getByTestId("insight-body");
+    expect(body.querySelector("b")?.textContent).toBe("bold-b");
+    expect(body.querySelector("i")?.textContent).toBe("italic-i");
+  });
 });

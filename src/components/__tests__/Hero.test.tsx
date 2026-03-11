@@ -3,12 +3,6 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Hero } from "@/components/Hero";
 
-const openContactModalMock = vi.fn();
-
-vi.mock("@/components/ContactModalProvider", () => ({
-  useContactModal: () => ({ openContactModal: openContactModalMock }),
-}));
-
 describe("Hero", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -54,6 +48,18 @@ describe("Hero", () => {
     render(<Hero />);
 
     fireEvent.click(screen.getByRole("button", { name: "Learn About the Initiative" }));
+    expect(section.scrollIntoView).toHaveBeenCalled();
+  });
+
+  it("partner button scrolls to contact section", () => {
+    const section = document.createElement("section");
+    section.id = "contact";
+    section.scrollIntoView = vi.fn();
+    document.body.appendChild(section);
+
+    render(<Hero />);
+    fireEvent.click(screen.getByRole("button", { name: "Partner With 3rd Harvest" }));
+
     expect(section.scrollIntoView).toHaveBeenCalled();
   });
 });

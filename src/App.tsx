@@ -8,9 +8,14 @@ import Home from "@/pages/Home";
 import Insights from "@/pages/Insights";
 import InsightDetail from "@/pages/InsightDetail";
 import AdminEntry from "@/pages/admin/AdminEntry";
+import TermsAndConditions from "@/pages/legal/TermsAndConditions";
+import PrivacyNotices from "@/pages/legal/PrivacyNotices";
+import CookieSettings from "@/pages/legal/CookieSettings";
+import SiteMapPage from "@/pages/legal/SiteMapPage";
+import AccessibilityPage from "@/pages/legal/AccessibilityPage";
+import YourPrivacyChoicesPage from "@/pages/legal/YourPrivacyChoicesPage";
 import { AccessGate } from "./components/AccessGate";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { ContactModalProvider } from "./components/ContactModalProvider";
 
 const LOADING_DURATION_MS = 4700;
 
@@ -31,44 +36,90 @@ const App = () => {
         <Sonner />
 
         <BrowserRouter>
-          <ContactModalProvider>
-            <ScrollToTop />
-            <Routes>
-              <Route path="/admin/*" element={<AdminEntry />} />
-              <Route
-                path="/"
-                element={
-                  <AccessGate enabled={loadingDone}>
-                    <Home />
-                  </AccessGate>
-                }
-              />
-              <Route
-                path="/insights"
-                element={
-                  <AccessGate enabled={loadingDone}>
-                    <Insights />
-                  </AccessGate>
-                }
-              />
-              <Route
-                path="/insights/:slug"
-                element={
-                  <AccessGate enabled={loadingDone}>
-                    <InsightDetail />
-                  </AccessGate>
-                }
-              />
-              <Route
-                path="*"
-                element={
-                  <AccessGate enabled={loadingDone}>
-                    <NotFound />
-                  </AccessGate>
-                }
-              />
-            </Routes>
-          </ContactModalProvider>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/admin/*" element={<AdminEntry />} />
+            <Route
+              path="/terms-and-conditions"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <TermsAndConditions />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="/privacy-notices"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <PrivacyNotices />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="/cookie-settings"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <CookieSettings />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="/sitemap"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <SiteMapPage />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="/accessibility"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <AccessibilityPage />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="/your-privacy-choices"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <YourPrivacyChoicesPage />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <Home />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="/insights"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <Insights />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="/insights/:slug"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <InsightDetail />
+                </AccessGate>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <AccessGate enabled={loadingDone}>
+                  <NotFound />
+                </AccessGate>
+              }
+            />
+          </Routes>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

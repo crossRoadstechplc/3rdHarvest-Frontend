@@ -70,6 +70,28 @@ function formatDate(value?: string): string {
   }).format(date);
 }
 
+function normalizeRenderedContentHtml(value: string): string {
+  if (!value) return value;
+
+  let normalized = value;
+
+  // Cleanup legacy escaped empty paragraph artifacts from earlier editor serialization.
+  normalized = normalized.replace(/&lt;p&gt;\s*(?:&nbsp;)?\s*&lt;\/p&gt;/gi, "");
+
+  // Decode only common formatting tags that should render as HTML in article content.
+  const simpleTags = ["p", "strong", "em", "b", "i", "u", "s", "blockquote", "ul", "ol", "li", "h2", "h3", "h4", "br", "hr"];
+  simpleTags.forEach((tag) => {
+    const openPattern = new RegExp(`&lt;${tag}&gt;`, "gi");
+    const closePattern = new RegExp(`&lt;\\/${tag}&gt;`, "gi");
+    normalized = normalized.replace(openPattern, `<${tag}>`).replace(closePattern, `</${tag}>`);
+  });
+
+  normalized = normalized.replace(/&lt;br\s*\/?&gt;/gi, "<br/>");
+  normalized = normalized.replace(/&lt;hr\s*\/?&gt;/gi, "<hr/>");
+
+  return normalized;
+}
+
 const InsightDetail = () => {
   const { slug } = useParams();
   const [post, setPost] = useState<InsightPost | null>(null);
@@ -153,6 +175,10 @@ const InsightDetail = () => {
 
   const hasContentHtml = Boolean((post?.content_html || "").trim());
   const hasBlockPayload = Array.isArray(post?.content_blocks_json) && post.content_blocks_json.length > 0;
+  const renderedContentHtml = useMemo(
+    () => normalizeRenderedContentHtml(post?.content_html || ""),
+    [post?.content_html]
+  );
 
   return (
     <div className="min-h-screen">
@@ -228,6 +254,10 @@ const InsightDetail = () => {
                 [&_h2]:text-2xl [&_h2]:md:text-3xl [&_h2]:font-bold [&_h2]:text-bloomGreen [&_h2]:mt-10 [&_h2]:mb-4
                 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-bloomGreen [&_h3]:mt-8 [&_h3]:mb-3
                 [&_p]:mb-5 [&_p]:text-bloomGreen/90 [&_p]:leading-relaxed
+                [&_strong]:font-semibold [&_strong]:text-bloomDarkCoffee
+                [&_em]:italic
+                [&_b]:font-semibold [&_b]:text-bloomDarkCoffee
+                [&_i]:italic
                 [&_ul]:mb-5 [&_ul]:pl-6 [&_ul]:list-disc
                 [&_ol]:mb-5 [&_ol]:pl-6 [&_ol]:list-decimal
                 [&_li]:mb-2
@@ -242,7 +272,7 @@ const InsightDetail = () => {
                 [&_.link-card]:my-5 [&_.link-card]:rounded-[10px] [&_.link-card]:border [&_.link-card]:border-bloomGreen/15 [&_.link-card]:bg-white/80 [&_.link-card]:p-4"
               >
                 {hasContentHtml ? (
-                  <div dangerouslySetInnerHTML={{ __html: post.content_html }} />
+                  <div dangerouslySetInnerHTML={{ __html: renderedContentHtml }} />
                 ) : hasBlockPayload ? (
                   <div className="admin-empty">
                     This insight is being refreshed for the latest content format. Please check back soon.

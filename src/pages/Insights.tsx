@@ -25,9 +25,9 @@ type InsightPost = {
   featured_image_url?: string;
   featured_image_alt?: string;
   published_at?: string;
-  category?: string;
-  author?: { name?: string } | string;
-  tags?: Array<{ name?: string; slug?: string } | string>;
+  category?: unknown;
+  author?: unknown;
+  tags?: unknown[];
 };
 
 function extractPosts(payload: unknown): InsightPost[] {
@@ -87,6 +87,21 @@ function formatPublishedDate(value?: string): string {
     month: "short",
     day: "numeric",
   }).format(date);
+}
+
+function getDisplayText(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (value && typeof value === "object") {
+    const maybeRecord = value as Record<string, unknown>;
+    const candidates = [maybeRecord.name, maybeRecord.title, maybeRecord.slug, maybeRecord.label];
+    for (const candidate of candidates) {
+      if (typeof candidate === "string" && candidate.trim()) {
+        return candidate;
+      }
+    }
+  }
+  return "";
 }
 
 const Insights = () => {
@@ -189,15 +204,7 @@ const Insights = () => {
             <h1 className="mt-3 text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">Publications and Updates</h1>
 
             <div className="mt-6 space-y-4 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
-              <p>
-                3rd Harvest publishes insights on coffee systems, circular agriculture, renewable energy, and community resilience.
-              </p>
-              <ul className="space-y-1">
-                <li>• field reports</li>
-                <li>• concept notes</li>
-                <li>• program updates</li>
-                <li>• research insights</li>
-              </ul>
+              
             </div>
           </motion.div>
 
@@ -282,11 +289,10 @@ const Insights = () => {
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" data-testid="insights-grid">
                   {posts.map((post, index) => {
                     const cardSlug = post.slug ?? String(post.id ?? "");
-                    const authorName = typeof post.author === "string" ? post.author : post.author?.name;
+                    const authorName = getDisplayText(post.author);
+                    const categoryName = getDisplayText(post.category);
                     const formattedTags = Array.isArray(post.tags)
-                      ? post.tags
-                          .map((tag) => (typeof tag === "string" ? tag : tag?.name ?? tag?.slug ?? ""))
-                          .filter(Boolean)
+                      ? post.tags.map((tag) => getDisplayText(tag)).filter(Boolean)
                       : [];
 
                     return (
@@ -326,9 +332,9 @@ const Insights = () => {
                               {post.excerpt || "No excerpt available for this insight yet."}
                             </p>
 
-                            {post.category || authorName ? (
+                            {categoryName || authorName ? (
                               <p className="text-xs uppercase tracking-[0.08em] text-bloomDarkCoffee/55">
-                                {[post.category, authorName].filter(Boolean).join(" | ")}
+                                {[categoryName, authorName].filter(Boolean).join(" | ")}
                               </p>
                             ) : null}
 

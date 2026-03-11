@@ -26,6 +26,15 @@ describe("renderBlocks helpers", () => {
     expect(html).toBe("<p>Already formatted</p>");
   });
 
+  it("preserves mixed paragraph text containing inline html tags", () => {
+    const mixed = "Body copy with trailing empty paragraph.<p></p>";
+    const html = renderBlocksToPreviewHtml([
+      createBlock("paragraph", { order: 0, data: { text: mixed } }),
+    ]);
+
+    expect(html).toBe(mixed);
+  });
+
   it("builds fallback paragraph block from legacy HTML", () => {
     const blocks = fallbackBlocksFromLegacyHtml("<p>Legacy <strong>body</strong> copy</p>");
     expect(blocks).toHaveLength(1);

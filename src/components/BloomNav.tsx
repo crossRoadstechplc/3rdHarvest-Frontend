@@ -9,7 +9,7 @@ const navItems = [
   { id: "pcw", label: "PCW", path: "/#pcw" },
   { id: "impact", label: "Impact", path: "/#impact" },
   { id: "deployments", label: "Deployments", path: "/#deployments" },
-  { id: "about", label: "About", path: "/#about" },
+  // { id: "about", label: "About", path: "/#about" },
   { id: "contact", label: "Contact", path: "/#contact" },
 ];
 
@@ -39,6 +39,7 @@ export const BloomNav = () => {
   const [isDesktop, setIsDesktop] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [active, setActive] = useState("home");
+  const [isMegaOpen, setIsMegaOpen] = useState(false);
 
   useEffect(() => {
     const updateScreen = () => setIsDesktop(window.innerWidth >= 1024);
@@ -199,29 +200,60 @@ export const BloomNav = () => {
               ))}
             </ul>
 
-            <ul className="flex items-center justify-end gap-4 xl:gap-5" aria-label="Secondary navigation">
-              {secondaryItems.map((item) => (
-                <li key={item.id}>
-                  {"href" in item ? (
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${baseNavLinkClass} text-bloomDarkCoffee/65 hover:text-bloomGreen`}
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <button
-                      onClick={() => navigateTo(item.path, item.id)}
-                      className={`${baseNavLinkClass} text-bloomDarkCoffee/65 hover:text-bloomGreen`}
-                    >
-                      {item.label}
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <div
+              className="relative"
+              onMouseEnter={() => setIsMegaOpen(true)}
+              onMouseLeave={() => setIsMegaOpen(false)}
+            >
+              <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={isMegaOpen}
+                className={`relative pb-1 ${baseNavLinkClass} text-bloomDarkCoffee/65 hover:text-bloomGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bloomGold/70`}
+                onFocus={() => setIsMegaOpen(true)}
+              >
+                Engage
+              </button>
+
+              <div
+                role="menu"
+                aria-label="Secondary navigation"
+                className={`absolute right-0 top-full mt-3 min-w-[230px] rounded-xl border border-black/10 bg-white p-2 shadow-[0_14px_30px_rgba(30,30,30,0.12)] transition-all duration-200 ${
+                  isMegaOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
+                }`}
+              >
+                <ul className="flex flex-col gap-1.5">
+                  {secondaryItems.map((item) => (
+                    <li key={item.id}>
+                      {"href" in item ? (
+                        <a
+                          role="menuitem"
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block rounded-lg px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.08em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
+                          onBlur={(event) => {
+                            if (!event.currentTarget.parentElement?.parentElement?.contains(event.relatedTarget as Node)) {
+                              setIsMegaOpen(false);
+                            }
+                          }}
+                        >
+                          {item.label}
+                        </a>
+                      ) : (
+                        <button
+                          role="menuitem"
+                          onClick={() => navigateTo(item.path, item.id)}
+                          className="w-full rounded-lg px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.08em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
+                        >
+                          {item.label}
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </nav>
       ) : (

@@ -3,14 +3,16 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { AdminPostsPage } from "@/pages/admin/AdminPostsPage";
-import { deleteAdminPost, getAdminPosts } from "@/lib/api/admin";
+import { deleteAdminPost, getAdminPost, getAdminPosts, updateAdminPost } from "@/lib/api/admin";
 
 vi.mock("@/lib/api/admin", async () => {
   const original = await vi.importActual("@/lib/api/admin");
   return {
     ...original,
     getAdminPosts: vi.fn(),
+    getAdminPost: vi.fn(),
     deleteAdminPost: vi.fn(),
+    updateAdminPost: vi.fn(),
   };
 });
 
@@ -28,6 +30,27 @@ describe("AdminPostsPage", () => {
     vi.mocked(getAdminPosts).mockResolvedValue([
       { id: 1, title: "Post One", slug: "post-one", status: "draft", content_type: "article" },
     ]);
+    vi.mocked(getAdminPost).mockResolvedValue({
+      post: {
+        id: 1,
+        title: "Post One",
+        slug: "post-one",
+        content_type: "insight",
+        excerpt: "Excerpt",
+        content_blocks_json: [
+          {
+            id: "b1",
+            type: "paragraph",
+            order: 1,
+            data: { html: "<p>Body</p>" },
+          },
+        ],
+        status: "draft",
+        category_id: null,
+        author_id: null,
+        tag_ids: [],
+      },
+    });
   });
 
   afterEach(() => {
@@ -60,13 +83,35 @@ describe("AdminPostsPage", () => {
     await screen.findByText("Post One");
 
     fireEvent.change(screen.getByLabelText("Filter posts by status"), { target: { value: "published" } });
-    fireEvent.change(screen.getByLabelText("Filter posts by content type"), { target: { value: "field-report" } });
+    fireEvent.change(screen.getByLabelText("Filter posts by content type"), { target: { value: "insight" } });
     fireEvent.change(screen.getByLabelText("Search posts"), { target: { value: "coffee" } });
 
     await waitFor(() => {
       expect(getAdminPosts).toHaveBeenLastCalledWith(
         "token",
-        expect.objectContaining({ status: "published", content_type: "field-report", search: "coffee" })
+        expect.objectContaining({ status: "published", content_type: "insight", search: "coffee" })
+      );
+    });
+  });
+
+  it("updates post status from the card selector", async () => {
+    vi.mocked(updateAdminPost).mockResolvedValue({});
+    renderPage();
+    await screen.findByText("Post One");
+
+    fireEvent.change(screen.getByLabelText("Set status for Post One"), { target: { value: "published" } });
+
+    await waitFor(() => {
+      expect(updateAdminPost).toHaveBeenCalledWith(
+        "token",
+        1,
+        expect.objectContaining({
+          title: "Post One",
+          slug: "post-one",
+          content_type: "insight",
+          status: "published",
+          content_blocks_json: expect.any(Array),
+        })
       );
     });
   });
@@ -93,4 +138,3 @@ describe("AdminPostsPage", () => {
     expect(await screen.findByText("Unable to load posts.")).toBeInTheDocument();
   });
 });
-

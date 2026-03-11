@@ -32,7 +32,10 @@ describe("ContactSection", () => {
 
     expect(container.querySelector("#contact")).toBeInTheDocument();
     expect(screen.getByText("CONTACT")).toBeInTheDocument();
-    expect(screen.getByText("info@3rdharvest.org")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Email: info@3rdharvest.org" })).toHaveAttribute(
+      "href",
+      "mailto:info@3rdharvest.org"
+    );
 
     expect(screen.getByLabelText("Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Organization")).toBeInTheDocument();
@@ -41,12 +44,11 @@ describe("ContactSection", () => {
     expect(screen.getByRole("button", { name: "Send" })).toBeInTheDocument();
   });
 
-  it("renders exact social media labels", () => {
+  it("renders LinkedIn as an icon link", () => {
     render(<ContactSection />);
 
-    expect(screen.getByText("LinkedIn")).toBeInTheDocument();
-    expect(screen.getByText("Twitter / X")).toBeInTheDocument();
-    expect(screen.getByText("YouTube")).toBeInTheDocument();
-    expect(screen.getByText("Instagram")).toBeInTheDocument();
+    const linkedInLink = screen.getByRole("link", { name: "LinkedIn" });
+    expect(linkedInLink).toBeInTheDocument();
+    expect(linkedInLink).toHaveAttribute("href", "https://linkedin.com");
   });
 });

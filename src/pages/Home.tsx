@@ -26,7 +26,7 @@ const Home = () => {
       <ImpactSection />
       <DeploymentsSection />
       <PartnersSection />
-      <InsightsPreviewSection />
+      {/* <InsightsPreviewSection /> */}
       <NewsletterSection />
       <AboutSection />
       <ContactSection />

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { deleteAdminPost, getAdminPosts } from "@/lib/api/admin";
+import { deleteAdminPost, getAdminPost, getAdminPosts, updateAdminPost } from "@/lib/api/admin";
 import { extractList, isUnauthorizedError } from "@/pages/admin/adminPageUtils";
 
 type AdminPostsPageProps = {
@@ -16,6 +16,105 @@ type PostRecord = {
   status?: string;
 };
 
+type PostDetailRecord = PostRecord & {
+  excerpt?: string;
+  content_html?: string;
+  content_blocks_json?: unknown;
+  document_url?: string | null;
+  external_url?: string | null;
+  featured_image_url?: string | null;
+  featured_image_alt?: string;
+  category_id?: string | number | null;
+  author_id?: string | number | null;
+  seo_title?: string;
+  seo_description?: string;
+  og_image_url?: string | null;
+  is_featured?: boolean;
+  allow_comments?: boolean;
+  published_at?: string | null;
+  tag_ids?: Array<string | number>;
+  tags?: Array<{ id?: string | number }>;
+};
+
+const ALLOWED_CONTENT_TYPES = ["insight", "publication", "update"] as const;
+
+function normalizeNullableUrl(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return trimmed || null;
+}
+
+function normalizeId(value: unknown): string | number | null {
+  if (value === null || value === undefined || value === "") return null;
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+    const asNumber = Number(trimmed);
+    return Number.isNaN(asNumber) ? trimmed : asNumber;
+  }
+  return null;
+}
+
+function buildStatusUpdatePayload(post: PostDetailRecord, nextStatus: string) {
+  const normalizedType = (post.content_type || "").trim().toLowerCase();
+  const safeContentType = ALLOWED_CONTENT_TYPES.includes(normalizedType as (typeof ALLOWED_CONTENT_TYPES)[number])
+    ? normalizedType
+    : "insight";
+
+  const tagIdsRaw =
+    Array.isArray(post.tag_ids) && post.tag_ids.length > 0
+      ? post.tag_ids
+      : Array.isArray(post.tags)
+        ? post.tags.map((tag) => tag.id).filter((id): id is string | number => id !== undefined && id !== null)
+        : [];
+
+  const tag_ids = tagIdsRaw
+    .map((value) => {
+      if (typeof value === "number") return value;
+      if (typeof value === "string") {
+        const asNumber = Number(value);
+        return Number.isNaN(asNumber) ? null : asNumber;
+      }
+      return null;
+    })
+    .filter((value): value is number => typeof value === "number" && Number.isInteger(value) && value > 0);
+
+  const content_blocks_json = Array.isArray(post.content_blocks_json)
+    ? post.content_blocks_json
+    : [
+        {
+          id: "status-fallback-block",
+          type: "paragraph",
+          order: 1,
+          data: { html: `<p>${post.excerpt?.trim() || post.title?.trim() || "Post content"}</p>` },
+        },
+      ];
+
+  return {
+    title: post.title?.trim() || "Untitled",
+    slug: post.slug?.trim() || `post-${post.id}`,
+    content_type: safeContentType,
+    excerpt: post.excerpt?.trim() || "",
+    content_html: post.content_html || "",
+    content_blocks_json,
+    document_url: normalizeNullableUrl(post.document_url),
+    external_url: normalizeNullableUrl(post.external_url),
+    featured_image_url: normalizeNullableUrl(post.featured_image_url),
+    featured_image_alt: post.featured_image_alt?.trim() || "",
+    status: nextStatus,
+    category_id: normalizeId(post.category_id),
+    author_id: normalizeId(post.author_id),
+    seo_title: post.seo_title?.trim() || "",
+    seo_description: post.seo_description?.trim() || "",
+    og_image_url: normalizeNullableUrl(post.og_image_url),
+    is_featured: Boolean(post.is_featured),
+    allow_comments: Boolean(post.allow_comments),
+    published_at: post.published_at || null,
+    tag_ids,
+  };
+}
+
 export const AdminPostsPage = ({ token, onUnauthorized }: AdminPostsPageProps) => {
   const [items, setItems] = useState<PostRecord[]>([]);
   const [search, setSearch] = useState("");
@@ -23,6 +122,8 @@ export const AdminPostsPage = ({ token, onUnauthorized }: AdminPostsPageProps) =
   const [typeFilter, setTypeFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [statusUpdatingById, setStatusUpdatingById] = useState<Record<string, boolean>>({});
+  const [statusErrorById, setStatusErrorById] = useState<Record<string, string | null>>({});
 
   const loadItems = async () => {
     if (!token) {
@@ -79,6 +180,43 @@ export const AdminPostsPage = ({ token, onUnauthorized }: AdminPostsPageProps) =
     }
   };
 
+  const handleStatusChange = async (id: string | number, nextStatus: string) => {
+    const key = String(id);
+    setStatusErrorById((prev) => ({ ...prev, [key]: null }));
+    setStatusUpdatingById((prev) => ({ ...prev, [key]: true }));
+
+    const previousItems = items;
+    setItems((prev) =>
+      prev.map((item) => (String(item.id) === key ? { ...item, status: nextStatus } : item))
+    );
+
+    try {
+      const detailResponse = await getAdminPost(token, id);
+      const postDetail = (detailResponse &&
+      typeof detailResponse === "object" &&
+      "post" in (detailResponse as Record<string, unknown>)
+        ? (detailResponse as { post?: PostDetailRecord }).post
+        : (detailResponse as PostDetailRecord | null)) as PostDetailRecord | null;
+
+      if (!postDetail) {
+        throw new Error("Unable to load post details.");
+      }
+
+      const payload = buildStatusUpdatePayload(postDetail, nextStatus);
+      await updateAdminPost(token, id, payload);
+      await loadItems();
+    } catch (error) {
+      setItems(previousItems);
+      if (isUnauthorizedError(error)) {
+        onUnauthorized();
+        return;
+      }
+      setStatusErrorById((prev) => ({ ...prev, [key]: "Unable to update status." }));
+    } finally {
+      setStatusUpdatingById((prev) => ({ ...prev, [key]: false }));
+    }
+  };
+
   return (
     <section className="space-y-5">
       <div className="admin-panel p-4 md:p-6">
@@ -110,11 +248,9 @@ export const AdminPostsPage = ({ token, onUnauthorized }: AdminPostsPageProps) =
               className="admin-select"
             >
               <option value="all">All content types</option>
-              <option value="article">Article</option>
-              <option value="field-report">Field Report</option>
-              <option value="concept-note">Concept Note</option>
-              <option value="program-update">Program Update</option>
-              <option value="research-insight">Research Insight</option>
+              <option value="insight">Insight</option>
+              <option value="publication">Publication</option>
+              <option value="update">Update</option>
             </select>
           </div>
 
@@ -139,8 +275,24 @@ export const AdminPostsPage = ({ token, onUnauthorized }: AdminPostsPageProps) =
                     <p className="font-semibold text-bloomDarkCoffee">{item.title || "Untitled"}</p>
                     <p className="text-xs text-bloomDarkCoffee/60">/{item.slug}</p>
                     <p className="mt-1 text-xs text-bloomDarkCoffee/60">{item.status || "draft"} | {item.content_type || "article"}</p>
+                    {statusErrorById[String(item.id)] ? (
+                      <p className="mt-1 text-xs text-red-700">{statusErrorById[String(item.id)]}</p>
+                    ) : null}
                   </div>
                   <div className="flex gap-2">
+                    <select
+                      id={`status-${item.id}`}
+                      aria-label={`Set status for ${item.title || "post"}`}
+                      value={item.status || "draft"}
+                      disabled={Boolean(statusUpdatingById[String(item.id)])}
+                      onChange={(event) => handleStatusChange(item.id, event.target.value)}
+                      className="admin-button-secondary w-[96px] px-2.5 py-1.5 text-xs"
+                    >
+                      <option value="draft">Draft</option>
+                      <option value="published">Published</option>
+                      <option value="archived">Archived</option>
+                      <option value="scheduled">Scheduled</option>
+                    </select>
                     <Link to={`/admin/posts/${item.id}/edit`} className="admin-button-secondary px-2.5 py-1.5 text-xs">
                       Edit
                     </Link>
@@ -157,4 +309,3 @@ export const AdminPostsPage = ({ token, onUnauthorized }: AdminPostsPageProps) =
     </section>
   );
 };
-
