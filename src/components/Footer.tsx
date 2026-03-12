@@ -1,4 +1,6 @@
-﻿import { useLocation, useNavigate } from "react-router-dom";
+﻿import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 export const Footer = () => {
   const navigate = useNavigate();
@@ -60,6 +62,36 @@ export const Footer = () => {
             <p className="mt-5 max-w-md text-base leading-relaxed text-bloomDarkCoffee/75">
               Unlocking multiple harvests from a single coffee crop through circular systems connecting coffee, energy, and soil.
             </p>
+
+            <ul id="footer-social" className="mt-5 flex items-center gap-2" aria-label="Social links">
+              {SOCIAL_LINKS.map((link) => {
+                const icon =
+                  link.id === "linkedin" ? (
+                    <Linkedin size={17} aria-hidden="true" />
+                  ) : link.id === "x" ? (
+                    <span className="text-[14px] font-black leading-none">X</span>
+                  ) : link.id === "instagram" ? (
+                    <Instagram size={17} aria-hidden="true" />
+                  ) : (
+                    <Facebook size={17} aria-hidden="true" />
+                  );
+
+                return (
+                  <li key={link.id}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={link.label}
+                      title={link.label}
+                      className="inline-flex items-center rounded-[10px] border border-bloomGreen/20 bg-white p-2.5 text-bloomDarkCoffee/80 hover:border-bloomGreen/50 hover:text-bloomGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bloomGold/60"
+                    >
+                      {icon}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           <div>
@@ -77,7 +109,6 @@ export const Footer = () => {
               ))}
             </ul>
           </div>
-
         </div>
 
         <div className="mt-8 border-t border-black/10 pt-6">

@@ -1,28 +1,35 @@
-﻿import { motion } from "framer-motion";
-import { BakedTextImageCard } from "@/components/public/BakedTextImageCard";
+import { motion } from "framer-motion";
 import { SectionContainer } from "@/components/public/SectionContainer";
+import { Coffee, Cog, Leaf, Sun, Zap } from "lucide-react";
 
-const breakthroughCards = [
-  {
-    title: "Increased income from coffee processing",
-    imageUrl: "/system1.png",
-    imageAlt: "Increased income from coffee processing",
-  },
-  {
-    title: "Renewable household energy",
-    imageUrl: "/system2.png",
-    imageAlt: "Renewable household energy",
-  },
-  {
-    title: "Clean cooking fuel",
-    imageUrl: "/bloom-unit2.png",
-    imageAlt: "Clean cooking fuel",
-  },
-  {
-    title: "Regenerated soil nutrients",
-    imageUrl: "/system4.png",
-    imageAlt: "Regenerated soil nutrients",
-  },
+
+// const breakthroughCards = [
+//   {
+//     title: "Renewable household energy",
+//     imageUrl: "/bloom-unit1.png",
+//     imageAlt: "Increased income from coffee processing",
+//   },
+//   {
+//     title: "Solar",
+//     imageUrl: "/bloom-unit3.webp",
+//     imageAlt: "Renewable household energy",
+//   },
+//   {
+//     title: "clean cooking fuel",
+//     imageUrl: "/bloom-unit2.png",
+//     imageAlt: "Clean cooking fuel from coffee pulp biogas",
+//   },
+//   {
+//     title: "regenerated soil nutrients",
+//     imageUrl: "/system4.png",
+//     imageAlt: "Regenerated soil nutrients",
+//   },
+// ];
+const systemSteps = [
+  { label: "Sun", icon: Sun },
+  { label: "Coffee Processing", icon: Coffee },
+  { label: "Household Energy", icon: Zap },
+  { label: "Soil Regeneration", icon: Leaf },
 ];
 
 export const TheIdeaSection = () => {
@@ -38,7 +45,7 @@ export const TheIdeaSection = () => {
           data-testid="opportunity-layout"
         >
           <div className="space-y-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">THE IDEA</p>
+            <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">THE IDEA</p>
             <h2 className="text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">The First Mile of Coffee</h2>
 
             <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
@@ -72,7 +79,7 @@ export const TheIdeaSection = () => {
           data-testid="breakthrough-layout"
         >
           <div className="bloom-panel p-6 md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">THE BREAKTHROUGH</p>
+            <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">THE BREAKTHROUGH</p>
             <h3 className="mt-3 font-serif text-3xl leading-tight text-bloomDarkCoffee md:text-4xl">Unlocking the Third Harvest</h3>
 
             <div className="mt-6 space-y-4 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
@@ -88,13 +95,37 @@ export const TheIdeaSection = () => {
             <p className="mt-6 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
               Through this circular model, a single coffee crop can generate:
             </p>
+            <ul>
+              <li>•  Increased income from coffee processing</li>
+              <li>•  Renewable household energy</li>
+              <li>•  Clean cooking fuel</li>
+              <li>•  Regenerated soil nutrients</li>
+            </ul>
+            <br />
             <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
               Declining renewable energy costs now make it possible to deploy these productive systems directly within coffee-producing communities.
             </p>
-            <p className="mt-3 font-serif text-2xl text-bloomGreen md:text-3xl">This is the Third Harvest.</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4" data-testid="breakthrough-cards-grid">
+           <div className="bloom-panel p-5 md:p-7 gap-4 flex-e" data-testid="system-diagram">
+            <div className="grid gap-4 md:grid-cols-4">
+              {systemSteps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <div key={step.label} className="relative rounded-xl border border-black/10 bg-bloomBeige px-4 py-5 text-center">
+                    <Icon className="mx-auto mb-3 h-5 w-5 text-bloomGreen" aria-hidden="true" />
+                    <p className="text-sm font-semibold uppercase tracking-[0.1em] text-bloomDarkCoffee">{step.label}</p>
+                    {index < systemSteps.length - 1 ? (
+                      <span className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 text-bloomGold" aria-hidden="true">
+                        →
+                      </span>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 lg:gap-6" data-testid="breakthrough-cards-grid">
             {breakthroughCards.map((card) => (
               <BakedTextImageCard
                 key={card.title}
@@ -102,9 +133,10 @@ export const TheIdeaSection = () => {
                 imageAlt={card.imageAlt}
                 title={card.title}
                 ratio="2:3"
+                className="h-full"
               />
             ))}
-          </div>
+          </div> */}
         </motion.div>
       </SectionContainer>
     </section>

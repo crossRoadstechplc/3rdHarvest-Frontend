@@ -34,18 +34,20 @@ describe("BloomNav", () => {
       "PCW",
       "Impact",
       "Deployments",
-      "About",
       "Contact",
-      "Ecosystem",
+      "Engage",
     ].forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument();
     });
 
-    fireEvent.mouseEnter(screen.getByRole("button", { name: "Ecosystem" }));
+    fireEvent.mouseEnter(screen.getByRole("button", { name: "Engage" }));
     expect(screen.getByRole("menuitem", { name: "Partners" })).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: "Newsletter" })).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: "Insights" })).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: "LinkedIn" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "X" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Instagram" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Facebook" })).toBeInTheDocument();
 
     expect(screen.getByTestId("active-indicator-home")).toBeInTheDocument();
   });
@@ -62,6 +64,9 @@ describe("BloomNav", () => {
     expect(toggle).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByRole("button", { name: "Newsletter" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Partners" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Insights" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "LinkedIn" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "X" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Contact" })).toBeInTheDocument();
   });
 
@@ -78,7 +83,7 @@ describe("BloomNav", () => {
     expect(section.scrollIntoView).toHaveBeenCalled();
     expect(window.location.hash).toBe("#the-idea");
 
-    fireEvent.mouseEnter(screen.getByRole("button", { name: "Ecosystem" }));
+    fireEvent.mouseEnter(screen.getByRole("button", { name: "Engage" }));
     fireEvent.click(screen.getByRole("menuitem", { name: "Insights" }));
     expect(navigateMock).toHaveBeenCalledWith("/insights");
   });

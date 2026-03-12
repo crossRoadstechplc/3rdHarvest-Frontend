@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/vitest";
+﻿import "@testing-library/jest-dom/vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
@@ -9,7 +9,7 @@ describe("Footer", () => {
     cleanup();
   });
 
-  it("renders brand statement, quick links, and footer policy links", () => {
+  it("renders brand statement, quick links, policy links, and social icon links", () => {
     render(
       <MemoryRouter>
         <Footer />
@@ -46,6 +46,10 @@ describe("Footer", () => {
       "Your Privacy Choices",
     ].forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument();
+    });
+
+    ["LinkedIn", "X", "Instagram", "Facebook"].forEach((label) => {
+      expect(screen.getByRole("link", { name: label })).toBeInTheDocument();
     });
 
     expect(screen.getByText("© 2026 3rd Harvest Initiative. All Rights Reserved.")).toBeInTheDocument();

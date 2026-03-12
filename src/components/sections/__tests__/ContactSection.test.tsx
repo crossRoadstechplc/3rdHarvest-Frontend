@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/vitest";
+﻿import "@testing-library/jest-dom/vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import type { HTMLAttributes } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -44,11 +44,17 @@ describe("ContactSection", () => {
     expect(screen.getByRole("button", { name: "Send" })).toBeInTheDocument();
   });
 
-  it("renders LinkedIn as an icon link", () => {
+  it("renders social icon links", () => {
     render(<ContactSection />);
 
-    const linkedInLink = screen.getByRole("link", { name: "LinkedIn" });
-    expect(linkedInLink).toBeInTheDocument();
-    expect(linkedInLink).toHaveAttribute("href", "https://linkedin.com");
+    ["LinkedIn", "X", "Instagram", "Facebook"].forEach((label) => {
+      const link = screen.getByRole("link", { name: label });
+      expect(link).toBeInTheDocument();
+    });
+
+    expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute("href", "https://linkedin.com");
+    expect(screen.getByRole("link", { name: "X" })).toHaveAttribute("href", "https://x.com");
+    expect(screen.getByRole("link", { name: "Instagram" })).toHaveAttribute("href", "https://instagram.com");
+    expect(screen.getByRole("link", { name: "Facebook" })).toHaveAttribute("href", "https://facebook.com");
   });
 });

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Menu, X } from "lucide-react";
+import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 const navItems = [
   { id: "home", label: "Home", path: "/#home" },
@@ -17,7 +18,6 @@ const secondaryItems = [
   { id: "partners", label: "Partners", path: "/#partners" },
   { id: "newsletter", label: "Newsletter", path: "/#newsletter" },
   { id: "insights", label: "Insights", path: "/insights" },
-  { id: "linkedin", label: "LinkedIn", href: "https://linkedin.com" },
 ];
 
 const HOME_SCROLL_SECTIONS = [
@@ -209,50 +209,78 @@ export const BloomNav = () => {
                 type="button"
                 aria-haspopup="menu"
                 aria-expanded={isMegaOpen}
+                aria-label="Engage"
                 className={`flex flex-col items-center justify-center relative pb-1 ${baseNavLinkClass} text-bloomDarkCoffee/65 hover:text-bloomGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bloomGold/70`}
                 onFocus={() => setIsMegaOpen(true)}
               >
-                <img className="h-10" src="/handshake.png" alt="Engage" title="Engage" />
+                <img className="h-10" src="/handshake.png" alt="" aria-hidden="true" />
                 <span>Engage</span>
               </button>
 
               <div
                 role="menu"
                 aria-label="Secondary navigation"
-                className={`absolute right-0 top-full mt-3 min-w-[230px] rounded-xl border border-black/10 bg-white p-2 shadow-[0_14px_30px_rgba(30,30,30,0.12)] transition-all duration-200 ${
+                className={`absolute right-0 top-full mt-3 min-w-[420px] rounded-xl border border-black/10 bg-white p-3 shadow-[0_14px_30px_rgba(30,30,30,0.12)] transition-all duration-200 ${
                   isMegaOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
                 }`}
               >
-                <ul className="flex flex-col gap-1.5">
-                  {secondaryItems.map((item) => (
-                    <li key={item.id}>
-                      {"href" in item ? (
-                        <a
-                          role="menuitem"
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block rounded-lg px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.08em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
-                          onBlur={(event) => {
-                            if (!event.currentTarget.parentElement?.parentElement?.contains(event.relatedTarget as Node)) {
-                              setIsMegaOpen(false);
-                            }
-                          }}
-                        >
-                          {item.label}
-                        </a>
-                      ) : (
-                        <button
-                          role="menuitem"
-                          onClick={() => navigateTo(item.path, item.id)}
-                          className="w-full rounded-lg px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.08em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
-                        >
-                          {item.label}
-                        </button>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="rounded-lg border border-black/8 bg-black/[0.015] p-2.5">
+                    <p className="px-2 pb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-bloomGold">Explore</p>
+                    <ul className="flex flex-col gap-1.5">
+                      {secondaryItems.map((item) => (
+                        <li key={item.id}>
+                          <button
+                            role="menuitem"
+                            onClick={() => navigateTo(item.path, item.id)}
+                            className="w-full rounded-lg px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.08em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="rounded-lg border border-black/8 bg-black/[0.015] p-2.5">
+                    <p className="px-2 pb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-bloomGold">Social</p>
+                    <ul className="flex flex-row gap-1.5">
+                      {SOCIAL_LINKS.map((link) => {
+                        const icon =
+                          link.id === "linkedin" ? (
+                            <Linkedin size={15} aria-hidden="true" />
+                          ) : link.id === "x" ? (
+                            <span className="text-[13px] font-black leading-none">X</span>
+                          ) : link.id === "instagram" ? (
+                            <Instagram size={15} aria-hidden="true" />
+                          ) : (
+                            <Facebook size={15} aria-hidden="true" />
+                          );
+
+                        return (
+                          <li key={link.id}>
+                            <a
+                              role="menuitem"
+                              href={link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={link.label}
+                              title={link.label}
+                              className="flex items-center justify-center rounded-lg px-3 py-2 text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
+                              onBlur={(event) => {
+                                if (!event.currentTarget.parentElement?.parentElement?.contains(event.relatedTarget as Node)) {
+                                  setIsMegaOpen(false);
+                                }
+                              }}
+                            >
+                              {icon}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -311,23 +339,26 @@ export const BloomNav = () => {
                   <span className='font-sm text-[13px] text-bloomDarkCoffee border-b border-black/10 pb-4'>Engagement</span>
                   {secondaryItems.map((item) => (
                     <li key={item.id}>
-                      {"href" in item ? (
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block rounded-[10px] px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.1em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
-                        >
-                          {item.label}
-                        </a>
-                      ) : (
-                        <button
-                          onClick={() => navigateTo(item.path, item.id)}
-                          className="w-full rounded-[10px] px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.1em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
-                        >
-                          {item.label}
-                        </button>
-                      )}
+                      <button
+                        onClick={() => navigateTo(item.path, item.id)}
+                        className="w-full rounded-[10px] px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.1em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
+                      >
+                        {item.label}
+                      </button>
+                    </li>
+                  ))}
+
+                  <span className="font-sm mt-1 text-[13px] text-bloomDarkCoffee border-b border-black/10 pb-3">Social</span>
+                  {SOCIAL_LINKS.map((link) => (
+                    <li key={link.id}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block rounded-[10px] px-3 py-2 text-left text-sm font-semibold uppercase tracking-[0.1em] text-bloomDarkCoffee/75 transition-colors hover:bg-black/5 hover:text-bloomGreen"
+                      >
+                        {link.label}
+                      </a>
                     </li>
                   ))}
                 </ul>

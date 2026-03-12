@@ -4,17 +4,17 @@ import { SectionContainer } from "@/components/public/SectionContainer";
 
 const climateCards = [
   {
-    title: "Scope 3 supply chain engagement",
+    title: "Engagement",
     imageUrl: "/engage.webp",
     imageAlt: "Scope 3 supply chain engagement",
   },
   {
-    title: "Regenerative agriculture initiatives",
+    title: "Regenerative agriculture",
     imageUrl: "/agri.webp",
     imageAlt: "Regenerative agriculture initiatives",
   },
   {
-    title: "Sustainable sourcing frameworks",
+    title: "Sustainable energy",
     imageUrl: "/sustainable.webp",
     imageAlt: "Sustainable sourcing frameworks",
   },
@@ -39,7 +39,7 @@ export const ImpactSection = () => {
           transition={{ duration: 0.8 }}
           className="bloom-panel p-6 md:p-8"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">CLIMATE &amp; SUPPLY CHAIN ALIGNMENT</p>
+          <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">CLIMATE &amp; SUPPLY CHAIN ALIGNMENT</p>
           <h2 className="mt-3 text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">Supporting Sustainable Coffee Systems</h2>
 
           <div className="mt-6 space-y-5 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
@@ -55,6 +55,11 @@ export const ImpactSection = () => {
             <p>
               For coffee companies and industry partners, participation in the initiative can support climate and sustainability strategies including:
             </p>
+            <ul>
+              <li>• Scope 3 supply chain engagement</li>
+              <li>• Regenerative agriculture initiatives</li>
+              <li>• Sustainable sourcing frameworks</li>
+            </ul>
           </div>
         </motion.div>
 
@@ -78,7 +83,7 @@ export const ImpactSection = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="bloom-panel p-6 md:p-8"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">IMPACT</p>
+          <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">IMPACT</p>
           <h2 className="mt-3 text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">Transforming the First Mile of Coffee</h2>
 
           <p className="mt-6 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
@@ -90,7 +95,7 @@ export const ImpactSection = () => {
             {impactItems.map((item) => (
               <article
                 key={item}
-                className="rounded-xl border border-black/10 bg-bloomBeige/80 px-5 py-5 text-sm font-semibold tracking-[0.01em] text-bloomDarkCoffee md:text-base"
+                className="text-sm tracking-[0.01em] text-bloomDarkCoffee"
               >
                 • {item}
               </article>

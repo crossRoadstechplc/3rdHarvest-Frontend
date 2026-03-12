@@ -1,9 +1,10 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { FormEvent, useState } from "react";
-import { Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import { SectionContainer } from "@/components/public/SectionContainer";
 import { sendContactMessage } from "@/lib/contact/email";
+import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -61,7 +62,7 @@ export const ContactSection = () => {
             className="bloom-panel relative overflow-hidden p-6 md:p-8"
           >
             <div className="absolute inset-x-0 top-0 h-1 bg-bloomGreen/75" />
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">CONTACT</p>
+            <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">CONTACT</p>
             <h2 className="mt-3 text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">
               For partnership inquiries and program information:
             </h2>
@@ -78,17 +79,33 @@ export const ContactSection = () => {
 
             <div className="mt-8 rounded-[12px] border border-bloomGreen/15 bg-white/80 p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">SOCIAL MEDIA</p>
-              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold uppercase tracking-[0.08em] text-bloomDarkCoffee/75">
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="LinkedIn"
-                  title="LinkedIn"
-                  className="inline-flex items-center rounded-[10px] border border-bloomGreen/20 bg-white p-2.5 hover:border-bloomGreen/50 hover:text-bloomGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bloomGold/60"
-                >
-                  <Linkedin size={18} aria-hidden="true" />
-                </a>
+              <div className="mt-3 flex flex-wrap gap-x-3 gap-y-2 text-sm font-semibold uppercase tracking-[0.08em] text-bloomDarkCoffee/75">
+                {SOCIAL_LINKS.map((link) => {
+                  const icon =
+                    link.id === "linkedin" ? (
+                      <Linkedin size={18} aria-hidden="true" />
+                    ) : link.id === "x" ? (
+                      <span className="text-[15px] font-black leading-none">X</span>
+                    ) : link.id === "instagram" ? (
+                      <Instagram size={18} aria-hidden="true" />
+                    ) : (
+                      <Facebook size={18} aria-hidden="true" />
+                    );
+
+                  return (
+                    <a
+                      key={link.id}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={link.label}
+                      title={link.label}
+                      className="inline-flex items-center rounded-[10px] border border-bloomGreen/20 bg-white p-2.5 hover:border-bloomGreen/50 hover:text-bloomGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bloomGold/60"
+                    >
+                      {icon}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
@@ -102,7 +119,7 @@ export const ContactSection = () => {
           >
             <div className="absolute inset-x-0 top-0 h-1 bg-bloomGold/70" />
             <div className="relative">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">Contact Form</p>
+              <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">Contact Form</p>
               <h3 className="mt-2 font-serif text-2xl text-bloomDarkCoffee">Send a Message</h3>
               <p className="mt-2 text-sm leading-relaxed text-bloomDarkCoffee/70">
                 Share your inquiry and the team will follow up.

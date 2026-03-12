@@ -60,7 +60,7 @@ export const NewsletterSection = () => {
           transition={{ duration: 0.8 }}
           className="relative z-10 bloom-panel mx-auto max-w-3xl px-5 py-7 text-center sm:px-6 md:px-10 md:py-8"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">NEWSLETTER</p>
+          <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">NEWSLETTER</p>
           <h2 className="mt-3 text-3xl leading-tight text-bloomDarkCoffee md:text-4xl">
             Stay informed about developments in the 3rd Harvest initiative.
           </h2>

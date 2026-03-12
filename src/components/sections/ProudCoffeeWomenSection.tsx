@@ -19,7 +19,7 @@ export const ProudCoffeeWomenSection = () => {
             </div>
 
             <div className="space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">PROUD COFFEE WOMAN</p>
+              <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">HOUSEHOLD TRANSFORMATION</p>
               <h2 className="text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">Women, Health, and Opportunity</h2>
 
               <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
@@ -56,7 +56,7 @@ export const ProudCoffeeWomenSection = () => {
           >
             <div className="grid items-stretch lg:grid-cols-[1.05fr_0.95fr]">
               <div className="p-6 md:p-9 lg:p-10">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">HOUSEHOLD TRANSFORMATION</p>
+                <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">PROUD COFFEE WOMAN</p>
                 <h2 className="mt-3 text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">A Label for Community-Centered Coffee</h2>
 
                 <div className="mt-6 space-y-5 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">

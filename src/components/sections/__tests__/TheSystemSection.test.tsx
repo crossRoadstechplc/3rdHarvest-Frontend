@@ -1,5 +1,5 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+﻿import "@testing-library/jest-dom/vitest";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import type { HTMLAttributes } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { TheSystemSection } from "@/components/sections/TheSystemSection";
@@ -39,18 +39,29 @@ describe("TheSystemSection", () => {
   it("renders four-step system diagram labels", () => {
     render(<TheSystemSection />);
 
-    expect(screen.getByTestId("system-diagram")).toBeInTheDocument();
-    expect(screen.getByText("Sun")).toBeInTheDocument();
-    expect(screen.getByText("Coffee Processing")).toBeInTheDocument();
-    expect(screen.getByText("Household Energy")).toBeInTheDocument();
-    expect(screen.getByText("Soil Regeneration")).toBeInTheDocument();
+    const diagram = screen.getByTestId("system-diagram");
+    expect(diagram).toBeInTheDocument();
+    expect(within(diagram).getByText("Sun")).toBeInTheDocument();
+    expect(within(diagram).getByText("Coffee Processing")).toBeInTheDocument();
+    expect(within(diagram).getByText("Household Energy")).toBeInTheDocument();
+    expect(within(diagram).getByText("Soil Regeneration")).toBeInTheDocument();
   });
 
   it("renders concluding bullet points", () => {
     render(<TheSystemSection />);
 
-    expect(screen.getByText("• energy access improves household resilience")).toBeInTheDocument();
-    expect(screen.getByText("• agricultural productivity increases")).toBeInTheDocument();
-    expect(screen.getByText("• rural livelihoods expand")).toBeInTheDocument();
+    expect(screen.getByText("• Energy access improves household resilience")).toBeInTheDocument();
+    expect(screen.getByText("• Agricultural productivity increases")).toBeInTheDocument();
+    expect(screen.getByText("• Rural livelihoods expand")).toBeInTheDocument();
+  });
+
+  it("renders four narrative blocks at the bottom of the system section", () => {
+    render(<TheSystemSection />);
+
+    expect(screen.getByTestId("system-narrative-blocks")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Solar Power System" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Motorized Coffee Pulper" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Biogas Waste-to-Energy System" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Soil Regeneration Cycle" })).toBeInTheDocument();
   });
 });

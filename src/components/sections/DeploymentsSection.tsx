@@ -14,7 +14,7 @@ export const DeploymentsSection = () => {
           data-testid="deployments-layout"
         >
           <div className="space-y-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">DEPLOYMENTS</p>
+            <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">DEPLOYMENTS</p>
             <h2 className="text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">Early Deployments</h2>
 
             <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">

@@ -19,7 +19,7 @@ export const PartnersSection = () => {
           transition={{ duration: 0.8 }}
           className="bloom-panel p-6 md:p-8"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">PARTNERS</p>
+          <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">PARTNERS</p>
           <h2 className="mt-3 text-4xl leading-tight text-bloomDarkCoffee md:text-5xl">A Collaborative Platform</h2>
 
           <p className="mt-6 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">

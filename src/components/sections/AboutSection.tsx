@@ -12,7 +12,7 @@ export const AboutSection = () => {
           transition={{ duration: 0.8 }}
           className="bloom-panel mx-auto max-w-4xl p-6 text-center md:p-9"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-bloomGold">ABOUT</p>
+          <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">ABOUT</p>
           <div className="mt-5 space-y-5 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
             <p>
               3rd Harvest is an initiative focused on strengthening the first mile of coffee through circular systems that connect renewable energy, coffee processing, and soil regeneration.
