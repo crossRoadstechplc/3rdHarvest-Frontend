@@ -4,22 +4,22 @@ import { SectionContainer } from "@/components/public/SectionContainer";
 
 const breakthroughCards = [
   {
-    title: "increased income from coffee processing",
+    title: "Increased income from coffee processing",
     imageUrl: "/system1.png",
     imageAlt: "Increased income from coffee processing",
   },
   {
-    title: "renewable household energy",
+    title: "Renewable household energy",
     imageUrl: "/system2.png",
     imageAlt: "Renewable household energy",
   },
   {
-    title: "clean cooking fuel",
+    title: "Clean cooking fuel",
     imageUrl: "/bloom-unit2.png",
     imageAlt: "Clean cooking fuel",
   },
   {
-    title: "regenerated soil nutrients",
+    title: "Regenerated soil nutrients",
     imageUrl: "/system4.png",
     imageAlt: "Regenerated soil nutrients",
   },

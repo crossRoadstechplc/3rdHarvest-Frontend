@@ -45,22 +45,8 @@ export function resolveApiBaseUrl(baseUrl?: string): string {
 }
 
 function resolveModeAwareApiBaseUrl(): string {
-  const mode = import.meta.env.MODE;
-  const configuredDefault = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
-  const configuredDev = (import.meta.env.VITE_API_URL_DEV as string | undefined)?.trim();
-  const configuredTest = (import.meta.env.VITE_API_URL_TEST as string | undefined)?.trim();
-  const configuredProd = (import.meta.env.VITE_API_URL_PROD as string | undefined)?.trim();
-
-  if (mode === "test") {
-    return resolveApiBaseUrl(configuredTest || configuredDev || DEFAULT_API_URL);
-  }
-
-  if (mode === "production") {
-    return resolveApiBaseUrl(configuredProd || configuredDefault || "https://3rd.ankuaru.com");
-  }
-
-  // Development/local: prefer explicit local override, then localhost fallback.
-  return resolveApiBaseUrl(configuredDev || DEFAULT_API_URL);
+  const configuredBase = (import.meta.env.VITE_API_URL_BASE as string | undefined)?.trim();
+  return resolveApiBaseUrl(configuredBase || DEFAULT_API_URL);
 }
 
 export const API_BASE_URL = resolveModeAwareApiBaseUrl();

@@ -28,7 +28,7 @@ export const TheSystemSection = () => {
             </p>
           </div>
 
-          <div className="bloom-panel p-5 md:p-7 gap-4" data-testid="system-diagram">
+          <div className="bloom-panel p-5 md:p-7 gap-4 flex-e" data-testid="system-diagram">
             <div className="grid gap-4 md:grid-cols-4">
               {systemSteps.map((step, index) => {
                 const Icon = step.icon;
@@ -45,21 +45,22 @@ export const TheSystemSection = () => {
                 );
               })}
             </div>
+
+            <div className="bloom-panel space-y-5 p-6 md:p-8">
+              <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
+                Rather than producing waste, each stage of the system generates additional value for households and farms.
+              </p>
+              <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
+                By placing productive infrastructure within coffee communities, the first mile becomes a place where:
+              </p>
+              <ul className="space-y-3 text-base leading-relaxed text-bloomDarkCoffee/85 md:text-lg">
+                <li>• Energy access improves household resilience</li>
+                <li>• Agricultural productivity increases</li>
+                <li>• Rural livelihoods expand</li>
+              </ul>
+            </div>
           </div>
 
-          <div className="bloom-panel space-y-5 p-6 md:p-8">
-            <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
-              Rather than producing waste, each stage of the system generates additional value for households and farms.
-            </p>
-            <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
-              By placing productive infrastructure within coffee communities, the first mile becomes a place where:
-            </p>
-            <ul className="space-y-3 text-base leading-relaxed text-bloomDarkCoffee/85 md:text-lg">
-              <li>• energy access improves household resilience</li>
-              <li>• agricultural productivity increases</li>
-              <li>• rural livelihoods expand</li>
-            </ul>
-          </div>
         </motion.div>
       </SectionContainer>
     </section>

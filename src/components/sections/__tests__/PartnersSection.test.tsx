@@ -35,8 +35,8 @@ describe("PartnersSection", () => {
     expect(screen.getByText("PARTNERS")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "A Collaborative Platform" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Become a Partner" })).toBeInTheDocument();
-    expect(screen.getByTestId("logo-strip-row")).toBeInTheDocument();
-    expect(screen.getAllByTestId("partner-logo-placeholder")).toHaveLength(6);
+    expect(screen.getByTestId("partners-logo-scroller")).toBeInTheDocument();
+    expect(screen.getAllByTestId("partner-logo-placeholder").length).toBeGreaterThanOrEqual(8);
   });
 
   it("renders advisory board content", () => {

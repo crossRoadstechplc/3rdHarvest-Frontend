@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { apiRequest, buildApiUrl, resolveApiBaseUrl } from "@/lib/api/client";
+import { API_BASE_URL, apiRequest, buildApiUrl, resolveApiBaseUrl } from "@/lib/api/client";
 
 describe("api client", () => {
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe("api client", () => {
     expect(resolveApiBaseUrl("")).toBe("http://localhost:3040");
   });
 
-  it("uses the default base URL when none is configured", async () => {
+  it("uses the resolved API base URL", async () => {
     const fetchMock = vi.mocked(fetch).mockResolvedValue(
       new Response(JSON.stringify({ ok: true }), {
         status: 200,
@@ -33,6 +33,6 @@ describe("api client", () => {
     await apiRequest<{ ok: boolean }>("/api/ping", { method: "GET" });
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock.mock.calls[0][0]).toBe("http://localhost:3040/api/ping");
+    expect(fetchMock.mock.calls[0][0]).toBe(`${API_BASE_URL}/api/ping`);
   });
 });

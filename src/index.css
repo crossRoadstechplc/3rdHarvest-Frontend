@@ -288,3 +288,26 @@ section[id]:not(#hero) {
 .animate-fade {
   animation: fadeIn 1s ease-out forwards;
 }
+
+@keyframes partnersMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.partners-logo-marquee-track {
+  animation: partnersMarquee 34s linear infinite;
+}
+
+.partners-logo-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-logo-marquee-track {
+    animation: none;
+  }
+}

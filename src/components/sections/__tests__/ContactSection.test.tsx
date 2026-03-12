@@ -32,7 +32,7 @@ describe("ContactSection", () => {
 
     expect(container.querySelector("#contact")).toBeInTheDocument();
     expect(screen.getByText("CONTACT")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Email: info@3rdharvest.org" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "info@3rdharvest.org" })).toHaveAttribute(
       "href",
       "mailto:info@3rdharvest.org"
     );

@@ -1,10 +1,10 @@
 /**
  * authApi.ts
  * Lightweight API client for the OTP-based auth endpoints.
- * Reads base URL from VITE_API_URL env var (falls back to localhost:4000).
+ * Reads base URL from VITE_API_URL_BASE env var (falls back to localhost:3040).
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_BASE = (import.meta.env.VITE_API_URL_BASE as string | undefined)?.trim() || "http://localhost:3040";
 
 // ---------------------------------------------------------------------------
 // Types

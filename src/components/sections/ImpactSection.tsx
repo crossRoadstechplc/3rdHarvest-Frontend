@@ -5,27 +5,27 @@ import { SectionContainer } from "@/components/public/SectionContainer";
 const climateCards = [
   {
     title: "Scope 3 supply chain engagement",
-    imageUrl: "/hero0.webp",
+    imageUrl: "/engage.webp",
     imageAlt: "Scope 3 supply chain engagement",
   },
   {
-    title: "regenerative agriculture initiatives",
-    imageUrl: "/hero2.webp",
+    title: "Regenerative agriculture initiatives",
+    imageUrl: "/agri.webp",
     imageAlt: "Regenerative agriculture initiatives",
   },
   {
-    title: "sustainable sourcing frameworks",
-    imageUrl: "/hero3.png",
+    title: "Sustainable sourcing frameworks",
+    imageUrl: "/sustainable.webp",
     imageAlt: "Sustainable sourcing frameworks",
   },
 ];
 
 const impactItems = [
-  "improved household income from coffee",
-  "renewable energy access",
-  "reduced pressure on forests",
-  "improved soil fertility",
-  "expanded roles for women in coffee communities",
+  "Improved household income from coffee",
+  "Renewable energy access",
+  "Reduced pressure on forests",
+  "Improved soil fertility",
+  "Expanded roles for women in coffee communities",
 ];
 
 export const ImpactSection = () => {

@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { API_BASE_URL } from "@/lib/api/client";
 import {
   subscribeNewsletter,
   unsubscribeNewsletter,
@@ -26,7 +27,7 @@ describe("newsletter API", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock.mock.calls[0][0]).toBe(
-      "http://localhost:3040/api/newsletter/subscribe"
+      `${API_BASE_URL}/api/newsletter/subscribe`
     );
 
     const options = fetchMock.mock.calls[0][1] as RequestInit;
@@ -48,7 +49,7 @@ describe("newsletter API", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock.mock.calls[0][0]).toBe(
-      "http://localhost:3040/api/newsletter/unsubscribe"
+      `${API_BASE_URL}/api/newsletter/unsubscribe`
     );
 
     const options = fetchMock.mock.calls[0][1] as RequestInit;

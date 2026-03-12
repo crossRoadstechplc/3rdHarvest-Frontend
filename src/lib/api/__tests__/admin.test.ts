@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { API_BASE_URL } from "@/lib/api/client";
 import {
   appendApiBaseToMediaUrl,
   createAdminTag,
@@ -29,7 +30,7 @@ describe("admin API", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock.mock.calls[0][0]).toBe(
-      "http://localhost:3040/api/admin/posts?page=1&limit=20"
+      `${API_BASE_URL}/api/admin/posts?page=1&limit=20`
     );
 
     const options = fetchMock.mock.calls[0][1] as RequestInit;
@@ -69,7 +70,7 @@ describe("admin API", () => {
     const headers = options.headers as Headers;
     const body = options.body as FormData;
 
-    expect(fetchMock.mock.calls[0][0]).toBe("http://localhost:3040/api/admin/uploads/image");
+    expect(fetchMock.mock.calls[0][0]).toBe(`${API_BASE_URL}/api/admin/uploads/image`);
     expect(options.method).toBe("POST");
     expect(headers.get("Authorization")).toBe("Bearer token-image");
     expect(headers.get("Content-Type")).toBeNull();
@@ -97,8 +98,8 @@ describe("admin API", () => {
     const file = new File(["image-content"], "photo.jpg", { type: "image/jpeg" });
     const response = await uploadAdminImage("token-image", file);
 
-    expect(fetchMock.mock.calls[0][0]).toBe("http://localhost:3040/api/admin/uploads/image");
-    expect(fetchMock.mock.calls[1][0]).toBe("http://localhost:3040/api/admin/upload/image");
+    expect(fetchMock.mock.calls[0][0]).toBe(`${API_BASE_URL}/api/admin/uploads/image`);
+    expect(fetchMock.mock.calls[1][0]).toBe(`${API_BASE_URL}/api/admin/upload/image`);
     expect(response.ok).toBe(true);
   });
 
@@ -117,7 +118,7 @@ describe("admin API", () => {
     const headers = options.headers as Headers;
     const body = options.body as FormData;
 
-    expect(fetchMock.mock.calls[0][0]).toBe("http://localhost:3040/api/admin/uploads/video");
+    expect(fetchMock.mock.calls[0][0]).toBe(`${API_BASE_URL}/api/admin/uploads/video`);
     expect(options.method).toBe("POST");
     expect(headers.get("Authorization")).toBe("Bearer token-video");
     expect(headers.get("Content-Type")).toBeNull();

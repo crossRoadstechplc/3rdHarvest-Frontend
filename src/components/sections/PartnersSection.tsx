@@ -1,9 +1,10 @@
-﻿import { motion } from "framer-motion";
-import { LogoStripShell } from "@/components/public/LogoStripShell";
+import { motion } from "framer-motion";
 import { PublicButton } from "@/components/public/PublicButton";
 import { SectionContainer } from "@/components/public/SectionContainer";
 
 export const PartnersSection = () => {
+  const placeholderLogos = Array.from({ length: 8 }, (_, index) => `Partner ${index + 1}`);
+
   const scrollToContact = () => {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -27,9 +28,9 @@ export const PartnersSection = () => {
 
           <p className="mt-5 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">Partners may include:</p>
           <ul className="mt-3 grid gap-3 text-base leading-relaxed text-bloomDarkCoffee/85 md:text-lg">
-            <li>• coffee companies</li>
-            <li>• foundations and philanthropic institutions</li>
-            <li>• development agencies</li>
+            <li>• Coffee companies</li>
+            <li>• Foundations and philanthropic institutions</li>
+            <li>• Development agencies</li>
             <li>• NGOs and civil society organizations</li>
           </ul>
 
@@ -43,17 +44,6 @@ export const PartnersSection = () => {
             </PublicButton>
           </div>
         </motion.div>
-
-        <LogoStripShell className="py-0" title="">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <div
-              key={index}
-              className="h-12 w-[45%] max-w-[140px] min-w-[120px] rounded-lg border border-black/10 bg-bloomBeige/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] sm:h-14 sm:w-[30%] md:h-16 md:w-32"
-              aria-label={`Partner logo placeholder ${index + 1}`}
-              data-testid="partner-logo-placeholder"
-            />
-          ))}
-        </LogoStripShell>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -71,6 +61,24 @@ export const PartnersSection = () => {
           </div>
         </motion.div>
       </SectionContainer>
+
+      <div
+        className="relative left-1/2 mt-10 w-screen -translate-x-1/2 overflow-hidden border-y border-black/10 bg-white/85 py-4"
+        data-testid="partners-logo-scroller"
+      >
+        <div className="partners-logo-marquee-track flex w-max items-center gap-3 px-4 sm:gap-4">
+          {[...placeholderLogos, ...placeholderLogos].map((label, index) => (
+            <div
+              key={`${label}-${index}`}
+              className="flex h-14 w-36 items-center justify-center rounded-lg border border-black/10 bg-bloomBeige/70 text-[11px] font-semibold uppercase tracking-[0.08em] text-bloomDarkCoffee/55 sm:h-16 sm:w-44"
+              aria-label={`${label} logo placeholder`}
+              data-testid="partner-logo-placeholder"
+            >
+              {label}
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

@@ -209,10 +209,11 @@ export const BloomNav = () => {
                 type="button"
                 aria-haspopup="menu"
                 aria-expanded={isMegaOpen}
-                className={`relative pb-1 ${baseNavLinkClass} text-bloomDarkCoffee/65 hover:text-bloomGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bloomGold/70`}
+                className={`flex flex-col items-center justify-center relative pb-1 ${baseNavLinkClass} text-bloomDarkCoffee/65 hover:text-bloomGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bloomGold/70`}
                 onFocus={() => setIsMegaOpen(true)}
               >
-                Engage
+                <img className="h-10" src="/handshake.png" alt="Engage" title="Engage" />
+                <span>Engage</span>
               </button>
 
               <div
