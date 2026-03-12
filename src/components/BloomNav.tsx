@@ -173,7 +173,7 @@ export const BloomNav = () => {
           <div className="mx-auto grid w-full max-w-[1840px] grid-cols-[auto_1fr_auto] items-center gap-8 px-8 lg:px-12">
             <button
               onClick={() => navigateTo("/", "home")}
-              className="cursor-pointer font-serif text-2xl font-bold uppercase tracking-tight text-bloomDarkCoffee"
+              className="cursor-pointer font-serif text-3xl font-bold uppercase tracking-tight text-bloomDarkCoffee"
             >
               <span className="text-bloomGold">3RD</span> <span className="text-bloomDarkCoffee">HARVEST</span>
             </button>
@@ -308,6 +308,7 @@ export const BloomNav = () => {
 
               <li className="mt-1 border-t border-black/10 pt-4">
                 <ul className="flex flex-col gap-3" aria-label="Mobile secondary navigation">
+                  <span className='font-sm text-[13px] text-bloomDarkCoffee border-b border-black/10 pb-4'>Engagement</span>
                   {secondaryItems.map((item) => (
                     <li key={item.id}>
                       {"href" in item ? (
