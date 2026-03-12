@@ -4,7 +4,7 @@ export type ContactPayload = {
   name: string;
   email: string;
   message: string;
-  source: "contact-modal" | "contact-section";
+  source: "3rd Harvest" | "contact-section" | string; // Allow custom source values
 };
 
 let isEmailJsInitialized = false;

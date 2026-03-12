@@ -10,7 +10,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: "",
-    organization: "",
+    lastname: "",
     email: "",
     message: "",
   });
@@ -28,19 +28,19 @@ export const ContactSection = () => {
 
     setIsSubmitting(true);
     try {
-      const composedMessage = formData.organization.trim()
-        ? `Organization: ${formData.organization.trim()}\n\n${formData.message.trim()}`
+      const composedMessage = formData.lastname.trim()
+        ? `Last Name: ${formData.lastname.trim()}\n\n${formData.message.trim()}`
         : formData.message.trim();
 
       await sendContactMessage({
-        name: formData.name.trim(),
+        name: formData.name.trim() + " " + formData.lastname.trim(),
         email: normalizedEmail,
         message: composedMessage,
-        source: "contact-section",
+        source: "3rd Harvest",
       });
 
       toast.success("Message delivered successfully!");
-      setFormData({ name: "", organization: "", email: "", message: "" });
+      setFormData({ name: "", lastname: "", email: "", message: "" });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Unable to send message right now.";
       toast.error(errorMessage);
@@ -125,12 +125,12 @@ export const ContactSection = () => {
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-bloomDarkCoffee/70">Organization</label>
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-bloomDarkCoffee/70">Last Name</label>
                   <input
                     type="text"
-                    aria-label="Organization"
-                    value={formData.organization}
-                    onChange={(event) => setFormData((prev) => ({ ...prev, organization: event.target.value }))}
+                    aria-label="Last Name"
+                    value={formData.lastname}
+                    onChange={(event) => setFormData((prev) => ({ ...prev, lastname: event.target.value }))}
                     disabled={isSubmitting}
                     className="w-full rounded-[12px] border border-bloomGreen/25 bg-white px-4 py-3 text-bloomDarkCoffee shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition focus:outline-none focus-visible:border-bloomGold/70 focus-visible:ring-2 focus-visible:ring-bloomGold/35 disabled:opacity-60"
                   />

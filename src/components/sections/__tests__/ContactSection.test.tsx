@@ -38,7 +38,7 @@ describe("ContactSection", () => {
     );
 
     expect(screen.getByLabelText("Name")).toBeInTheDocument();
-    expect(screen.getByLabelText("Organization")).toBeInTheDocument();
+    expect(screen.getByLabelText("Last Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Message")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send" })).toBeInTheDocument();
