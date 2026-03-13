@@ -1,5 +1,5 @@
 ﻿import { motion } from "framer-motion";
-import { Coffee, Cog, Leaf, Sun, Zap } from "lucide-react";
+import { Coffee, Cog, Leaf, Shovel, Sun, Zap } from "lucide-react";
 import { SectionContainer } from "@/components/public/SectionContainer";
 
 const systemNarratives = [
@@ -63,7 +63,7 @@ const systemNarratives = [
     title: "Soil Regeneration Cycle",
     imageUrl: "/sys.png",
     imageAlt: "Nutrient-rich organic matter returning to coffee farm soil",
-    icon: Coffee,
+    icon: Shovel,
     iconShellClass: "bg-gradient-to-br from-bloomGold to-bloomGold/70",
     iconClass: "text-bloomDarkCoffee",
     accentGlowClass: "bg-bloomGold/5 group-hover:bg-bloomGold/10",
