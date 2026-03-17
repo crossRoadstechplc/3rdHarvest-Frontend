@@ -7,9 +7,9 @@ export const Hero = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const heroImages = [
-    { src: "/hero2.webp", alt: "Coffee-producing community scene 1" },
-    { src: "/hero0.webp", alt: "Coffee-producing community scene 2" },
-    { src: "/hero3.png", alt: "Coffee-producing community scene 3" },
+    { src: "/h2.jpeg", alt: "Coffee-producing community scene 1" },
+    { src: "/h3.jpeg", alt: "Coffee-producing community scene 2" },
+    { src: "/h1.jpeg", alt: "Coffee-producing community scene 3" },
   ];
 
   const activeCard = hoveredCard ?? 1;

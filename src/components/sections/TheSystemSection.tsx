@@ -7,7 +7,7 @@ const systemNarratives = [
     id: "bloom-solar",
     label: "Solar Power System",
     title: "Solar Power System",
-    imageUrl: "/bloom-unit1.webp",
+    imageUrl: "/solar.png",
     imageAlt: "Solar panels powering a unit for Woman Beneficiaries in an Ethiopian coffee community",
     icon: Sun,
     iconShellClass: "bg-gradient-to-br from-bloomGold to-bloomGold/70",
