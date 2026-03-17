@@ -1,6 +1,7 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { BrandWordmark } from "@/components/BrandWordmark";
 
 const ADMIN_SECTIONS = [
   { label: "Posts", path: "/admin/posts" },
@@ -18,7 +19,14 @@ export const AdminSidebar = () => {
     <nav className="w-full md:w-72 md:min-h-screen md:sticky md:top-0 border-r border-black/10 bg-white" aria-label="Admin navigation">
       <div className="flex items-center justify-between px-5 py-4 border-b border-black/10">
         <div>
-          <p className="text-xs tracking-[0.18em] uppercase font-bold text-bloomGold">3rd Harvest</p>
+          <p className="text-xs tracking-[0.18em] uppercase font-bold text-bloomGold">
+            <BrandWordmark
+              numberClassName="text-[#b3872f]"
+              harvestClassName="text-[#496255]"
+              superscriptClassName="ml-[0.02em]"
+              spacerClassName="ml-[0.2em]"
+            />
+          </p>
           <h1 className="text-xl font-serif font-bold mt-1 text-bloomDarkCoffee">Admin Console</h1>
         </div>
 

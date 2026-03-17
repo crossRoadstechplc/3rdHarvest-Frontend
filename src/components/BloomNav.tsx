@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Menu, X } from "lucide-react";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
+import { BrandWordmark } from "@/components/BrandWordmark";
 
 const navItems = [
   { id: "home", label: "Home", path: "/#home" },
@@ -175,7 +176,11 @@ export const BloomNav = () => {
               onClick={() => navigateTo("/", "home")}
               className="cursor-pointer font-serif text-3xl font-bold uppercase tracking-tight text-bloomDarkCoffee"
             >
-              <span className="text-bloomGold">3RD</span> <span className="text-bloomDarkCoffee">HARVEST</span>
+              <BrandWordmark
+                numberClassName="text-[#b3872f]"
+                harvestClassName="text-[#496255]"
+                superscriptClassName="ml-[0.02em]"
+              />
             </button>
 
             <ul className="flex items-center justify-center gap-4 xl:gap-6" aria-label="Main navigation">
@@ -298,7 +303,11 @@ export const BloomNav = () => {
               onClick={() => navigateTo("/", "home")}
               className="cursor-pointer font-serif text-xl font-bold uppercase tracking-tight text-bloomDarkCoffee"
             >
-              <span className="text-bloomGold">3RD</span> <span className="text-bloomDarkCoffee">HARVEST</span>
+              <BrandWordmark
+                numberClassName="text-[#b3872f]"
+                harvestClassName="text-[#496255]"
+                superscriptClassName="ml-[0.02em]"
+              />
             </button>
 
             <button

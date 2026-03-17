@@ -36,7 +36,7 @@ export const Hero = () => {
             </h1>
 
             <p className="max-w-3xl text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
-              Coffee&rsquo;s journey begins long before it reaches exporters, roasters, and consumers. It begins in the farms and households of coffee-producing communities the first mile of coffee.
+              Coffee&rsquo;s journey begins long before it reaches exporters, roasters, and consumers. It begins in the farms and households of coffee-producing communities, the first mile of coffee.
               <br />
               Yet this is where one of the greatest opportunities for change exists.
               <br />

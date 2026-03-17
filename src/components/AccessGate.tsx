@@ -113,20 +113,22 @@ export const AccessGate = ({
       if (isTokenValid()) {
         const token = getToken()!;
         const expiresAt = getExpiresAt()!;
+        // Optimistically grant access to avoid a white flash between loading
+        // screen exit and server token confirmation.
+        grantAccess(expiresAt);
 
         // Optional: confirm with the server
         try {
           const result = await me(token);
           if (!result.ok) {
             clearAuth();
+            setAuthed(false);
             setChecked(true);
             return;
           }
         } catch {
           // If the /me endpoint is unreachable, trust the local token
         }
-
-        grantAccess(expiresAt);
       }
       setChecked(true);
     };
@@ -281,27 +283,38 @@ export const AccessGate = ({
               <div className="mb-6 flex items-center gap-2">
                 <span
                   style={{
-                    fontFamily: "var(--font-serif)",
+                    fontFamily: "\"Times New Roman\", Times, serif",
                     fontWeight: 900,
-                    color: "#d4a858",
-                    fontSize: "1.15rem",
+                    color: "#b3872f",
+                    fontSize: "1.35rem",
                     letterSpacing: "-0.03em",
                     textTransform: "uppercase",
                   }}
                 >
-                  3RD
+                  3
+                  <sup
+                    style={{
+                      fontSize: "0.5em",
+                      verticalAlign: "super",
+                      lineHeight: 1,
+                      textTransform: "lowercase",
+                      color: "#b3872f",
+                    }}
+                  >
+                    rd
+                  </sup>
                 </span>
                 <span
                   style={{
-                    fontFamily: "var(--font-serif)",
+                    fontFamily: "\"Times New Roman\", Times, serif",
                     fontWeight: 900,
-                    color: "#1c3b2b",
+                    color: "#496255",
                     fontSize: "1.15rem",
                     letterSpacing: "-0.03em",
-                    textTransform: "uppercase",
+                    textTransform: "none",
                   }}
                 >
-                  HARVEST
+                  Harvest
                 </span>
               </div>
 

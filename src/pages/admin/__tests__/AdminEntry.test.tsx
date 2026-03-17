@@ -47,12 +47,7 @@ describe("AdminEntry", () => {
     renderEntry();
 
     expect(screen.getByRole("heading", { name: "Sign in" })).toBeInTheDocument();
-    expect(
-      screen.getByText((content, element) => {
-        if (!element) return false;
-        return element.textContent?.replace(/\s+/g, " ").trim() === "3RD HARVEST";
-      })
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText("3rd Harvest")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
   });
 

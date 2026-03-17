@@ -80,16 +80,16 @@ export const TheIdeaSection = () => {
         >
           <div className="bloom-panel p-6 md:p-8">
             <p className="text-xl font-semibold uppercase tracking-[0.16em] text-bloomGold">THE BREAKTHROUGH</p>
-            <h3 className="mt-3 font-serif text-3xl leading-tight text-bloomDarkCoffee md:text-4xl">Unlocking the Third Harvest</h3>
+            <h3 className="mt-3 font-serif text-3xl leading-tight text-bloomDarkCoffee md:text-4xl">Unlocking the 3rd Harvest</h3>
 
             <div className="mt-6 space-y-4 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
               <p>The 3rd Harvest initiative is built around a simple idea:</p>
               <p>
                 A single coffee crop can generate multiple forms of value when the right infrastructure exists within coffee communities.
               </p>
-              <p>Solar energy powers small-scale coffee processing at the household or community level.</p>
-              <p>Coffee pulp produced during processing becomes a feedstock for biogas generation.</p>
-              <p>The digestion process produces nutrient-rich organic matter that returns to the soil.</p>
+              <p> Solar energy powers small-scale coffee processing at the household or community level, this is the <strong>1st Harvest</strong>, where farmers move up the value chain and earn more from their coffee.</p>
+              <p>Coffee pulp produced during processing becomes a feedstock for biogas generation, this is the <strong>2nd Harvest</strong>, transforming waste into renewable energy and clean cooking fuel.</p>
+              <p>The digestion process produces nutrient-rich organic matter that returns to the soil, this is the <strong>3rd Harvest</strong>, restoring soil fertility and strengthening future production.</p>
             </div>
 
             <p className="mt-6 text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">
@@ -99,7 +99,7 @@ export const TheIdeaSection = () => {
               <li>•  Increased income from coffee processing</li>
               <li>•  Renewable household energy</li>
               <li>•  Clean cooking fuel</li>
-              <li>•  Regenerated soil nutrients</li>
+              <li>•  Regenerative soil nutrients</li>
             </ul>
             <br />
             <p className="text-base leading-relaxed text-bloomDarkCoffee/80 md:text-lg">

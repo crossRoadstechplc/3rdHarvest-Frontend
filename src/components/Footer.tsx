@@ -1,6 +1,7 @@
-﻿import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
+import { BrandWordmark } from "@/components/BrandWordmark";
 
 export const Footer = () => {
   const navigate = useNavigate();
@@ -57,7 +58,11 @@ export const Footer = () => {
         <div className="grid gap-8 md:gap-10 lg:grid-cols-[1.15fr_1fr]">
           <div>
             <p className="font-serif text-3xl font-bold uppercase tracking-tight text-bloomDarkCoffee">
-              <span className="text-bloomGold">3RD</span> HARVEST
+              <BrandWordmark
+                numberClassName="text-[#b3872f]"
+                harvestClassName="text-[#496255]"
+                superscriptClassName="ml-[0.02em]"
+              />
             </p>
             <p className="mt-5 max-w-md text-base leading-relaxed text-bloomDarkCoffee/75">
               Unlocking multiple harvests from a single coffee crop through circular systems connecting coffee, energy, and soil.

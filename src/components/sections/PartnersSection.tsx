@@ -62,7 +62,7 @@ export const PartnersSection = () => {
         </motion.div>
       </SectionContainer>
 
-      <div
+      {/* <div
         className="relative left-1/2 mt-10 w-screen -translate-x-1/2 overflow-hidden border-y border-black/10 bg-white/85 py-4"
         data-testid="partners-logo-scroller"
       >
@@ -78,7 +78,7 @@ export const PartnersSection = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

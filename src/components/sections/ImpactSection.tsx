@@ -26,6 +26,7 @@ const impactItems = [
   "Reduced pressure on forests",
   "Improved soil fertility",
   "Expanded roles for women in coffee communities",
+  "Improved women health from use of clean cooking fuel"
 ];
 
 export const ImpactSection = () => {
@@ -56,9 +57,10 @@ export const ImpactSection = () => {
               For coffee companies and industry partners, participation in the initiative can support climate and sustainability strategies including:
             </p>
             <ul>
-              <li>• Scope 3 supply chain engagement</li>
-              <li>• Regenerative agriculture initiatives</li>
-              <li>• Sustainable sourcing frameworks</li>
+              <li>• Regenerative agriculture initiatives.</li>
+              <li>• Sustainable sourcing frameworks.</li>
+              <li>• Reduced deforestation and forest degradation.</li>
+
             </ul>
           </div>
         </motion.div>

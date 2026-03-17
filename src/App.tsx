@@ -17,7 +17,7 @@ import YourPrivacyChoicesPage from "@/pages/legal/YourPrivacyChoicesPage";
 import { AccessGate } from "./components/AccessGate";
 import { ScrollToTop } from "./components/ScrollToTop";
 
-const LOADING_DURATION_MS = 4700;
+const LOADING_DURATION_MS = 4200;
 
 const queryClient = new QueryClient();
 

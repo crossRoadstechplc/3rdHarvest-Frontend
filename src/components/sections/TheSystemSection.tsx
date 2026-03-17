@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Coffee, Cog, Leaf, Shovel, Sun, Zap } from "lucide-react";
 import { SectionContainer } from "@/components/public/SectionContainer";
 
@@ -8,16 +8,16 @@ const systemNarratives = [
     label: "Solar Power System",
     title: "Solar Power System",
     imageUrl: "/bloom-unit1.webp",
-    imageAlt: "Solar panels powering the Bloom Unit in an Ethiopian coffee community",
+    imageAlt: "Solar panels powering a unit for Woman Beneficiaries in an Ethiopian coffee community",
     icon: Sun,
     iconShellClass: "bg-gradient-to-br from-bloomGold to-bloomGold/70",
     iconClass: "text-bloomDarkCoffee",
     accentGlowClass: "bg-bloomGold/5 group-hover:bg-bloomGold/10",
-    body: "A reliable renewable energy source powering the entire Bloom Unit, ensuring uninterrupted coffee processing and household electricity free of the grid or costly diesel generators",
+    body: "A reliable renewable energy source powering the entire unit for women beneficiaries, ensuring uninterrupted coffee processing and household electricity free of the grid or costly diesel generators",
     bullets: [
       "Solar clean energy dedicated to coffee processing and household needs.",
       "Reduces operating costs and eliminates fuel price volatility.",
-      "Enables evening lighting and phone charging for Bloom Teams and families.",
+      "Enables evening lighting and phone charging for teams of women beneficiaries and their families.",
       "Cuts carbon emissions and aligns with national clean-energy goals.",
     ],
   },
@@ -26,16 +26,16 @@ const systemNarratives = [
     label: "Motorized Coffee Pulper",
     title: "Motorized Coffee Pulper",
     imageUrl: "/bloom-unit3.png",
-    imageAlt: "Motorized coffee pulper in operation at a Bloom Unit site",
+    imageAlt: "Motorized coffee pulper in operation at a Woman Beneficiaries site",
     icon: Cog,
     iconShellClass: "bg-gradient-to-br from-bloomBrown to-bloomBrown/70",
     iconClass: "text-bloomBeige",
     accentGlowClass: "bg-bloomGold/5 group-hover:bg-bloomGold/10",
-    body: "A modern pulping machine that reduces labor by over 70%, improves coffee quality, and unlocks access to washed-coffee markets, increasing earnings for Bloom Teams.",
+    body: "A modern pulping machine that reduces labor by over 70%, improves coffee quality, and unlocks access to washed-coffee markets, increasing earnings for teams of woman beneficiaries.",
     bullets: [
-      "Reduces women’s physical workload by more than 70% compared to hand pulping.",
+      "Reduces women’s physical workload by more than 70% compared to natural cherry production.",
       "Processes significantly more volume in less time, especially during peak harvest.",
-      "Improves consistency of pulping and reduces defects, increasing coffee quality.",
+      "Improves consistency of dried coffee by reducing defects and increasing coffee quality.",
       "Enables women to offer pulping as a paid service to neighboring farmers.",
     ],
   },
@@ -44,7 +44,7 @@ const systemNarratives = [
     label: "Biogas Waste-to-Energy",
     title: "Biogas Waste-to-Energy System",
     imageUrl: "/bloom-unit2.png",
-    imageAlt: "Biogas digester tank and waste-to-energy system connected to a Bloom Unit",
+    imageAlt: "Biogas digester tank and waste-to-energy system connected to a Woman Beneficiaries unit",
     icon: Leaf,
     iconShellClass: "bg-gradient-to-br from-bloomGreen to-bloomGreen/70",
     iconClass: "text-bloomBeige",
@@ -53,7 +53,7 @@ const systemNarratives = [
     bullets: [
       "Uses coffee pulp, a by-product of pulping, as feedstock for biogas.",
       "Replaces firewood and charcoal, reducing deforestation and smoke exposure.",
-      "Provides reliable, smokeless cooking energy for Bloom Teams and their families.",
+      "Provides reliable, smokeless cooking energy for teams of women beneficiaries and their families.",
       "Demonstrates a replicable model for climate-smart rural infrastructure.",
     ],
   },
@@ -73,6 +73,7 @@ const systemNarratives = [
       "Supports improved soil structure and moisture retention over time.",
       "Strengthens long-term productivity and resilience of coffee plots.",
       "Closes the loop between coffee processing, energy, and farm regeneration.",
+      "Reduces need for chemical fertilizers.",
     ],
   },
 ];

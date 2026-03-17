@@ -1,4 +1,4 @@
-﻿import "@testing-library/jest-dom/vitest";
+import "@testing-library/jest-dom/vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
@@ -16,7 +16,7 @@ describe("Footer", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("3RD")).toBeInTheDocument();
+    expect(screen.getByLabelText("3rd Harvest")).toBeInTheDocument();
     expect(
       screen.getByText(
         "Unlocking multiple harvests from a single coffee crop through circular systems connecting coffee, energy, and soil."
