@@ -23,6 +23,18 @@ export interface AdminEmailsResponse {
     error?: string;
 }
 
+export interface RegisterUserResponse {
+    ok: boolean;
+    user?: {
+        id: number;
+        name: string;
+        email: string;
+        role: string;
+        created_at: string;
+    };
+    error?: string;
+}
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -65,5 +77,25 @@ export async function fetchAdminEmails(token: string): Promise<AdminEmailsRespon
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
+    });
+}
+
+/** POST /api/admin/users — creates a new user account */
+export async function registerUser(
+    token: string,
+    data: { name: string; email: string; password: string; role?: string }
+): Promise<RegisterUserResponse> {
+    return apiFetch<RegisterUserResponse>("/api/admin/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            ...(data.role ? { role: data.role } : {}),
+        }),
     });
 }

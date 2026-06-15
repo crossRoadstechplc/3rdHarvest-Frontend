@@ -5,7 +5,7 @@
  *
  * Steps:
  *   1. Password screen  – POST /api/admin/login
- *   2. Emails screen    – GET  /api/auth/verified-emails
+ *   2. Dashboard        – Register User | Users tabs
  *
  * The component is self-contained: registers its own keydown listener and
  * manages its own token state independently from the user-facing auth gate.
@@ -15,7 +15,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff, FileText } from "lucide-react";
 import jsPDF from "jspdf";
-import { adminLogin, fetchAdminEmails } from "@/lib/adminApi";
+import { adminLogin, fetchAdminEmails, registerUser } from "@/lib/adminApi";
 import {
     isAdminTokenValid,
     getAdminToken,
@@ -27,7 +27,10 @@ import {
 // Types
 // ---------------------------------------------------------------------------
 
-type Step = "password" | "emails";
+type Step = "password" | "dashboard";
+type Tab = "register" | "users";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // ---------------------------------------------------------------------------
 // Component
@@ -36,6 +39,7 @@ type Step = "password" | "emails";
 export const AdminShortcutModal = () => {
     const [open, setOpen] = useState(false);
     const [step, setStep] = useState<Step>("password");
+    const [tab, setTab] = useState<Tab>("register");
 
     // Password step
     const [password, setPassword] = useState("");
@@ -43,7 +47,17 @@ export const AdminShortcutModal = () => {
     const [loginLoading, setLoginLoading] = useState(false);
     const [loginError, setLoginError] = useState<string | null>(null);
 
-    // Emails step
+    // Register user tab
+    const [regName, setRegName] = useState("");
+    const [regEmail, setRegEmail] = useState("");
+    const [regPassword, setRegPassword] = useState("");
+    const [regConfirmPassword, setRegConfirmPassword] = useState("");
+    const [regShowPassword, setRegShowPassword] = useState(false);
+    const [registerLoading, setRegisterLoading] = useState(false);
+    const [registerError, setRegisterError] = useState<string | null>(null);
+    const [registerSuccess, setRegisterSuccess] = useState<string | null>(null);
+
+    // Users tab
     const [emails, setEmails] = useState<string[]>([]);
     const [emailsLoading, setEmailsLoading] = useState(false);
     const [emailsError, setEmailsError] = useState<string | null>(null);
@@ -79,7 +93,7 @@ export const AdminShortcutModal = () => {
         if (!open) return;
 
         if (isAdminTokenValid()) {
-            setStep("emails");
+            setStep("dashboard");
             loadEmails(getAdminToken()!);
         } else {
             clearAdminAuth();
@@ -125,7 +139,7 @@ export const AdminShortcutModal = () => {
             const res = await adminLogin(password);
             if (res.ok && res.token && res.expiresAt) {
                 setAdminAuth(res.token, res.expiresAt);
-                setStep("emails");
+                setStep("dashboard");
                 loadEmails(res.token);
             } else {
                 setLoginError(res.error ?? "Incorrect password.");
@@ -137,7 +151,61 @@ export const AdminShortcutModal = () => {
         }
     };
 
-    // ── Step 2: Emails ────────────────────────────────────────────────────────
+    // ── Register user ─────────────────────────────────────────────────────────
+
+    const handleRegisterUser = async () => {
+        setRegisterError(null);
+        setRegisterSuccess(null);
+
+        const name = regName.trim();
+        const email = regEmail.trim();
+
+        if (!name) {
+            setRegisterError("Name is required.");
+            return;
+        }
+        if (!EMAIL_REGEX.test(email)) {
+            setRegisterError("Please enter a valid email address.");
+            return;
+        }
+        if (regPassword.length < 8) {
+            setRegisterError("Password must be at least 8 characters.");
+            return;
+        }
+        if (regPassword !== regConfirmPassword) {
+            setRegisterError("Passwords do not match.");
+            return;
+        }
+
+        const token = getAdminToken();
+        if (!token || !isAdminTokenValid()) {
+            clearAdminAuth();
+            setStep("password");
+            setLoginError("Session expired. Please log in again.");
+            return;
+        }
+
+        setRegisterLoading(true);
+        try {
+            const res = await registerUser(token, { name, email, password: regPassword });
+            if (res.ok && res.user) {
+                setRegisterSuccess(`User ${res.user.email} created successfully.`);
+                setRegName("");
+                setRegEmail("");
+                setRegPassword("");
+                setRegConfirmPassword("");
+                loadEmails(token);
+            } else {
+                setRegisterError(res.error ?? "Failed to create user.");
+            }
+        } catch (err) {
+            setRegisterError((err as Error).message ?? "Something went wrong.");
+        } finally {
+            setRegisterLoading(false);
+        }
+    };
+
+    // ── Users list ────────────────────────────────────────────────────────────
 
     const loadEmails = async (token: string) => {
         setEmailsLoading(true);
@@ -228,10 +296,17 @@ export const AdminShortcutModal = () => {
     const handleLogout = () => {
         clearAdminAuth();
         setStep("password");
+        setTab("register");
         setPassword("");
         setEmails([]);
         setSearch("");
         setLoginError(null);
+        setRegName("");
+        setRegEmail("");
+        setRegPassword("");
+        setRegConfirmPassword("");
+        setRegisterError(null);
+        setRegisterSuccess(null);
     };
 
     // ── Render ────────────────────────────────────────────────────────────────
@@ -267,7 +342,7 @@ export const AdminShortcutModal = () => {
                         transition={{ duration: 0.25, ease: "easeOut" }}
                         style={{
                             width: "100%",
-                            maxWidth: step === "emails" ? "560px" : "420px",
+                            maxWidth: step === "dashboard" ? "560px" : "420px",
                             background: "rgba(255,255,255,0.98)",
                             borderRadius: "1.25rem",
                             boxShadow:
@@ -312,7 +387,7 @@ export const AdminShortcutModal = () => {
                             </div>
 
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                                {step === "emails" && (
+                                {step === "dashboard" && (
                                     <button
                                         onClick={handleLogout}
                                         title="Log out"
@@ -417,8 +492,117 @@ export const AdminShortcutModal = () => {
                                 </div>
                             )}
 
-                            {/* STEP 2: Emails */}
-                            {step === "emails" && (
+                            {/* STEP 2: Dashboard */}
+                            {step === "dashboard" && (
+                                <div>
+                                    <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+                                        <TabButton active={tab === "register"} onClick={() => setTab("register")}>
+                                            Register User
+                                        </TabButton>
+                                        <TabButton active={tab === "users"} onClick={() => setTab("users")}>
+                                            Users
+                                        </TabButton>
+                                    </div>
+
+                                    {tab === "register" && (
+                                        <div>
+                                            <p style={{ fontSize: "0.875rem", color: "#666", marginBottom: "1rem", lineHeight: 1.5 }}>
+                                                Create a new account for site access.
+                                            </p>
+
+                                            <label style={labelStyle} htmlFor="reg-name">Full name</label>
+                                            <input
+                                                id="reg-name"
+                                                type="text"
+                                                autoFocus
+                                                placeholder="Jane Editor"
+                                                value={regName}
+                                                onChange={(e) => { setRegName(e.target.value); setRegisterError(null); setRegisterSuccess(null); }}
+                                                disabled={registerLoading}
+                                                style={inputStyle}
+                                            />
+
+                                            <label style={{ ...labelStyle, marginTop: "0.75rem" }} htmlFor="reg-email">Email</label>
+                                            <input
+                                                id="reg-email"
+                                                type="email"
+                                                placeholder="jane@example.com"
+                                                value={regEmail}
+                                                onChange={(e) => { setRegEmail(e.target.value); setRegisterError(null); setRegisterSuccess(null); }}
+                                                disabled={registerLoading}
+                                                style={inputStyle}
+                                            />
+
+                                            <label style={{ ...labelStyle, marginTop: "0.75rem" }} htmlFor="reg-password">Password</label>
+                                            <div style={{ position: "relative" }}>
+                                                <input
+                                                    id="reg-password"
+                                                    type={regShowPassword ? "text" : "password"}
+                                                    placeholder="Min. 8 characters"
+                                                    value={regPassword}
+                                                    onChange={(e) => { setRegPassword(e.target.value); setRegisterError(null); setRegisterSuccess(null); }}
+                                                    disabled={registerLoading}
+                                                    style={{ ...inputStyle, paddingRight: "2.8rem" }}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setRegShowPassword(!regShowPassword)}
+                                                    style={{
+                                                        position: "absolute",
+                                                        right: "0.8rem",
+                                                        top: "50%",
+                                                        transform: "translateY(-50%)",
+                                                        background: "none",
+                                                        border: "none",
+                                                        cursor: "pointer",
+                                                        color: "#888",
+                                                        padding: "0.2rem",
+                                                        display: "flex",
+                                                    }}
+                                                >
+                                                    {regShowPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                                </button>
+                                            </div>
+
+                                            <label style={{ ...labelStyle, marginTop: "0.75rem" }} htmlFor="reg-confirm-password">Confirm password</label>
+                                            <input
+                                                id="reg-confirm-password"
+                                                type={regShowPassword ? "text" : "password"}
+                                                placeholder="Repeat password"
+                                                value={regConfirmPassword}
+                                                onChange={(e) => { setRegConfirmPassword(e.target.value); setRegisterError(null); setRegisterSuccess(null); }}
+                                                disabled={registerLoading}
+                                                style={inputStyle}
+                                                onKeyDown={(e) => { if (e.key === "Enter" && !registerLoading) handleRegisterUser(); }}
+                                            />
+
+                                            {registerError && (
+                                                <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} style={errorStyle}>
+                                                    <span>⚠</span> {registerError}
+                                                </motion.p>
+                                            )}
+                                            {registerSuccess && (
+                                                <motion.p
+                                                    initial={{ opacity: 0, y: -4 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    style={{ ...errorStyle, color: "#1c6b3a" }}
+                                                >
+                                                    ✓ {registerSuccess}
+                                                </motion.p>
+                                            )}
+
+                                            <button
+                                                id="admin-register-btn"
+                                                onClick={handleRegisterUser}
+                                                disabled={registerLoading || !regName.trim() || !regEmail.trim() || !regPassword || !regConfirmPassword}
+                                                style={primaryBtnStyle(registerLoading || !regName.trim() || !regEmail.trim() || !regPassword || !regConfirmPassword)}
+                                            >
+                                                {registerLoading ? <Spinner /> : "Create user"}
+                                            </button>
+                                        </div>
+                                    )}
+
+                                    {tab === "users" && (
                                 <div>
                                     {/* Search + action row */}
                                     <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem", alignItems: "center" }}>
@@ -539,6 +723,8 @@ export const AdminShortcutModal = () => {
                                         )}
                                     </div>
                                 </div>
+                                    )}
+                                </div>
                             )}
                         </div>
 
@@ -560,6 +746,36 @@ export const AdminShortcutModal = () => {
 // ---------------------------------------------------------------------------
 // Sub-components & style helpers
 // ---------------------------------------------------------------------------
+
+const TabButton = ({
+    children,
+    active,
+    onClick,
+}: {
+    children: React.ReactNode;
+    active: boolean;
+    onClick: () => void;
+}) => (
+    <button
+        type="button"
+        onClick={onClick}
+        style={{
+            flex: 1,
+            padding: "0.55rem 0.75rem",
+            borderRadius: "0.55rem",
+            border: active ? "1.5px solid #1c3b2b" : "1.5px solid #dce5df",
+            background: active ? "#e8f0ec" : "white",
+            color: "#1c3b2b",
+            fontWeight: 700,
+            fontSize: "0.78rem",
+            fontFamily: "var(--font-sans)",
+            cursor: "pointer",
+            letterSpacing: "0.02em",
+        }}
+    >
+        {children}
+    </button>
+);
 
 const ActionBtn = ({
     children,

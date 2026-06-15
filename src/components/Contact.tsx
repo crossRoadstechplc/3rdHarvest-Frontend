@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Mail, MapPin, Globe, ArrowRight, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import emailjs from '@emailjs/browser';
+import { submitContact } from "@/lib/contactApi";
 
 export const Contact = () => {
     const [formData, setFormData] = useState({
@@ -12,48 +12,48 @@ export const Contact = () => {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Initialize EmailJS
-    useEffect(() => {
-        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-        if (publicKey) {
-            emailjs.init(publicKey);
-        }
-    }, []);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const normalizedEmail = formData.email.trim();
+        if (!formData.name.trim()) {
+            toast.error("Name is required.");
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+            toast.error("Please enter a valid email address.");
+            return;
+        }
+        if (!formData.message.trim()) {
+            toast.error("Message is required.");
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
-            const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
-            const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
-            const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
+            const res = await submitContact({
+                name: formData.name.trim(),
+                email: normalizedEmail,
+                message: formData.message.trim(),
+            });
 
-            if (!serviceId || !templateId || !publicKey) {
-                throw new Error("EmailJS configuration is missing. Please check your environment variables.");
+            if (!res.ok) {
+                toast.error("Could not send message", {
+                    description: res.error ?? "Please try again in a moment.",
+                });
+                return;
             }
 
-            const templateParams = {
-                name: formData.name,
-                email: formData.email,
-                source: "3RD HARVEST",
-                message: formData.message,
-                to_email: import.meta.env.VITE_RECIPIENT_EMAIL || 'dawit@spxafrica.com',
-            };
-
-            await emailjs.send(
-                serviceId,
-                templateId,
-                templateParams,
-                publicKey
-            );
-
-            toast.success("Message delivered successfully!");
+            toast.success("Message sent successfully!", {
+                description: "We'll get back to you as soon as possible.",
+            });
             setFormData({ name: "", email: "", message: "" });
         } catch (error) {
-            console.error("EmailJS error:", error);
-            const errorMessage = error instanceof Error ? error.message : "Cloud delivery failed. Please check your EmailJS keys.";
-            toast.error(errorMessage);
+            console.error("Contact form error:", error);
+            const errorMessage = error instanceof Error ? error.message : "Please try again in a moment.";
+            toast.error("Could not send message", {
+                description: errorMessage,
+            });
         } finally {
             setIsSubmitting(false);
         }
