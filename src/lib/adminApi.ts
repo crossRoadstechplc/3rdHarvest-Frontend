@@ -17,21 +17,30 @@ export interface AdminLoginResponse {
     error?: string;
 }
 
-export interface AdminEmailsResponse {
+export interface AdminUser {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    is_active: boolean;
+    created_at: string;
+    last_logged_in_at: string | null;
+}
+
+export interface AdminUsersResponse {
     ok: boolean;
-    emails?: string[];
+    users?: AdminUser[];
     error?: string;
 }
 
 export interface RegisterUserResponse {
     ok: boolean;
-    user?: {
-        id: number;
-        name: string;
-        email: string;
-        role: string;
-        created_at: string;
-    };
+    user?: AdminUser;
+    error?: string;
+}
+
+export interface DeleteUserResponse {
+    ok: boolean;
     error?: string;
 }
 
@@ -57,6 +66,13 @@ async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
     return data as T;
 }
 
+function authHeaders(token: string): HeadersInit {
+    return {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+    };
+}
+
 // ---------------------------------------------------------------------------
 // Exported functions
 // ---------------------------------------------------------------------------
@@ -69,14 +85,11 @@ export async function adminLogin(password: string): Promise<AdminLoginResponse> 
     });
 }
 
-/** GET /api/auth/verified-emails  — fetches the list of verified emails */
-export async function fetchAdminEmails(token: string): Promise<AdminEmailsResponse> {
-    return apiFetch<AdminEmailsResponse>("/api/auth/verified-emails", {
+/** GET /api/admin/users — lists registered users */
+export async function fetchAdminUsers(token: string): Promise<AdminUsersResponse> {
+    return apiFetch<AdminUsersResponse>("/api/admin/users", {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
+        headers: authHeaders(token),
     });
 }
 
@@ -87,15 +100,20 @@ export async function registerUser(
 ): Promise<RegisterUserResponse> {
     return apiFetch<RegisterUserResponse>("/api/admin/users", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
+        headers: authHeaders(token),
         body: JSON.stringify({
             name: data.name,
             email: data.email,
             password: data.password,
             ...(data.role ? { role: data.role } : {}),
         }),
+    });
+}
+
+/** DELETE /api/admin/users/:id — removes a user account */
+export async function deleteUser(token: string, userId: number): Promise<DeleteUserResponse> {
+    return apiFetch<DeleteUserResponse>(`/api/admin/users/${userId}`, {
+        method: "DELETE",
+        headers: authHeaders(token),
     });
 }

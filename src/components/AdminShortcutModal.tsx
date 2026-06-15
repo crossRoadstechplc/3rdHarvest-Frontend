@@ -13,9 +13,15 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff, FileText } from "lucide-react";
+import { Eye, EyeOff, FileText, Trash2 } from "lucide-react";
 import jsPDF from "jspdf";
-import { adminLogin, fetchAdminEmails, registerUser } from "@/lib/adminApi";
+import {
+    adminLogin,
+    fetchAdminUsers,
+    registerUser,
+    deleteUser,
+    type AdminUser,
+} from "@/lib/adminApi";
 import {
     isAdminTokenValid,
     getAdminToken,
@@ -31,6 +37,25 @@ type Step = "password" | "dashboard";
 type Tab = "register" | "users";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function formatLastLogin(value: string | null): string {
+    if (!value) return "Never";
+    const date = new Date(value);
+    if (isNaN(date.getTime())) return value;
+    return date.toLocaleString(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+    });
+}
+
+function matchesSearch(user: AdminUser, query: string): boolean {
+    const q = query.toLowerCase();
+    return (
+        user.name.toLowerCase().includes(q) ||
+        user.email.toLowerCase().includes(q) ||
+        user.role.toLowerCase().includes(q)
+    );
+}
 
 // ---------------------------------------------------------------------------
 // Component
@@ -58,9 +83,10 @@ export const AdminShortcutModal = () => {
     const [registerSuccess, setRegisterSuccess] = useState<string | null>(null);
 
     // Users tab
-    const [emails, setEmails] = useState<string[]>([]);
-    const [emailsLoading, setEmailsLoading] = useState(false);
-    const [emailsError, setEmailsError] = useState<string | null>(null);
+    const [users, setUsers] = useState<AdminUser[]>([]);
+    const [usersLoading, setUsersLoading] = useState(false);
+    const [usersError, setUsersError] = useState<string | null>(null);
+    const [deletingUserId, setDeletingUserId] = useState<number | null>(null);
     const [search, setSearch] = useState("");
     const [copied, setCopied] = useState(false);
 
@@ -68,9 +94,7 @@ export const AdminShortcutModal = () => {
 
     // ── Derived ───────────────────────────────────────────────────────────────
 
-    const filtered = emails.filter((e) =>
-        e.toLowerCase().includes(search.toLowerCase())
-    );
+    const filtered = users.filter((u) => matchesSearch(u, search));
 
     // ── Keyboard shortcut ─────────────────────────────────────────────────────
 
@@ -94,7 +118,7 @@ export const AdminShortcutModal = () => {
 
         if (isAdminTokenValid()) {
             setStep("dashboard");
-            loadEmails(getAdminToken()!);
+            loadUsers(getAdminToken()!);
         } else {
             clearAdminAuth();
             setStep("password");
@@ -140,7 +164,7 @@ export const AdminShortcutModal = () => {
             if (res.ok && res.token && res.expiresAt) {
                 setAdminAuth(res.token, res.expiresAt);
                 setStep("dashboard");
-                loadEmails(res.token);
+                loadUsers(res.token);
             } else {
                 setLoginError(res.error ?? "Incorrect password.");
             }
@@ -194,7 +218,7 @@ export const AdminShortcutModal = () => {
                 setRegEmail("");
                 setRegPassword("");
                 setRegConfirmPassword("");
-                loadEmails(token);
+                loadUsers(token);
             } else {
                 setRegisterError(res.error ?? "Failed to create user.");
             }
@@ -207,25 +231,54 @@ export const AdminShortcutModal = () => {
 
     // ── Users list ────────────────────────────────────────────────────────────
 
-    const loadEmails = async (token: string) => {
-        setEmailsLoading(true);
-        setEmailsError(null);
+    const loadUsers = async (token: string) => {
+        setUsersLoading(true);
+        setUsersError(null);
         try {
-            const res = await fetchAdminEmails(token);
-            if (res.ok && res.emails) {
-                setEmails(res.emails);
+            const res = await fetchAdminUsers(token);
+            if (res.ok && res.users) {
+                setUsers(res.users);
             } else if (!res.ok) {
-                // 401 or explicit error → kick back to password step
                 clearAdminAuth();
                 setStep("password");
                 setLoginError("Session expired. Please log in again.");
             } else {
-                setEmailsError(res.error ?? "Failed to load emails.");
+                setUsersError(res.error ?? "Failed to load users.");
             }
         } catch (err) {
-            setEmailsError((err as Error).message ?? "Something went wrong.");
+            setUsersError((err as Error).message ?? "Something went wrong.");
         } finally {
-            setEmailsLoading(false);
+            setUsersLoading(false);
+        }
+    };
+
+    const handleDeleteUser = async (user: AdminUser) => {
+        const confirmed = window.confirm(
+            `Remove ${user.name} (${user.email})? This cannot be undone.`
+        );
+        if (!confirmed) return;
+
+        const token = getAdminToken();
+        if (!token || !isAdminTokenValid()) {
+            clearAdminAuth();
+            setStep("password");
+            setLoginError("Session expired. Please log in again.");
+            return;
+        }
+
+        setDeletingUserId(user.id);
+        setUsersError(null);
+        try {
+            const res = await deleteUser(token, user.id);
+            if (res.ok) {
+                setUsers((prev) => prev.filter((u) => u.id !== user.id));
+            } else {
+                setUsersError(res.error ?? "Failed to delete user.");
+            }
+        } catch (err) {
+            setUsersError((err as Error).message ?? "Something went wrong.");
+        } finally {
+            setDeletingUserId(null);
         }
     };
 
@@ -236,59 +289,59 @@ export const AdminShortcutModal = () => {
             setStep("password");
             return;
         }
-        loadEmails(token);
+        loadUsers(token);
     };
 
     const handleCopy = async () => {
-        await navigator.clipboard.writeText(filtered.join("\n"));
+        await navigator.clipboard.writeText(filtered.map((u) => u.email).join("\n"));
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
     const handleExportPdf = () => {
         const pdf = new jsPDF();
-        
-        // Set font
         pdf.setFont("helvetica");
-        
-        // Add title
         pdf.setFontSize(16);
-        pdf.text("Verified Emails", 20, 20);
-        
-        // Add count
+        pdf.text("Registered Users", 20, 20);
         pdf.setFontSize(10);
-        pdf.text(`Total: ${filtered.length} emails`, 20, 30);
-        
-        // Add emails
-        pdf.setFontSize(10);
+        pdf.text(`Total: ${filtered.length} users`, 20, 30);
+        pdf.setFontSize(9);
         pdf.setFont("courier");
-        
+
         let yPosition = 45;
-        const lineHeight = 5;
+        const lineHeight = 6;
         const pageHeight = pdf.internal.pageSize.height;
         const margin = 20;
-        
-        filtered.forEach((email, index) => {
-            // Check if we need a new page
+
+        filtered.forEach((user) => {
             if (yPosition > pageHeight - margin) {
                 pdf.addPage();
                 yPosition = 20;
             }
-            
-            pdf.text(email, margin, yPosition);
+            pdf.text(`${user.name} <${user.email}> — ${user.role}`, margin, yPosition);
             yPosition += lineHeight;
         });
-        
-        // Save the PDF
-        pdf.save("verified-emails.pdf");
+
+        pdf.save("registered-users.pdf");
     };
 
     const handleExportCsv = () => {
-        const blob = new Blob(["email\n" + filtered.join("\n")], { type: "text/csv" });
+        const header = "name,email,role,is_active,created_at,last_logged_in_at";
+        const rows = filtered.map((u) =>
+            [
+                `"${u.name.replace(/"/g, '""')}"`,
+                `"${u.email}"`,
+                `"${u.role}"`,
+                u.is_active,
+                `"${u.created_at}"`,
+                `"${u.last_logged_in_at ?? ""}"`,
+            ].join(",")
+        );
+        const blob = new Blob([header + "\n" + rows.join("\n")], { type: "text/csv" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "verified-emails.csv";
+        a.download = "registered-users.csv";
         a.click();
         URL.revokeObjectURL(url);
     };
@@ -298,8 +351,10 @@ export const AdminShortcutModal = () => {
         setStep("password");
         setTab("register");
         setPassword("");
-        setEmails([]);
+        setUsers([]);
         setSearch("");
+        setUsersError(null);
+        setDeletingUserId(null);
         setLoginError(null);
         setRegName("");
         setRegEmail("");
@@ -342,7 +397,7 @@ export const AdminShortcutModal = () => {
                         transition={{ duration: 0.25, ease: "easeOut" }}
                         style={{
                             width: "100%",
-                            maxWidth: step === "dashboard" ? "560px" : "420px",
+                            maxWidth: step === "dashboard" ? "640px" : "420px",
                             background: "rgba(255,255,255,0.98)",
                             borderRadius: "1.25rem",
                             boxShadow:
@@ -604,7 +659,6 @@ export const AdminShortcutModal = () => {
 
                                     {tab === "users" && (
                                 <div>
-                                    {/* Search + action row */}
                                     <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem", alignItems: "center" }}>
                                         <div style={{ position: "relative", flex: 1 }}>
                                             <svg
@@ -617,21 +671,21 @@ export const AdminShortcutModal = () => {
                                             <input
                                                 id="admin-search"
                                                 type="text"
-                                                placeholder="Search emails…"
+                                                placeholder="Search users…"
                                                 value={search}
                                                 onChange={(e) => setSearch(e.target.value)}
                                                 style={{ ...inputStyle, paddingLeft: "2.1rem", marginBottom: 0 }}
                                             />
                                         </div>
 
-                                        <ActionBtn onClick={handleRefresh} title="Refresh" disabled={emailsLoading}>
+                                        <ActionBtn onClick={handleRefresh} title="Refresh" disabled={usersLoading}>
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                                                 <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
                                                 <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
                                             </svg>
                                         </ActionBtn>
 
-                                        <ActionBtn onClick={handleCopy} title={copied ? "Copied!" : "Copy all"} disabled={filtered.length === 0}>
+                                        <ActionBtn onClick={handleCopy} title={copied ? "Copied!" : "Copy emails"} disabled={filtered.length === 0}>
                                             {copied ? (
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c3b2b" strokeWidth="2.5" strokeLinecap="round">
                                                     <polyline points="20 6 9 17 4 12" />
@@ -653,7 +707,6 @@ export const AdminShortcutModal = () => {
                                         </ActionBtn>
                                     </div>
 
-                                    {/* Count badge */}
                                     <div style={{ marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.4rem" }}>
                                         <span style={{
                                             fontSize: "0.72rem",
@@ -664,16 +717,15 @@ export const AdminShortcutModal = () => {
                                             padding: "2px 10px",
                                             letterSpacing: "0.02em",
                                         }}>
-                                            {emailsLoading ? "…" : `${filtered.length} ${filtered.length === 1 ? "email" : "emails"}`}
+                                            {usersLoading ? "…" : `${filtered.length} ${filtered.length === 1 ? "user" : "users"}`}
                                         </span>
                                         {search && (
                                             <span style={{ fontSize: "0.72rem", color: "#aaa" }}>
-                                                filtered from {emails.length}
+                                                filtered from {users.length}
                                             </span>
                                         )}
                                     </div>
 
-                                    {/* List */}
                                     <div
                                         style={{
                                             maxHeight: "50vh",
@@ -683,40 +735,89 @@ export const AdminShortcutModal = () => {
                                             background: "#f8f9f5",
                                         }}
                                     >
-                                        {emailsLoading ? (
+                                        {usersLoading ? (
                                             <div style={{ padding: "2rem", textAlign: "center" }}>
                                                 <Spinner color="#1c3b2b" />
                                             </div>
-                                        ) : emailsError ? (
+                                        ) : usersError ? (
                                             <div style={{ padding: "1.5rem", textAlign: "center", color: "#c0392b", fontSize: "0.85rem" }}>
-                                                ⚠ {emailsError}
+                                                ⚠ {usersError}
                                             </div>
                                         ) : filtered.length === 0 ? (
                                             <div style={{ padding: "1.5rem", textAlign: "center", color: "#aaa", fontSize: "0.85rem" }}>
-                                                {search ? "No emails match your search." : "No verified emails yet."}
+                                                {search ? "No users match your search." : "No users registered yet."}
                                             </div>
                                         ) : (
                                             <ul style={{ listStyle: "none", margin: 0, padding: "0.25rem 0" }}>
-                                                {filtered.map((email, i) => (
+                                                {filtered.map((user, i) => (
                                                     <li
-                                                        key={email}
+                                                        key={user.id}
                                                         style={{
                                                             display: "flex",
-                                                            alignItems: "center",
-                                                            gap: "0.6rem",
-                                                            padding: "0.5rem 0.85rem",
+                                                            alignItems: "flex-start",
+                                                            gap: "0.75rem",
+                                                            padding: "0.65rem 0.85rem",
                                                             borderBottom: i < filtered.length - 1 ? "1px solid #e8eee9" : "none",
-                                                            fontSize: "0.85rem",
-                                                            color: "#2d4a38",
-                                                            fontFamily: "monospace",
-                                                            letterSpacing: "0.01em",
                                                         }}
                                                     >
-                                                        <span style={{
-                                                            width: "6px", height: "6px", borderRadius: "50%",
-                                                            background: "#d4a858", flexShrink: 0,
-                                                        }} />
-                                                        {email}
+                                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                                            <div style={{
+                                                                fontSize: "0.9rem",
+                                                                fontWeight: 700,
+                                                                color: "#1c3b2b",
+                                                                marginBottom: "0.15rem",
+                                                            }}>
+                                                                {user.name}
+                                                            </div>
+                                                            <div style={{
+                                                                fontSize: "0.8rem",
+                                                                color: "#2d4a38",
+                                                                fontFamily: "monospace",
+                                                                marginBottom: "0.35rem",
+                                                                wordBreak: "break-all",
+                                                            }}>
+                                                                {user.email}
+                                                            </div>
+                                                            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", alignItems: "center" }}>
+                                                                <span style={roleBadgeStyle}>{user.role}</span>
+                                                                <span style={{
+                                                                    ...roleBadgeStyle,
+                                                                    background: user.is_active ? "#e8f5ec" : "#f5e8e8",
+                                                                    color: user.is_active ? "#1c6b3a" : "#a33",
+                                                                }}>
+                                                                    {user.is_active ? "Active" : "Inactive"}
+                                                                </span>
+                                                                <span style={{ fontSize: "0.72rem", color: "#888" }}>
+                                                                    Last login: {formatLastLogin(user.last_logged_in_at)}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            type="button"
+                                                            title="Remove user"
+                                                            disabled={deletingUserId === user.id}
+                                                            onClick={() => handleDeleteUser(user)}
+                                                            style={{
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                justifyContent: "center",
+                                                                width: "32px",
+                                                                height: "32px",
+                                                                borderRadius: "0.5rem",
+                                                                border: "1.5px solid #e8c4c4",
+                                                                background: "white",
+                                                                color: "#c0392b",
+                                                                cursor: deletingUserId === user.id ? "not-allowed" : "pointer",
+                                                                opacity: deletingUserId === user.id ? 0.5 : 1,
+                                                                flexShrink: 0,
+                                                            }}
+                                                        >
+                                                            {deletingUserId === user.id ? (
+                                                                <Spinner color="#c0392b" />
+                                                            ) : (
+                                                                <Trash2 size={14} />
+                                                            )}
+                                                        </button>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -885,6 +986,17 @@ const ghostBtnStyle: React.CSSProperties = {
     color: "#888",
     cursor: "pointer",
     transition: "background 0.15s, color 0.15s",
+};
+
+const roleBadgeStyle: React.CSSProperties = {
+    fontSize: "0.68rem",
+    fontWeight: 700,
+    background: "#e8f0ec",
+    color: "#1c3b2b",
+    borderRadius: "999px",
+    padding: "2px 8px",
+    letterSpacing: "0.02em",
+    textTransform: "lowercase",
 };
 
 const errorStyle: React.CSSProperties = {
