@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "@/pages/NotFound";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
-import TriveraPro from "@/pages/TriveraPro";
 import PCW from "@/pages/PCW";
 import ImpactESG from "@/pages/ImpactESG";
 import Partner from "@/pages/Partner";
@@ -39,8 +38,6 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-              <Route path="/triverapro" element={<TriveraPro />} />
-              <Route path="/triveraPro" element={<TriveraPro />} />
               <Route path="/pcw" element={<PCW />} />
               <Route path="/PCW" element={<PCW />} />
               <Route path="/impact-esg" element={<ImpactESG />} />

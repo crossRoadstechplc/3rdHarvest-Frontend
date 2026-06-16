@@ -5,7 +5,6 @@ import { useContactModal } from "@/components/ContactModalProvider";
 import {
   Coffee,
   Info,
-  Award,
   Users,
   BarChart3,
   Handshake,
@@ -14,7 +13,6 @@ import {
 const navItems = [
   { id: "home", label: "Home", icon: Coffee, path: "/" },
   { id: "about", label: "About", icon: Info, path: "/about" },
-  { id: "triverapro", label: "TriveraPro", icon: Award, path: "/triverapro" },
   { id: "pcw", label: "PCW", icon: Users, path: "/pcw" },
   { id: "impact-esg", label: "Impact & ESG", icon: BarChart3, path: "/impact-esg" },
   { id: "partner", label: "Partner", icon: Handshake, path: "/partner" },

@@ -9,7 +9,6 @@ export const Footer = () => {
   const quickLinks = [
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
-    { label: "TriveraPro", path: "/triverapro" },
     { label: "PCW", path: "/pcw" },
     { label: "Impact & ESG", path: "/impact-esg" },
     { label: "Partner", path: "/partner" },
